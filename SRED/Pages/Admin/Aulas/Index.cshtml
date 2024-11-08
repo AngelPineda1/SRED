@@ -93,8 +93,9 @@
                 revealRight.classList.add('reveal-right');
                 const deleteLink = document.createElement('a');
                 deleteLink.href = 'EliminarAula.html';
-                const deleteIcon = document.createElement('i');
-                deleteIcon.classList.add('fa-solid', 'fa-trash');
+                const deleteIcon = document.createElement('img');
+                //deleteIcon.classList.add('fa-solid', 'fa-trash');
+                deleteIcon.src = "../assets/trash-solid.svg";
                 deleteLink.appendChild(deleteIcon);
                 revealRight.appendChild(deleteLink);
 
