@@ -75,7 +75,7 @@
         listaAulas.innerHTML = '<label>Cargando...</label>';
         try {
             // Realizar la solicitud a la API
-            const response = await fetch('https://localhost:44342/api/Tipo'); // Cambia esta URL por la de tu API
+            const response = await fetch('https://sredapi.websitos256.com/api/Tipo'); // Cambia esta URL por la de tu API
             const data = await response.json();
             listaAulas.innerHTML = '';
             data.forEach(aula => {
