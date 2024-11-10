@@ -49,6 +49,7 @@ body {
 #main-aulas {
     flex-grow: 1;
     padding: 5%;
+    padding-top: 1%;
     overflow: hidden;
     display: flex;
     flex-direction: column;
@@ -129,7 +130,6 @@ header span {
 
 #lista-Aulas {
     padding: 2%;
-    margin-top: 2%;
     flex-grow: 1;
     overflow-y: auto;
     height: calc(85vh - 100px);
