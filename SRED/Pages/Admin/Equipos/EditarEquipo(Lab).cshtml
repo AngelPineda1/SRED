@@ -1,10 +1,11 @@
 ﻿@page
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Agregar Equipo Lab</title>
+    <title>Editar Equipo Lab</title>
     <link rel="stylesheet" href="~/css/estilos.css" />
 </head>
 <body>
@@ -12,7 +13,7 @@
         <a href="/Admin/Equipos/AgregarEquipo(Tipo)">
             <img src="~/assets/arrow-left-solid.svg" alt="" id="btn-regresar" />
         </a>
-        <a href="#" for="" id="btn-accion" class="sig-btn">Agregar</a>
+        <a for="" id="btn-accion" class="sig-btn">Editar</a>
     </header>
     <main id="main-agregarEquipo">
         <label id="eq-aula" for="">Aula</label>
@@ -95,22 +96,22 @@
             if (equipo) {
             
                 equipoData = {
-                    id: 0,
+                    id: equipoObj.id,
                     numero: equipoObj.tipo + " " + equipoObj.numero,
-                    tipoId: parseInt(equipoObj.id),
-                    aulaId: id
+                    tipoId: parseInt(equipoObj.idTipo),
+                    aulaId: parseInt(id)
                 };
-                agregarEquipo();
+                editarEquipo();
 
             }
         }
     });
 
-    async function agregarEquipo() {
+    async function editarEquipo() {
         try {
            
             const response = await fetch('https://sredapi.websitos256.com/api/Equipo', {
-                method: 'POST',
+                method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -128,7 +129,7 @@
         } catch (error) {
 
             console.error('Error al agregar equipo:', error);
-            document.getElementById("excepcion").textContent = `Error: ${error.message}`;
+          
         }
     };
     cargarEquipos();

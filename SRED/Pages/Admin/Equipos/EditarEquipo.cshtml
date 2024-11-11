@@ -1,0 +1,103 @@
+﻿@page
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Equipo</title>
+    <link rel="stylesheet" href="~/css/estilos.css" />
+</head>
+<body>
+    <header>
+        <a href="/Admin/Equipos/">
+            <img src="~/assets/arrow-left-solid.svg" alt="" id="btn-regresar" />
+        </a>
+        <a 
+           id="btn-accion"
+           class="sig-btn">
+            <img src="~/assets/arrow-right-solid.svg" alt="" />
+        </a>
+    </header>
+    <main id="main-agregaraula">
+        <label for="">Número por asignar:</label>
+        <input type="number" placeholder="Ingrese el número" min="1" id="numero"/>
+        <label for="" id="excepcion"></label>
+    </main>
+</body>
+</html>
+<script>
+    let id = 0;
+    let errores = [];
+    console.log(localStorage.getItem('equipo'));
+    const errorLabel = document.getElementById("excepcion");
+    const numero = document.getElementById("numero");
+    const btn = document.getElementById("btn-accion");
+    const ant = document.getElementById("btn-regresar");
+    const equipo = localStorage.getItem('equipo');
+    if (equipo != null) {
+        const equipoObj = JSON.parse(equipo);
+
+        numero.value = equipoObj.nombre;
+    }
+    async function obtenerDatos() {
+        try {
+            const url = window.location.href;
+
+
+            const params = new URL(url).searchParams;
+            id = parseInt(params.get('id'));
+            const respuesta = await fetch(`https://sredapi.websitos256.com/api/Equipo/${id}`);
+
+
+            if (!respuesta.ok) {
+                throw new Error('Error en la petición: ' + respuesta.statusText);
+            }
+
+
+            const datos = await respuesta.json();
+            const nombre = datos.nombre;
+
+         
+            const ultimoDigito = nombre.match(/\d+(?=\s*$)/);
+
+
+            if (ultimoDigito) {
+                numero.value = parseInt(ultimoDigito[0], 10);
+            }
+
+           
+
+        } catch (error) {
+
+            console.error('Hubo un problema con la solicitud GET:', error);
+        }
+    };
+    obtenerDatos();
+    btn.addEventListener("click", function () {
+        guardarNombre();
+    });
+
+
+    function guardarNombre() {
+        errores = [];
+
+        if (numero.value.trim() === "") {
+            errores.push("Debe agregar un nombre al equipo");
+        };
+        if (errores.length > 0) {
+            errorLabel.textContent = errores.join("\n");
+        } else {
+            const equipo = {
+                idEquipo: id,
+                numero: numero.value
+            };
+            localStorage.setItem('equipo', JSON.stringify(equipo));
+            window.location.replace("/Admin/Equipos/EditarEquipo(Tipo)");
+        }
+
+    };
+    ant.addEventListener("click", function () {
+        localStorage.removeItem("equipo");
+    });
+
+</script>
