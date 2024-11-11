@@ -4,31 +4,27 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Eliminar Aula</title>
+    <title>Eliminar Equipo</title>
     <link rel="stylesheet" href="~/css/estilos.css" />
 </head>
 <body>
     <header>
-        <a href="/Admin/Aulas">
+        <a href="/Admin/Equipos/">
             <img src="~/assets/arrow-left-solid.svg" alt="" id="btn-regresar" />
         </a>
-
         <a for="" id="btn-accion">Aceptar</a>
     </header>
     <main id="main-eliminarraula">
         <section>
             <span>
-                <span for="">Desea eliminar el aula</span>
+                <span for="">Desea eliminar el equipo indicado?</span>
                 <label for="" id="nombre"></label>
-                <span id="span2" for="">y los equipos relacionados a él?</span>
-
             </span>
+                <span for="" id="excepcion"></span>
 
-                <span for="" id="excepcion"></label>
             <picture>
                 <source type="image/webp" srcset="~/assets/hombre-pensando.webp" />
                 <img src="~/assets/hombre-pensando.png" alt="" />
-
             </picture>
         </section>
     </main>
@@ -38,7 +34,6 @@
     const nombre = document.getElementById("nombre");
     const btn = document.getElementById("btn-accion");
     const errorLabel = document.getElementById("excepcion");
-
     async function obtenerDatos() {
         try {
             const url = window.location.href;
@@ -46,7 +41,7 @@
 
             const params = new URL(url).searchParams;
             id = parseInt(params.get('id'));
-            const respuesta = await fetch(`https://sredapi.websitos256.com/api/Aula/${id}`);
+            const respuesta = await fetch(`https://sredapi.websitos256.com/api/Equipo/${id}`);
 
 
             if (!respuesta.ok) {
@@ -64,31 +59,31 @@
         }
     };
     obtenerDatos();
-    btn.addEventListener("click", function(){
-       eliminarAula();
+
+    btn.addEventListener("click", function () {
+        eliminarEquipo();
     });
 
-    async function eliminarAula() {
+    async function eliminarEquipo() {
         try {
-            
-            const respuesta = await fetch(`https://sredapi.websitos256.com/api/Aula/${id}`, {
+
+            const respuesta = await fetch(`https://sredapi.websitos256.com/api/Equipo/${id}`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'  
+                    'Content-Type': 'application/json'
                 }
             });
 
 
-        
+
             if (!respuesta.ok) {
                 throw new Error('Error en la solicitud DELETE: ' + respuesta.statusText);
             }
 
-            window.location.replace("/Admin/Aulas/Index");
+            window.location.replace("/Admin/Equipos/Index");
 
         } catch (error) {
-            errorLabel.textContent = "Ocurrio un error al intentar eliminar el Aula";
-
+            errorLabel.textContent = "Ocurrio un error al intentar eliminar el equipo";
             console.error('Hubo un problema con la solicitud DELETE:', error);
         }
     }
