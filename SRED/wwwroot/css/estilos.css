@@ -78,6 +78,7 @@ header {
         height: 20px;
         align-self: center;
         vertical-align: middle;
+        max-width: 40px;
     }
 
 .icono-grande,
@@ -390,11 +391,11 @@ header span {
     align-content: center;
     text-align: center;
     margin: 5%;
-    margin-top: 20%;
+    margin-top: 10%;
 }
 
     #grid picture img {
-        width: 70%;
+        width: 45%;
         padding: 5%;
     }
 
@@ -430,7 +431,7 @@ header span {
 }
 
     #grid1 picture img {
-        width: 70%;
+        width: 45%;
         padding: 5%;
     }
 
@@ -589,10 +590,6 @@ header span {
 /* TABLETAS *************************************************************************/
 @media (min-width: 765px) and (max-width: 1024px) {
     /* VISTA VER AULAS ******************************************/
-    header img {
-        width: 40px !important;
-        height: 40px !important;
-    }
 
     header label {
         font-size: 1em;
@@ -634,16 +631,26 @@ header span {
         padding-top: 7%;
     }
 
-    #grid {
-        margin-top: 10%;
+    #grid,
+    #grid1 {
+        margin-top: 4%;
         align-items: center;
         justify-items: center;
+        grid-template-columns: repeat(3, 1fr);
     }
 
-        #grid span {
-            width: 70%;
-            height: 70%;
-        }
+    #eq-tipo {
+        margin-top: 8%;
+    }
+
+    #grid span {
+        width: 70%;
+        height: 70%;
+    }
+
+    #grid label {
+        padding-bottom: 5%;
+    }
 
         #grid img {
             width: 45% !important;
@@ -674,6 +681,7 @@ header span {
 }
 
 @media (min-width: 1024px) {
+
     /* VISTA VER AULAS ***************************************/
     #fijo header {
         background-color: #ffffff;
@@ -798,35 +806,13 @@ header span {
             padding-left: 8%;
         }
 
-    #grid {
-        margin-top: 2%;
-        display: flex;
-        width: 100%;
-        overflow-x: hidden;
-        justify-content: space-between;
-        margin: 0;
-        padding: 8%;
-        padding-top: 5%;
-    }
-
-        #grid picture img {
-            width: 50%;
-        }
-
-        #grid span {
-            padding: 3%;
-            margin: 0;
-            width: 18%;
-            height: 18%;
-        }
-
     /* VISTA AGREGAR LAB EQUIPO ****************************/
 
     #eq-aula {
         margin-top: 5%;
     }
 
-    #grid1 {
+    #grid1, #grid {
         width: 100%;
         overflow-x: hidden;
         justify-content: space-between;
@@ -837,11 +823,11 @@ header span {
         overflow-y: hidden;
     }
 
-        #grid1 picture img {
+        #grid1 picture img, #grid picture img {
             width: 50%;
         }
 
-        #grid1 span {
+        #grid1 span, #grid span {
             padding: 3%;
             margin: 0;
             width: 80%;
