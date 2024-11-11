@@ -18,16 +18,16 @@
     <header>
         <label for="">Sistema de Reportes de Equipo Dañado</label>
         <span>
-            <a href="AgregarAula.html">
-                <img class="extra" src="../assets/add-line.svg" alt="" />
-                <img class="icono-grande" src="../assets/add-line (1).svg" alt="" />
+            <a href="/Admin/Equipos/AgregarEquipo">
+                <img class="extra" src="~/assets/add-line.svg" alt="" />
+                <img class="icono-grande" src="~/assets/add-line (1).svg" alt="" />
             </a>
             <span>
                 <img src="~/assets/settings-3-fill (1).svg"
                      alt=""
                      class="config-chico" />
                 <img class="config-grande"
-                     src="../assets/settings-3-line.svg"
+                     src="~/assets/settings-3-line.svg"
                      alt="" />
             </span>
         </span>
@@ -43,19 +43,19 @@
             <ul>
                 <li>
                     <a href="/Admin/Aulas">
-                        <img src="../assets/person-chalkboard-solid.svg" alt="" />
+                        <img src="~/assets/person-chalkboard-solid.svg" alt="" />
                     </a>
                     <label for="">Aulas</label>
                 </li>
                 <li class="seleccionado">
                     <a href="/Admin/Equipos">
-                        <img src="../assets/computer-solid1.svg" alt="" />
+                        <img src="~/assets/computer-solid1.svg" alt="" />
                     </a>
                     <label for="" class="selec">Equipos</label>
                 </li>
                 <li>
                     <a href="/Admin/Tipos">
-                        <img src="../assets/cubes-solid.svg" alt="" />
+                        <img src="~/assets/cubes-solid.svg" alt="" />
                     </a>
                     <label for="">Tipos</label>
                 </li>
@@ -84,7 +84,7 @@
                 const editLink = document.createElement('a');
                 editLink.href = `ActualizarAula.html/${aula.id}`;
                 const editIcon = document.createElement('img');
-                editIcon.src = "../assets/pencil-fill.svg";
+                editIcon.src = "/assets/pencil-fill.svg";
                 editIcon.alt = "editar";
                 editLink.appendChild(editIcon);
                 revealLeft.appendChild(editLink);
@@ -108,7 +108,7 @@
                 const deleteLink = document.createElement('a');
                 deleteLink.href = `EliminarAula.html/${aula.id}`;
                 const deleteIcon = document.createElement('img');
-                deleteIcon.src = "../assets/trash-solid.svg";
+                deleteIcon.src = "/assets/trash-solid.svg";
                 deleteIcon.alt = "elminiar";
                 deleteLink.appendChild(deleteIcon);
                 revealRight.appendChild(deleteLink);

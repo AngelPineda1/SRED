@@ -1,0 +1,63 @@
+﻿@page
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agregar Equipo</title>
+    <link rel="stylesheet" href="~/css/estilos.css" />
+</head>
+<body>
+    <header>
+        <a href="/Admin/Equipos/">
+            <img src="~/assets/arrow-left-solid.svg" alt="" id="btn-regresar" />
+        </a>
+        <a href="/Admin/Equipos/AgregarEquipo(Tipo)"
+           id="btn-accion"
+           class="sig-btn">
+            <img src="~/assets/arrow-right-solid.svg" alt="" />
+        </a>
+    </header>
+    <main id="main-agregaraula">
+        <label for="">Número por asignar:</label>
+        <input type="number" placeholder="Ingrese el número" min="1" id="numero"/>
+        <label for="" id="excepcion"></label>
+    </main>
+</body>
+</html>
+<script>
+    const equipo = localStorage.getItem('equipo');
+    const equipo = JSON.parse(equipo);
+    const numero = document.getElementById('numero');
+    let errores = [];
+    const errorLabel = document.getElementById("excepcion");
+    const sig = document.getElementById("btn-accion");
+    const ant = document.getElementById("btn-regresar");
+
+    if (nombretipio != null) {
+        numero.value = equipo.numero;
+    }
+    sig.addEventListener("click", function () {
+        guardarNombre();
+    });
+    function guardarNombre() {
+        errores = [];
+
+       
+        if (errores.length > 0) {
+            errorLabel.textContent = errores.join("\n");
+        } else {
+            const eq = {
+                
+                numero: numero.value
+            };
+            localStorage.setItem('equipo', JSON.stringify(eq));
+          
+            window.location.replace("/Admin/Equipos/AgregarEquipo(Tipo)");
+        }
+
+    };
+    ant.addEventListener("click", function () {
+        localStorage.removeItem("equipo");
+    });
+</script>

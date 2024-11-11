@@ -1,0 +1,94 @@
+﻿@page
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Tipo</title>
+    <link rel="stylesheet" href="~/css/estilos.css" />
+</head>
+<body>
+    <header>
+        <a href="/Admin/Tipos">
+            <img src="~/assets/arrow-left-solid.svg" alt="" id="btn-regresar" />
+        </a>
+        <a href="/Admin/Tipos/EditarTipoIcono"
+           id="btn-accion"
+           class="sig-btn">
+            <img src="~/assets/arrow-right-solid.svg" alt="" />
+        </a>
+    </header>
+    <main id="main-agregaraula">
+        <label for="">Nombre del tipo:</label>
+        <input type="text" placeholder="Ingrese el nombre" id="nombre"/>
+        <label for="" id="excepcion"></label>
+    </main>
+</body>
+</html>
+<script>
+    let id = 0;
+    let errores = [];
+    console.log(localStorage.getItem('tipo'));
+    const errorLabel = document.getElementById("excepcion");
+    const nombre = document.getElementById("nombre");
+    const btn = document.getElementById("btn-accion");
+    const ant = document.getElementById("btn-regresar");
+    const tipo = localStorage.getItem('tipo');
+    if (tipo != null) {
+        const tipoObj = JSON.parse(tipo);
+       
+        nombre.value = tipoObj.nombre;
+    }
+    async function obtenerDatos() {
+        try {
+            const url = window.location.href;
+
+
+            const params = new URL(url).searchParams;
+            id = parseInt(params.get('id'));
+            const respuesta = await fetch(`https://sredapi.websitos256.com/api/Tipo/${id}`);
+
+
+            if (!respuesta.ok) {
+                throw new Error('Error en la petición: ' + respuesta.statusText);
+            }
+
+
+            const datos = await respuesta.json();
+
+            nombre.value = datos.nombre;
+
+        } catch (error) {
+
+            console.error('Hubo un problema con la solicitud GET:', error);
+        }
+    };
+    obtenerDatos();
+    btn.addEventListener("click", function () {
+        guardarNombre();
+    });
+  
+    
+    function guardarNombre() {
+        errores = [];
+
+        if (nombre.value.trim() === "") {
+            errores.push("Debe agregar un nombre al aula");
+        };
+        if (errores.length > 0) {
+            errorLabel.textContent = errores.join("\n");
+        } else {
+            const tipo = {
+                id:id,
+                nombre:nombre.value
+            };
+            localStorage.setItem('tipo', JSON.stringify(tipo));
+            window.location.replace("/Admin/Tipos/EditarTipoIcono");
+        }
+
+    };
+    ant.addEventListener("click", function () {
+        localStorage.removeItem("tipo");
+    });
+
+</script>

@@ -1,0 +1,95 @@
+﻿@page
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar Aula</title>
+    <link rel="stylesheet" href="~/css/estilos.css" />
+</head>
+<body>
+    <header>
+        <a href="/Admin/Aulas">
+            <img src="~/assets/arrow-left-solid.svg" alt="" id="btn-regresar" />
+        </a>
+        <a for="" id="btn-accion">Editar</a>
+    </header>
+    <main id="main-agregaraula">
+
+        <label for="">Nombre del aula:</label>
+        <input type="text" placeholder="Ingrese el nombre" id="nombre" />
+        <label for="" id="excepcion"></label>
+    </main>
+</body>
+</html>
+<script>
+    let id = 0;
+    let errores = [];
+    const errorLabel = document.getElementById("excepcion");
+    const nombre = document.getElementById("nombre");
+    const btn = document.getElementById("btn-accion");
+    async function obtenerDatos() {
+        try {
+            const url = window.location.href;
+
+
+            const params = new URL(url).searchParams;
+            id = parseInt(params.get('id'));
+            const respuesta = await fetch(`https://sredapi.websitos256.com/api/Aula/${id}`);
+
+           
+            if (!respuesta.ok) {
+                throw new Error('Error en la petición: ' + respuesta.statusText);
+            }
+
+           
+            const datos = await respuesta.json();
+
+            nombre.value = datos.nombre;
+
+        } catch (error) {
+           
+            console.error('Hubo un problema con la solicitud GET:', error);
+        }
+    };
+    obtenerDatos();
+    btn.addEventListener("click", function () {
+        errorLabel.textContent = "";
+        errores = [];
+        if (nombre.value.trim() === "") {
+            errores.push("Debe agregar un nombre al aula");
+        };
+        if (errores.length > 0) {
+            errorLabel.textContent = errores.join("\n");
+        } else {
+            editarAula();
+        };
+    });
+
+
+    async function editarAula() {
+        try {
+            aulaData = {
+                id:id,
+                nombre:nombre.value
+            };
+            const response = await fetch('https://sredapi.websitos256.com/api/Aula', {
+                method: 'PUT', 
+                headers: {
+                    'Content-Type': 'application/json' 
+                },
+                body: JSON.stringify(aulaData) 
+            });
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+            console.log('Aula agregada');
+            window.location.replace("/Admin/Aulas/Index");
+
+        } catch (error) {
+            
+            console.error('Error al agregar aula:', error);
+            document.getElementById("excepcion").textContent = `Error: ${error.message}`;
+        }
+    }
+</script>
