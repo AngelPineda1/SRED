@@ -32,16 +32,16 @@
 
         opciones.forEach((e) => {
             e.addEventListener("click", function () {
-                if (e.classList.contains("opcion-seleccionada")) {
-                    e.classList.remove("opcion-seleccionada");
-                } else {
-                    e.classList.add("opcion-seleccionada");
-                }
+                
+                opciones.forEach(opcion => opcion.classList.remove("opcion-seleccionada"));
+
+                
+                e.classList.add("opcion-seleccionada");
             });
         });
     }
 
-    cambiarColorAlSeleccionar();
+    
     const div = document.getElementById("grid");
     async function cargarEquipos() {
 
@@ -83,6 +83,7 @@
 
 
             });
+            cambiarColorAlSeleccionar();
 
         } catch (error) {
             console.error('Error:', error);
