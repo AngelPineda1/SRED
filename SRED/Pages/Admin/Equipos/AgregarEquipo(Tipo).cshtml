@@ -12,8 +12,7 @@
         <a href="/Admin/Equipos/AgregarEquipo">
             <img src="~/assets/arrow-left-solid.svg" alt="" id="btn-regresar" />
         </a>
-        <a href="/Admin/Equipos/AgregarEquipo(Lab)"
-           id="btn-accion"
+        <a id="btn-accion"
            class="sig-btn">
             <img src="~/assets/arrow-right-solid.svg" alt="" />
         </a>
@@ -21,7 +20,6 @@
     <main id="main-agregarEquipo">
         <label for="">Tipo de equipo</label>
         <div id="grid">
-           
         </div>
     </main>
 </body>
@@ -32,17 +30,18 @@
 
         opciones.forEach((e) => {
             e.addEventListener("click", function () {
-                
+
                 opciones.forEach(opcion => opcion.classList.remove("opcion-seleccionada"));
 
-                
+
                 e.classList.add("opcion-seleccionada");
             });
         });
     }
 
-    
+
     const div = document.getElementById("grid");
+    let nombreTipo = '';
     async function cargarEquipos() {
 
         div.innerHTML = '<label>Cargando...</label>';
@@ -55,6 +54,7 @@
 
                 const span = document.createElement('span');
                 span.classList.add('opcion');
+                span.id = aula.id;
 
                 const picture = document.createElement('picture');
                 const source = document.createElement('source');
@@ -71,6 +71,7 @@
 
                 picture.appendChild(imgFallback);
                 const labelNombre = document.createElement('label');
+                nombreTipo = aula.nombre;
                 labelNombre.textContent = aula.nombre;
 
 
@@ -80,8 +81,6 @@
                 div.appendChild(span);
 
 
-
-
             });
             cambiarColorAlSeleccionar();
 
@@ -89,7 +88,31 @@
             console.error('Error:', error);
         }
     }
+    const sig = document.getElementById("btn-accion");
+    sig.addEventListener("click", function () {
 
+        let opcion = document.querySelectorAll(".opcion-seleccionada");
+        if (opcion.length == 0) {
+            window.alert("Debe seleccionar un tipo de equipo");
+        } else {
+            let equipo = localStorage.getItem('equipo');
+            let id = opcion[0].id;
+            const equipoObj = JSON.parse(equipo);
+            if (equipo) {
+                equipo = {
+                    id: id,
+                    numero: equipoObj.numero,
+                    tipo:nombreTipo
 
+                };
+                localStorage.setItem('equipo', JSON.stringify(equipo));
+                console.log(equipo);
+                window.location.replace("/Admin/Equipos/AgregarEquipo(Lab)");
+
+            }
+        }
+    });
     cargarEquipos();
+
+
 </script>
