@@ -18,8 +18,10 @@
         <section>
             <span>
                 <span for="">Desea eliminar el tipo indicado?</span>
-                <label for="">Pantalla</label>
+                <label for="" id="nombre" ></label>
+
             </span>
+                <span for="" id="excepcion"></span>
 
             <picture>
                 <source type="image/webp" srcset="~/assets/hombre-pensando.webp" />
@@ -33,6 +35,8 @@
 <script>
     const nombre = document.getElementById("nombre");
     const btn = document.getElementById("btn-accion");
+    const errorLabel = document.getElementById("excepcion");
+
     async function obtenerDatos() {
         try {
             const url = window.location.href;
@@ -81,6 +85,7 @@
             window.location.replace("/Admin/Tipos/Index");
 
         } catch (error) {
+            errorLabel.textContent = "Ocurrio un error al intentar eliminar el tipo del equipo";
 
             console.error('Hubo un problema con la solicitud DELETE:', error);
         }
