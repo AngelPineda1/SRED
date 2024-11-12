@@ -156,15 +156,23 @@ header span {
   margin-right: 3%;
 }
 
+    #lista-Aulas li label {
+        /* NUEVO */
+        width: 70%;
+    }
+
 #lista-Aulas div {
   height: 5%;
   width: 5%;
 }
 
 .swipe-item span {
-  display: flex;
-  flex-direction: column;
-  text-align: center;
+    display: flex;
+    flex-direction: column;
+    /* NUEVO */
+    text-align: left;
+    width: 72%;
+}
 }
 
 .reveal-left a,
@@ -449,20 +457,33 @@ header span {
 /* VISTA TIPOS ADMIN *************************************************/
 
 .span-tipo {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  justify-content: center;
+    /* NUEVO */
+    display: flex !important;
+    flex-direction: row !important;
 }
 
-.span-tipo img {
-  width: 7% !important;
-  height: auto;
+    .span-tipo picture {
+        /* NUEVO */
+        width: 13%;
+    }
+
+
+..span-tipo img {
+    /* NUEVO */
+    width: 100%;
+    align-self: flex-start;
 }
 
+.span-tipo label {
+    /* NUEVO */
+    padding: 0;
+    align-content: center;
+    padding-left: 5%;
+}
 
 .tipo-estilo {
-  padding: 3% !important;
+    /* NUEVO */
+    padding: 3% !important;
 }
 
 /* VISTA AGREGAR TIPO (ICONO) ****************************************/
@@ -939,6 +960,14 @@ header span {
     height: calc(90vh - 100px);
   }
 
+
+    /* NUEVO */
+    #lista-Aulas label {
+        width: 85% !important;
+        font-size: 1.1em;
+    }
+
+
   #lista-Aulas li {
     padding: 3%;
     height: 5%;
@@ -1002,6 +1031,12 @@ header span {
   #menu-flotante li label {
     margin-top: 8%;
   }
+
+    /* VISTA VER EQUIPOS **********************************/
+    #lista-Aulas span {
+        width: 85%;
+    }
+
 
   /* VISTA AGREGAR TIPO DE EQUIPO ***********************/
   #main-agregarEquipo {
@@ -1076,6 +1111,11 @@ header span {
     display: flex;
     flex-direction: row !important;
   }
+
+    /* NUEVO */
+    .span-tipo label {
+        padding-left: 0;
+    }
 
   .span-tipo picture {
     width: 8%;
