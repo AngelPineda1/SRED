@@ -589,11 +589,11 @@ header span {
     font-weight: bold;
 }
 
-#lista-reportesEncargado li img {
+/*#lista-reportesEncargado li img {
     width: 20px;
     height: 20px;
     margin-left: auto;
-}
+}*/
 
 #lista-reportesEncargado li span {
     display: flex;
@@ -624,6 +624,16 @@ header span {
     margin-left: auto;
     margin-right: 9%;
     margin-top: 3%;
+}
+
+.lbl-completado {
+    background-color: #d9dfe8;
+    margin-left: auto;
+    height: fit-content;
+    font-size: 0.7em;
+    color: #002664;
+    padding: 0.8%;
+    border-radius: 5px;
 }
 
 /* HEADERS POSICION ***********************************/
@@ -861,6 +871,11 @@ header span {
         display: flex;
         flex-direction: column;
         font-size: 0.8em;
+    }
+
+    .lbl-completado {
+        padding: 0.7%;
+        border-radius: 8px;
     }
 
 }
@@ -1187,16 +1202,22 @@ header span {
         font-weight: bold;
     }
 
-    #lista-reportesEncargado li img {
+   /* #lista-reportesEncargado li img {
         width: 25px;
         height: 25px;
         margin-left: auto;
-    }
+    }*/
 
     #lista-reportesEncargado li span {
         display: flex;
         flex-direction: column;
         font-size: 0.8em;
+    }
+
+    .lbl-completado {
+        padding: 0.5%;
+        border-radius: 8px;
+        font-size: 0.7em;
     }
 }
 
