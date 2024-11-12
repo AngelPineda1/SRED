@@ -532,10 +532,99 @@ header span {
         margin-top: 10%;
     }
 
-/* #add-icono main {
-  background-color: brown;
-  margin-top: 8%;
-} */
+/* VISTA PRINCIPAL ENCARGADO ****************************************/
+#body-encargado {
+    overflow-y: hidden;
+}
+
+    #body-encargado header label {
+        justify-self: center;
+        text-align: center;
+        width: 100%;
+    }
+
+#iconofiltros-movil {
+    margin-right: 7%;
+    width: 18px;
+    height: 18px;
+}
+
+.conf-encargado {
+    margin-left: auto;
+}
+
+.filtros input {
+    display: none;
+}
+
+.filtros select {
+    display: none;
+}
+
+#btn-buscar {
+    display: none;
+}
+
+#lista-reportesEncargado {
+    list-style: none;
+    margin: 2% 3% 0% 2%;
+    width: 94%;
+    color: #ffffff;
+    padding: 1%;
+    overflow-y: scroll !important;
+    height: calc(100vh - 100px);
+}
+
+    #lista-reportesEncargado li {
+        border-radius: 10px;
+        background-color: #335183;
+        padding: 3%;
+        display: flex;
+        width: 100%;
+        margin-bottom: 2%;
+        font-size: 0.7em;
+    }
+
+.num {
+    font-weight: bold;
+}
+
+#lista-reportesEncargado li img {
+    width: 20px;
+    height: 20px;
+    margin-left: auto;
+}
+
+#lista-reportesEncargado li span {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8em;
+}
+
+#filtros-flotante {
+    background-color: #002664;
+    display: flex;
+    flex-direction: column;
+}
+
+    #filtros-flotante span {
+        display: flex;
+        flex-direction: column;
+        color: #ffffff;
+        justify-content: center;
+    }
+
+        #filtros-flotante span input {
+            width: 55%;
+        }
+
+#btn-cerrarFiltros {
+    width: 18px;
+    height: 18px;
+    margin-left: auto;
+    margin-right: 9%;
+    margin-top: 3%;
+}
 
 /* HEADERS POSICION ***********************************/
 .body-headers {
@@ -676,8 +765,104 @@ header span {
         height: 40px !important;
         margin: 0;
     }
+    /* VISTA PRINCIPAL ENCARGADO ******************************/
 
-    /* VISTA AGREGAR TIPO ICONO ******************************/
+    #iconofiltros-movil {
+        display: none;
+    }
+
+    #principal-encargado {
+        padding-top: 3%;
+    }
+
+    .titulo-encargado {
+        text-align: left !important;
+    }
+
+    .filtros {
+        height: 6vh;
+        align-content: center;
+        display: flex;
+        justify-content: space-between;
+        margin: 0 1% 1% 3%;
+    }
+
+        .filtros input {
+            height: 40%;
+            max-height: 40px;
+            align-self: center;
+            width: 20%;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid #a6a6a6;
+            box-shadow: 0px 3px 12px -3px rgba(0, 0, 0, 0.75);
+            height: 100%;
+            display: inline;
+        }
+
+        .filtros select {
+            height: 40%;
+            align-self: center;
+            width: 20%;
+            height: 100%;
+            max-height: 40px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid #a6a6a6;
+            box-shadow: 0px 3px 12px -3px rgba(0, 0, 0, 0.75);
+            color: black !important;
+            text-align: center;
+            vertical-align: middle;
+            display: inline;
+        }
+
+    #btn-buscar {
+        display: inline;
+        width: 31px;
+        height: 32px;
+        align-self: center;
+        margin-right: 7%;
+        cursor: pointer;
+    }
+
+    #lista-reportesEncargado {
+        list-style: none;
+        margin: 2% 3% 0% 2%;
+        width: 92%;
+        color: #ffffff;
+        padding: 1%;
+        overflow-y: scroll !important;
+        height: calc(90vh - 100px);
+    }
+
+        #lista-reportesEncargado li {
+            border-radius: 8px;
+            background-color: #335183;
+            padding: 1%;
+            display: flex;
+            width: 100%;
+            margin-bottom: 2%;
+            font-size: 1em;
+        }
+
+    .num {
+        font-weight: bold;
+    }
+
+    #lista-reportesEncargado li img {
+        width: 25px;
+        height: 25px;
+        margin-left: auto;
+    }
+
+    #lista-reportesEncargado li span {
+        display: flex;
+        flex-direction: column;
+        font-size: 0.8em;
+    }
+
 }
 
 @media (min-width: 1024px) {
@@ -900,6 +1085,118 @@ header span {
 
     #nombre-img {
         margin-top: 4%;
+    }
+
+    /* VISTA PRINCIPAL ENCARGADO *******************************/
+
+    #body-encargado {
+        overflow-y: hidden;
+    }
+
+    #iconofiltros-movil {
+        display: none;
+    }
+
+    .titulo-encargado {
+        font-size: 1.1em;
+    }
+
+    .conf-encargado {
+        width: 40px;
+        height: 40px;
+        margin-left: 60%;
+    }
+
+    .titulo-encargado {
+        text-align: left !important;
+    }
+
+    #principal-encargado {
+        padding-top: 2.2%;
+    }
+
+    .filtros {
+        height: 6vh;
+        align-content: center;
+        display: flex;
+        justify-content: space-between;
+        margin: 0 1% 1% 3%;
+    }
+
+        .filtros input {
+            display: inline;
+            height: 40%;
+            max-height: 40px;
+            align-self: center;
+            width: 20%;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid #a6a6a6;
+            box-shadow: 0px 3px 12px -3px rgba(0, 0, 0, 0.75);
+            height: 100%;
+        }
+
+        .filtros select {
+            display: inline;
+            height: 40%;
+            align-self: center;
+            width: 20%;
+            height: 100%;
+            max-height: 40px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid #a6a6a6;
+            box-shadow: 0px 3px 12px -3px rgba(0, 0, 0, 0.75);
+            color: black !important;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+    #btn-buscar {
+        display: inline;
+        width: 31px;
+        height: 32px;
+        align-self: center;
+        margin-right: 7%;
+        cursor: pointer;
+    }
+
+    #lista-reportesEncargado {
+        list-style: none;
+        margin: 2% 3% 0% 2%;
+        width: 92%;
+        color: #ffffff;
+        padding: 1%;
+        overflow-y: scroll !important;
+        height: calc(85vh - 100px);
+    }
+
+        #lista-reportesEncargado li {
+            border-radius: 8px;
+            background-color: #335183;
+            padding: 1%;
+            display: flex;
+            width: 100%;
+            margin-bottom: 1%;
+            font-size: 1em;
+        }
+
+    .num {
+        font-weight: bold;
+    }
+
+    #lista-reportesEncargado li img {
+        width: 25px;
+        height: 25px;
+        margin-left: auto;
+    }
+
+    #lista-reportesEncargado li span {
+        display: flex;
+        flex-direction: column;
+        font-size: 0.8em;
     }
 }
 
