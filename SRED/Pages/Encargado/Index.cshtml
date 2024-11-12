@@ -1,0 +1,245 @@
+﻿@page
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Principal Encargado</title>
+    <link rel="stylesheet" href="~/css/estilos.css" />
+</head>
+<body id="body-encargado">
+    <header>
+        <img src="../assets/filter-solid.svg" alt="" id="iconofiltros-movil" />
+        <label for="" class="titulo-encargado">Sistema de Reportes de Equipo Dañado</label>
+        <span>
+            <img class="conf-encargado"
+                 src="~/assets/settings-3-fill (1).svg"
+                 alt="" />
+        </span>
+    </header>
+    <!-- MENU DE FILTROS PENDIENTE PARA VISTA MOVIL -->
+    <!-- <div id="filtros-flotante">
+      <img src="../assets/xmark-solid.svg" alt="" id="btn-cerrarFiltros" />
+      <span>
+        <label for="">Por fecha</label>
+        <input type="date" />
+      </span>
+      <span>
+        <label for="">Por estado</label>
+        <button>Por atender</button>
+        <button>Atendido</button>
+      </span>
+      <span>
+        <label for="">Por orden</label>
+        <button>Más recientes</button>
+        <button>Más antiguos</button>
+      </span>
+    </div> -->
+    <main id="principal-encargado">
+        <div class="filtros">
+            <input type="date" id="fecha-Filtro" />
+            <select name="" id="combo-estado">
+                <option value="a">Por atender</option>
+                <option value="">Atendidos</option>
+                <option value="">Todos</option>
+
+            </select>
+            <select name="" id="combo-tiempo">
+                <option value="">Más recientes</option>
+                <option value="">Más antiguos</option>
+            </select>
+            @* <img src="~/assets/magnifying-glass-solid.svg"
+            alt=""
+            id="btn-buscar" /> *@
+        </div>
+        <ul id="lista-reportesEncargado">
+        </ul>
+    </main>
+</body>
+</html>
+<script>
+    const listaReportes = document.getElementById('lista-reportesEncargado');
+    let url = 'https://sredapi.websitos256.com/api/Reporte/reportesxatender';
+    const select = document.getElementById("combo-tiempo");
+    const selectEstado = document.getElementById("combo-estado");
+
+
+    selectEstado.addEventListener("change", (event) => {
+        const texto = event.target.options[event.target.selectedIndex].text;
+        let fecha = obtenerFechaSeleccionada();
+        if (texto == "Por atender") {
+            if (fecha) {
+                url = `https://sredapi.websitos256.com/api/reporte/reportesxatender?fecha=${fecha}`;
+            } else {
+                url = 'https://sredapi.websitos256.com/api/reporte/reportesxatender';
+            }
+        } else if (texto == "Atendidos") {
+            if (fecha) {
+                url = `https://sredapi.websitos256.com/api/reporte/reportesatendidos?fecha=${fecha}`;
+            } else {
+                url = 'https://sredapi.websitos256.com/api/reporte/reportesatendidos';
+            }
+        }
+        else {
+            url = `https://sredapi.websitos256.com/api/Reporte/reportes`;
+            inputFecha.value = '';
+        }
+        obtenerReportes(url);
+    });
+
+
+
+    select.addEventListener('change', (event) => {
+        const texto = event.target.options[event.target.selectedIndex].text;
+        if (texto == "Más recientes") {
+            url = 'https://sredapi.websitos256.com/api/Reporte/reportesxmasrecientes'
+            inputFecha.value = '';
+        } else if (texto == "Más antiguos") {
+            url = 'https://sredapi.websitos256.com/api/Reporte/reportesxmasantiguos'
+            inputFecha.value = '';
+
+        }
+        obtenerReportes(url);
+    });
+
+    const inputFecha = document.getElementById('fecha-Filtro');
+    inputFecha.addEventListener("change", () => {
+        let fecha = obtenerFechaSeleccionada();
+        url = `https://sredapi.websitos256.com/api/Reporte/reportes?fecha=${fecha}`;
+        obtenerReportes(url);
+    });
+
+    function obtenerFechaSeleccionada() {
+        if (inputFecha && inputFecha.value) {
+
+            const fechaSeleccionada = inputFecha.value;
+
+            const [year, month, day] = fechaSeleccionada.split('-');
+
+
+            const fecha = new Date(Date.UTC(year, month - 1, day));
+
+
+            const yearFinal = fecha.getUTCFullYear();
+            const monthFinal = String(fecha.getUTCMonth() + 1).padStart(2, '0');
+            const dayFinal = String(fecha.getUTCDate()).padStart(2, '0');
+
+
+            return `${yearFinal}/${monthFinal}/${dayFinal}`;
+        }
+        return null;
+    }
+
+    listaReportes.innerHTML = '';
+    async function obtenerReportes(url) {
+        try {
+            // Mostrar mensaje de carga
+            listaReportes.innerHTML = '<label style="color:black">Cargando...</label>';
+
+            // Hacer la solicitud a la API
+            const response = await fetch(url);
+
+            // Verificar si la respuesta es exitosa (status 200)
+            if (!response.ok) {
+
+                if (response.status === 404) {
+
+                    listaReportes.innerHTML = '<label style="color:black">No se encontraron reportes...</label>';
+
+
+                   
+                    inputFecha.value = '';
+                   
+                    return;
+                }
+
+                // Si no es 404, muestra un mensaje genérico de error
+                listaReportes.innerHTML = '<label style="color:black">No se pudieron obtener los reportes. Verifica tu conexión.</label>';
+                return;
+            }
+
+
+            const data = await response.json();
+
+
+            if (data.length === 0) {
+                listaReportes.innerHTML = '<label style="color:black">No se encontraron Reportes</label>';
+            } else {
+                // Limpiar lista y mostrar los reportes
+                listaReportes.innerHTML = '';
+                data.forEach(rep => {
+                    const li = document.createElement('li');
+
+                    const span = document.createElement('span');
+                    span.id = rep.id;
+                    const labelNum = document.createElement('label');
+                    labelNum.classList.add("num");
+                    labelNum.textContent = rep.folio;
+
+                    const labelEquipo = document.createElement('label');
+                    labelEquipo.textContent = rep.equipo;
+
+                    const labelAula = document.createElement('label');
+                    labelAula.textContent = rep.aula;
+
+                    const labelDesc = document.createElement('label');
+                    labelDesc.textContent = rep.descripcion;
+                    const labelCompletado = document.createElement('label');
+                    labelCompletado.classList.add("lbl-completado");
+                    labelCompletado.textContent = "Marcar Completado";
+                    span.appendChild(labelNum);
+                    span.appendChild(labelEquipo);
+                    span.appendChild(labelAula);
+                    span.appendChild(labelDesc);
+                    li.appendChild(span);
+                    if (rep.estado == 0) {
+
+                        li.appendChild(labelCompletado);
+
+                    };
+
+                    listaReportes.appendChild(li);
+                });
+                eventoClick();
+            }
+        } catch (error) {
+            // Manejo de error en caso de que la solicitud falle
+            listaReportes.innerHTML = '<label style="color:black">No se pudieron obtener los reportes. Verifica tu conexión.</label>';
+            console.error('Error:', error);
+        }
+    };
+    function eventoClick() {
+
+        const labels = document.querySelectorAll('.lbl-completado');
+        labels.forEach(label => {
+
+            label.addEventListener('click', function () {
+
+                const reporteId = parseInt(this.previousElementSibling.id);
+                actualizarReporte(reporteId);
+            });
+        });
+    };
+    async function actualizarReporte(reporteId) {
+        try {
+         
+            const response = await fetch(`https://sredapi.websitos256.com/api/Reporte/${reporteId}`, {
+                method: 'PUT', // Método PUT para actualizar
+                headers: {
+                    'Content-Type': 'application/json' // Si necesitas enviar JSON
+                }
+            });
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+           
+
+        } catch (error) {
+
+            console.error('Error al cambiar el estado del reporte:', error);
+            
+        }
+    };
+
+    obtenerReportes(url);
+</script>

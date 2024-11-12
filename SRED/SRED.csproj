@@ -10,4 +10,31 @@
     <Folder Include="Pages\Shared\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\assets\add-line %281%29.svg" />
+    <None Include="wwwroot\assets\add-line.svg" />
+    <None Include="wwwroot\assets\arrow-left-solid.svg" />
+    <None Include="wwwroot\assets\arrow-right-solid.svg" />
+    <None Include="wwwroot\assets\computer-solid.svg" />
+    <None Include="wwwroot\assets\computer-solid1.svg" />
+    <None Include="wwwroot\assets\cubes-solid.svg" />
+    <None Include="wwwroot\assets\cubes-solid1.svg" />
+    <None Include="wwwroot\assets\delete-bin-7-fill.svg" />
+    <None Include="wwwroot\assets\hombre-pensando.webp" />
+    <None Include="wwwroot\assets\impresora.webp" />
+    <None Include="wwwroot\assets\juego-de-azar.webp" />
+    <None Include="wwwroot\assets\obrero %281%29.webp" />
+    <None Include="wwwroot\assets\pencil-fill.svg" />
+    <None Include="wwwroot\assets\pencil-solid.svg" />
+    <None Include="wwwroot\assets\person-chalkboard-solid %281%29.svg" />
+    <None Include="wwwroot\assets\person-chalkboard-solid.svg" />
+    <None Include="wwwroot\assets\plus-solid %282%29.svg" />
+    <None Include="wwwroot\assets\proyector.webp" />
+    <None Include="wwwroot\assets\settings-3-fill %281%29.svg" />
+    <None Include="wwwroot\assets\settings-3-fill.svg" />
+    <None Include="wwwroot\assets\settings-3-line.svg" />
+    <None Include="wwwroot\assets\television.webp" />
+    <None Include="wwwroot\assets\trash-solid.svg" />
+  </ItemGroup>
+
 </Project>
