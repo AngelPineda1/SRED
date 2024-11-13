@@ -17,24 +17,27 @@
                  alt="" />
         </span>
     </header>
-    <!-- MENU DE FILTROS PENDIENTE PARA VISTA MOVIL -->
-    <!-- <div id="filtros-flotante">
-      <img src="../assets/xmark-solid.svg" alt="" id="btn-cerrarFiltros" />
-      <span>
-        <label for="">Por fecha</label>
-        <input type="date" />
-      </span>
-      <span>
-        <label for="">Por estado</label>
-        <button>Por atender</button>
-        <button>Atendido</button>
-      </span>
-      <span>
-        <label for="">Por orden</label>
-        <button>Más recientes</button>
-        <button>Más antiguos</button>
-      </span>
-    </div> -->
+
+    <!-- MENU DE FILTROS PARA VISTA MOVIL -->
+    <div id="filtros-flotante">
+        <img src="../assets/xmark-solid.svg" alt="" id="btn-cerrarFiltros" />
+        <span>
+            <label for="">Por fecha</label>
+            <input type="date" />
+        </span>
+        <span class="span-porEstado">
+            <label for="">Por estado</label>
+            <button>Por atender</button>
+            <button>Atendido</button>
+        </span>
+        <span class="span-porOrden">
+            <label for="">Por orden</label>
+            <button>Más recientes</button>
+            <button>Más antiguos</button>
+        </span>
+        <button id="btn-Aplicar">Aplicar</button>
+    </div>
+
     <main id="principal-encargado">
         <div class="filtros">
             <input type="date" id="fecha-Filtro" />
@@ -247,4 +250,62 @@
     };
 
     obtenerReportes(url);
+
+ //////// PARA QUE NO ELIGA LAS DOS OPCIONES DEL MISMO FILTRO//////////////////////////
+        let filtrosMovil = document.getElementById("filtros-flotante");
+    let botonSeleccionado = null;
+    let botonSeleccionado1 = null;
+
+    filtrosMovil.addEventListener("click", function (e) {
+        if (e.target.tagName == "BUTTON" && e.target.id != "btn-Aplicar") {
+            let boton = e.target;
+
+            let actual = window.getComputedStyle(boton).backgroundColor;
+
+            if (boton.parentElement.className == "span-porEstado") {
+                if (botonSeleccionado && botonSeleccionado !== boton) {
+                    botonSeleccionado.style.backgroundColor = "#D9DFE8";
+                    botonSeleccionado.style.color = "black";
+                }
+
+                if (actual === "rgb(217, 223, 232)") {
+                    boton.style.backgroundColor = "#335183";
+                    boton.style.color = "#ffffff";
+                } else {
+                    boton.style.backgroundColor = "#D9DFE8";
+                    boton.style.color = "black";
+                }
+
+                botonSeleccionado = boton;
+            } else if (boton.parentElement.className == "span-porOrden") {
+                if (botonSeleccionado1 && botonSeleccionado1 !== boton) {
+                    botonSeleccionado1.style.backgroundColor = "#D9DFE8";
+                    botonSeleccionado1.style.color = "black";
+                }
+
+                if (actual === "rgb(217, 223, 232)") {
+                    boton.style.backgroundColor = "#335183";
+                    boton.style.color = "#ffffff";
+                } else {
+                    boton.style.backgroundColor = "#D9DFE8";
+                    boton.style.color = "black";
+                }
+
+                botonSeleccionado1 = boton;
+            }
+        }
+    });
+
+    //BOTON CERRAR FILTROS MOVIL
+    let btnCerrarFiltros = document.getElementById("btn-cerrarFiltros");
+    let btnfiltrosMovil = document.getElementById("iconofiltros-movil");
+
+    btnfiltrosMovil.addEventListener("click", function () {
+        filtrosMovil.style.display = "flex";
+    });
+
+    btnCerrarFiltros.addEventListener("click", function () {
+        filtrosMovil.style.display = "none";
+    });
+
 </script>
