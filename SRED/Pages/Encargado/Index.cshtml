@@ -252,10 +252,12 @@
 
     obtenerReportes(url);
 
-    //////// PARA QUE NO ELIGA LAS DOS OPCIONES DEL MISMO FILTRO//////////////////////////
+    // PARA QUE NO ELIGA LAS DOS OPCIONES DEL MISMO FILTRO
     let filtrosMovil = document.getElementById("filtros-flotante");
     let botonSeleccionado = null;
     let botonSeleccionado1 = null;
+    let spanxOrden = document.querySelector(".span-porOrden");
+    let spanxEstado = document.querySelector(".span-porEstado");
 
     filtrosMovil.addEventListener("click", function (e) {
         if (e.target.tagName == "BUTTON" && e.target.id != "btn-Aplicar") {
@@ -264,6 +266,13 @@
             let actual = window.getComputedStyle(boton).backgroundColor;
 
             if (boton.parentElement.className == "span-porEstado") {
+                spanxOrden.lastElementChild.previousElementSibling.style.backgroundColor =
+                    "#D9DFE8";
+                spanxOrden.lastElementChild.previousElementSibling.style.color =
+                    "black";
+                spanxOrden.lastElementChild.style.backgroundColor = "#D9DFE8";
+                spanxOrden.lastElementChild.style.color = "black";
+
                 if (botonSeleccionado && botonSeleccionado !== boton) {
                     botonSeleccionado.style.backgroundColor = "#D9DFE8";
                     botonSeleccionado.style.color = "black";
@@ -277,11 +286,19 @@
                     boton.style.color = "black";
                 }
 
-                if (botonSeleccionado1) {
-                    botonSeleccionado1 = null;
-                }
                 botonSeleccionado = boton;
             } else if (boton.parentElement.className == "span-porOrden") {
+                spanxEstado.lastElementChild.previousElementSibling.previousElementSibling.style.backgroundColor =
+                    "#D9DFE8";
+                spanxEstado.lastElementChild.previousElementSibling.previousElementSibling.style.color =
+                    "black";
+                spanxEstado.lastElementChild.previousElementSibling.style.backgroundColor =
+                    "#D9DFE8";
+                spanxEstado.lastElementChild.previousElementSibling.style.color =
+                    "black";
+                spanxEstado.lastElementChild.style.backgroundColor = "#D9DFE8";
+                spanxEstado.lastElementChild.style.color = "black";
+
                 if (botonSeleccionado1 && botonSeleccionado1 !== boton) {
                     botonSeleccionado1.style.backgroundColor = "#D9DFE8";
                     botonSeleccionado1.style.color = "black";
@@ -294,9 +311,7 @@
                     boton.style.backgroundColor = "#D9DFE8";
                     boton.style.color = "black";
                 }
-                if (botonSeleccionado) {
-                    botonSeleccionado0 = null;
-                }
+
                 botonSeleccionado1 = boton;
             }
         }
