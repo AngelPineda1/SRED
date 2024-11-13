@@ -266,6 +266,10 @@
             let actual = window.getComputedStyle(boton).backgroundColor;
 
             if (boton.parentElement.className == "span-porEstado") {
+                if (botonSeleccionado1) {
+                   
+                    botonSeleccionado1 = null; 
+                }
                 spanxOrden.lastElementChild.previousElementSibling.style.backgroundColor =
                     "#D9DFE8";
                 spanxOrden.lastElementChild.previousElementSibling.style.color =
@@ -274,6 +278,7 @@
                 spanxOrden.lastElementChild.style.color = "black";
 
                 if (botonSeleccionado && botonSeleccionado !== boton) {
+                  
                     botonSeleccionado.style.backgroundColor = "#D9DFE8";
                     botonSeleccionado.style.color = "black";
                 }
@@ -285,9 +290,13 @@
                     boton.style.backgroundColor = "#D9DFE8";
                     boton.style.color = "black";
                 }
-
+               
                 botonSeleccionado = boton;
             } else if (boton.parentElement.className == "span-porOrden") {
+                if (botonSeleccionado) {
+                   
+                    botonSeleccionado = null; 
+                }
                 spanxEstado.lastElementChild.previousElementSibling.previousElementSibling.style.backgroundColor =
                     "#D9DFE8";
                 spanxEstado.lastElementChild.previousElementSibling.previousElementSibling.style.color =
@@ -300,8 +309,10 @@
                 spanxEstado.lastElementChild.style.color = "black";
 
                 if (botonSeleccionado1 && botonSeleccionado1 !== boton) {
+                   
                     botonSeleccionado1.style.backgroundColor = "#D9DFE8";
                     botonSeleccionado1.style.color = "black";
+
                 }
 
                 if (actual === "rgb(217, 223, 232)") {
