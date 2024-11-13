@@ -80,14 +80,14 @@
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result); // Devuelve la cadena base64
+            reader.onload = () => resolve(reader.result); 
             reader.onerror = error => reject(error);
         });
     };
     btn.addEventListener('click', function () {
-        if (base64 && tipoObj.nombre) { // Solo agrega si hay imagen válida y nombre en localStorage
-            editarTipo(); // Llama a la función para enviar los datos
-            localStorage.removeItem("tipo"); // Limpia el localStorage después de agregar
+        if (base64 && tipoObj.nombre) {
+            editarTipo(); 
+            localStorage.removeItem("tipo");
         } else {
             alert("Por favor, selecciona una imagen válida y asegúrate de que el nombre del tipo esté especificado.");
         }
