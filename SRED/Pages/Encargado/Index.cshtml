@@ -191,7 +191,12 @@
                     const labelCompletado = document.createElement('label');
                     labelCompletado.classList.add("lbl-completado");
                     labelCompletado.textContent = "Marcar Completado";
+                    const labelFecha = document.createElement("label");
+                    const [year, mes, dia] = rep.fechaCreacion.split("-");
+                    labelFecha.textContent = `${dia}/${mes}/${year}`;
                     span.appendChild(labelNum);
+                    span.appendChild(labelFecha);
+
                     span.appendChild(labelEquipo);
                     span.appendChild(labelAula);
                     span.appendChild(labelDesc);
