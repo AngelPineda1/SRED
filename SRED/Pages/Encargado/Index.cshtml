@@ -349,6 +349,9 @@
 
 
         if (botonSeleccionado1) {
+            if (fechaValor) {
+                fechaInput.value = '';
+            }
             switch (botonSeleccionado1.textContent.trim()) {
                 case "Más recientes":
                     url = 'https://sredapi.websitos256.com/api/Reporte/reportesxmasrecientes';
