@@ -641,8 +641,14 @@ header span {
     margin-bottom: 1%;
 }
 
-.circulo {
+.circuloVerde {
     background-color: #9edf9c;
+    width: 12px;
+    height: 12px;
+    border-radius: 40px;
+}
+.circuloRojo {
+    background-color: #FAB12F;
     width: 12px;
     height: 12px;
     border-radius: 40px;

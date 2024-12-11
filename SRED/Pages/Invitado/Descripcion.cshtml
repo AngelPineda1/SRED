@@ -18,7 +18,54 @@
         <label for="" class="lbl-desc">
             Describa la falla que se esta presentando:
         </label>
-        <textarea name="" id="" placeholder="Ingrese descripción"></textarea>
+        <textarea name="" id="desc" placeholder="Ingrese descripción"></textarea>
     </main>
 </body>
+<script>
+    const rep = localStorage.getItem('reporte');
+    const repObj = JSON.parse(rep);
+    const btn = document.getElementById("btn-accion");
+
+    btn.addEventListener("click", () => {
+        const desc=document.getElementById("desc");
+        if (desc.value.trim() == "") {
+            window.alert("Debe ingresar la descripcion del problema");
+        }else{
+            
+            reporteData={
+                id:0,
+                noControlTrabajo:"201G0276",
+                descripcion:desc.value.trim(),
+                equipoId: parseInt(repObj.idequipo)
+            }
+            console.log(reporteData);
+            agregarReporte();
+        }
+    });
+    async function agregarReporte(){
+        try {
+
+            const response = await fetch('https://sredapi.websitos256.com/api/Reporte', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(reporteData)
+            });
+            if (!response.ok) {
+                throw new Error(`Error en la solicitud: ${response.statusText}`);
+            }
+            localStorage.removeItem('reporte');
+
+            window.location.replace("/Invitado/Index");
+
+
+
+        } catch (error) {
+
+            console.error('Error al agregar equipo:', error);
+            document.getElementById("excepcion").textContent = `Error: ${error.message}`;
+        }
+    };
+</script>
 </html>

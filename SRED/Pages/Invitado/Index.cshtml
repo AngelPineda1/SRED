@@ -22,105 +22,6 @@
     <main id="principal-encargado">
         <label for="" class="titulo-repEnviados">Reportes enviados:</label>
         <ul id="lista-reportesEncargado">
-            <li>
-                <span class="estado">
-                    <div class="circulo"></div>
-                    <label for="" class="lbl-estado">Completado</label>
-                </span>
-                <span class="problema rep-enviados">
-                    <img src="../assets/fix.svg" alt="" />
-                    <label for="">El monitor no enciende.</label>
-                </span>
-                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
-            </li>
-            <li>
-                <span class="estado">
-                    <div class="circulo"></div>
-                    <label for="" class="lbl-estado">Completado</label>
-                </span>
-                <span class="problema rep-enviados">
-                    <img src="../assets/fix.svg" alt="" />
-                    <label for="">El monitor no enciende.</label>
-                </span>
-                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
-            </li>
-            <li>
-                <span class="estado">
-                    <div class="circulo"></div>
-                    <label for="" class="lbl-estado">Completado</label>
-                </span>
-                <span class="problema rep-enviados">
-                    <img src="../assets/fix.svg" alt="" />
-                    <label for="">El monitor no enciende.</label>
-                </span>
-                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
-            </li>
-            <li>
-                <span class="estado">
-                    <div class="circulo"></div>
-                    <label for="" class="lbl-estado">Completado</label>
-                </span>
-                <span class="problema rep-enviados">
-                    <img src="../assets/fix.svg" alt="" />
-                    <label for="">El monitor no enciende.</label>
-                </span>
-                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
-            </li>
-            <li>
-                <span class="estado">
-                    <div class="circulo"></div>
-                    <label for="" class="lbl-estado">Completado</label>
-                </span>
-                <span class="problema rep-enviados">
-                    <img src="../assets/fix.svg" alt="" />
-                    <label for="">El monitor no enciende.</label>
-                </span>
-                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
-            </li>
-            <li>
-                <span class="estado">
-                    <div class="circulo"></div>
-                    <label for="" class="lbl-estado">Completado</label>
-                </span>
-                <span class="problema rep-enviados">
-                    <img src="../assets/fix.svg" alt="" />
-                    <label for="">El monitor no enciende.</label>
-                </span>
-                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
-            </li>
-            <li>
-                <span class="estado">
-                    <div class="circulo"></div>
-                    <label for="" class="lbl-estado">Completado</label>
-                </span>
-                <span class="problema rep-enviados">
-                    <img src="../assets/fix.svg" alt="" />
-                    <label for="">El monitor no enciende.</label>
-                </span>
-                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
-            </li>
-            <li>
-                <span class="estado">
-                    <div class="circulo"></div>
-                    <label for="" class="lbl-estado">Completado</label>
-                </span>
-                <span class="problema rep-enviados">
-                    <img src="../assets/fix.svg" alt="" />
-                    <label for="">El monitor no enciende.</label>
-                </span>
-                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
-            </li>
-            <li>
-                <span class="estado">
-                    <div class="circulo"></div>
-                    <label for="" class="lbl-estado">Completado</label>
-                </span>
-                <span class="problema rep-enviados">
-                    <img src="../assets/fix.svg" alt="" />
-                    <label for="">El monitor no enciende.</label>
-                </span>
-                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
-            </li>
         </ul>
         <div id="boton-Agregar">
             <a href="/Invitado/SeleccionarLab">
@@ -150,4 +51,70 @@
             opcionCerrarSesion.style.visibility = "hidden";
         }
     });
+
+    async function cargarReportes() {
+        const listaReportes = document.getElementById('lista-reportesEncargado');
+        listaReportes.innerHTML = '<label>Cargando...</label>';
+        try {
+
+            const response = await fetch('https://sredapi.websitos256.com/api/Reporte/pornumerocontrol/201G0276');
+            const data = await response.json();
+            listaReportes.innerHTML = '';
+            data.forEach(aula => {
+
+                const li = document.createElement('li');
+
+                const span = document.createElement("span");
+                span.classList.add("estado");
+
+                const div = document.createElement("div");
+
+                const label = document.createElement("label");
+                label.classList.add("lbl-estado");
+                if (aula.estado == 1) {
+
+                div.classList.add("circuloVerde");
+                    label.textContent = "Completado";
+                } else {
+                    
+                    div.classList.add("circuloRojo");
+                    label.textContent = "Pendiente";
+                    label.style.color = "#FAB12F";
+
+                }
+
+                span.appendChild(div);
+                span.appendChild(label);
+
+                const span2 = document.createElement("span");
+                span2.classList.add("problema", "rep-enviados");
+
+                const img = document.createElement("img");
+                img.src = "../assets/fix.svg";
+                img.alt = "";
+
+                const label2 = document.createElement("label");
+
+                label2.textContent = aula.descripcion;
+                span2.appendChild(img);
+                span2.appendChild(label2);
+
+                const label3 = document.createElement("label");
+                label3.classList.add("inf");
+                label3.textContent = `${aula.equipo} de ${aula.aula}`;
+
+                li.appendChild(span);
+                li.appendChild(span2);
+                li.appendChild(label3);
+                listaReportes.appendChild(li);
+            });
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
+    }
+
+
+    cargarReportes();
 </script>
