@@ -8,12 +8,11 @@
     <link rel="stylesheet" href="~/css/estilos.css" />
 </head>
 <body>
-    <header>
+    <header class="body-headers">
         <a href="/Admin/Equipos/">
             <img src="~/assets/arrow-left-solid.svg" alt="" id="btn-regresar" />
         </a>
         <a 
-           id="btn-accion"
            class="sig-btn">
             <img src="~/assets/arrow-right-solid.svg" alt="" />
         </a>
@@ -31,7 +30,8 @@
     console.log(localStorage.getItem('equipo'));
     const errorLabel = document.getElementById("excepcion");
     const numero = document.getElementById("numero");
-    const btn = document.getElementById("btn-accion");
+    //const btn = document.getElementById("btn-accion");
+    const btn = document.querySelector(".sig-btn");
     const ant = document.getElementById("btn-regresar");
     const equipo = localStorage.getItem('equipo');
     if (equipo != null) {
