@@ -1,672 +1,547 @@
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-  font-family: "poppins";
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: "poppins";
 }
 
 @font-face {
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 500;
-  src: url("../Fonts/Poppins/Poppins-Medium.ttf");
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 500;
+    src: url("../Fonts/Poppins/Poppins-Medium.ttf");
 }
 
 @font-face {
-  font-family: "Poppins";
-  font-style: normal;
-  font-weight: 700;
-  src: url("../Fonts/Poppins/Poppins-Bold.ttf");
+    font-family: "Poppins";
+    font-style: normal;
+    font-weight: 700;
+    src: url("../Fonts/Poppins/Poppins-Bold.ttf");
 }
 
 body {
-  /* min-width: 214px; */
-  min-width: 320px;
-  min-height: 568px;
+    overflow-x: hidden;
+    overflow-y: hidden;
 }
 
-body a {
-  text-decoration: none;
-}
-
-/* VISTA VER AULAS */
-
-#fijo {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
-}
-
-#fijo span > a {
-  width: 23%;
-}
-
-#btn-config {
-  margin-left: 30%;
-}
-
-#main-aulas {
-  flex-grow: 1;
-  padding: 5%;
-  padding-top: 1%;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-  overflow-x: hidden;
-}
-
+/* HEADERS PRINCIPALES */
 header {
-  background-color: #002664;
-  padding: 2%;
-  display: flex;
-  justify-content: space-between;
+    background-color: #002664;
+    padding: 1.5%;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
 }
 
-header label {
-  color: #ffffff;
-  font-size: 0.7em;
-  vertical-align: middle;
-  padding: 5px;
-  margin-left: 2%;
-}
-
-header img {
-  width: 20px;
-  height: 20px;
-  /* max-width: 20px; */
-  align-self: center;
-  vertical-align: middle;
-  max-width: 30px;
-}
-
-.icono-grande,
-.config-grande {
-  width: 20px;
-  height: 20px;
-  display: none;
-}
-
-.extra,
-.config-chico {
-  height: 20px;
-  width: 20px;
+/* LABEL HEADER ***********************************/
+#fijo header label {
+    width: 100%;
+    margin-left: 0;
+    text-align: center;
+    font-size: 1.1em;
+    color: #ffffff;
 }
 
 header span {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-  width: 20%;
-  padding-right: 3%;
+    display: flex;
+    margin-right: 3%;
 }
 
-#opcionCerrarSesion {
-  visibility: hidden;
-  background-color: #002664;
-  position: absolute;
-  top: 7%;
-  width: 33%;
-  text-align: center;
-  border-radius: 8px;
-  padding: 1%;
-  right: 5%;
-  box-shadow: 3px 7px 6px 1px rgba(0, 0, 0, 0.66);
-}
-
-#opcionCerrarSesion label {
-  margin: auto;
-  padding: 0;
-  font-weight: normal !important;
-}
-
-#opcionCerrarSesion:hover label {
-  font-weight: bold;
-}
-
-#btn-agregar {
-  margin-right: 21px;
+#main-aulas {
+    flex-grow: 1;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 #lista-Aulas {
-  padding: 2%;
-  /* margin-top: 2%; */
-  flex-grow: 1;
-  overflow-y: auto;
-  height: calc(85vh - 100px);
-  overflow-x: hidden;
+    list-style: none;
+    overflow-y: scroll;
 }
 
-#lista-Aulas li {
-  background-color: #335183;
-  color: #ffffff;
-  padding: 4%;
-  font-size: 0.8em;
-  justify-content: space-between;
-  display: flex;
-  border-radius: 15px;
-  margin-bottom: 5%;
-  font-weight: 500;
-  align-items: center;
-}
-
-#lista-Aulas li i {
-  align-self: center;
-  font-size: 1.3em;
-  margin-right: 3%;
-}
-
-    #lista-Aulas li label {
-        /* NUEVO */
-        width: 70%;
+    #lista-Aulas li {
+        background-color: #002664;
     }
 
-#lista-Aulas div {
-  height: 5%;
-  width: 5%;
+.opciones-elemento {
+    background-color: #d9d9d9;
 }
 
-.swipe-item span {
+    .opciones-elemento img {
+        width: 15px;
+    }
+
+#fijo {
+    overflow-y: hidden;
+}
+
+    /*********************************** MOVILES **************************************************/
+
+    /* VISTA VER AULAS ******************************************/
+    #fijo header label {
+        font-size: 0.7em;
+    }
+
+#btn-menu1 {
+    width: 7%;
+}
+
+.config-grande {
+    width: 25px;
+}
+
+#menu-flotante {
+    display: none;
+}
+
+/* MENU LATERAL MOVILES ********************/
+
+#menu-flotanteMoviles {
+    top: 0;
+    position: absolute;
+    background-color: #002664;
+    height: 100%;
+    width: 0%;
+    border: 1px solid #b9b9b9;
+    border-radius: 0px 20px 20px 0px;
+    box-shadow: 10px 10px 5px -5px rgba(0, 0, 0, 0.33);
+    transition: 300ms ease-in-out;
+}
+
+    #menu-flotanteMoviles ul {
+        overflow: hidden;
+    }
+
+    #menu-flotanteMoviles.abrir {
+        width: 40%;
+    }
+
+    #menu-flotanteMoviles.cerrar {
+        width: 0%;
+    }
+
+    #menu-flotanteMoviles ul {
+        height: 40%;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        list-style: none;
+        margin-top: 50%;
+    }
+
+        #menu-flotanteMoviles ul li {
+            width: 100%;
+            padding-left: 15%;
+            display: flex;
+        }
+
+            #menu-flotanteMoviles ul li label {
+                align-self: center;
+                margin-left: 7%;
+                color: #ffffff;
+            }
+
+        #menu-flotanteMoviles ul a {
+            text-decoration: none;
+        }
+
+    #menu-flotanteMoviles img {
+        width: 30px;
+        height: 30px;
+    }
+
+    #menu-flotanteMoviles li a span {
+        display: flex;
+    }
+
+/* *************************************** */
+
+#lista-Aulas {
     display: flex;
     flex-direction: column;
-    /* NUEVO */
-    text-align: left;
-    width: 72%;
-}
+    margin: 4%;
+    height: calc(98vh - 100px);
 }
 
-.reveal-left a,
-.reveal-right a {
-  color: #ffffff;
-  align-self: center;
+    #lista-Aulas li {
+        margin-bottom: 3%;
+        border-radius: 15px;
+        padding: 4%;
+        color: #ffffff;
+        font-size: 0.8em;
+        display: flex;
+    }
+
+        #lista-Aulas li label {
+            width: 70%;
+            align-self: center;
+        }
+
+.opciones-elemento {
+    width: 30%;
+    display: flex;
+    justify-content: space-evenly;
+    border-radius: 10px;
+    height: 30px;
 }
 
-.reveal-left,
-.reveal-right {
-  /* visibility: hidden; */
-  opacity: 0;
+    .opciones-elemento img {
+        height: 100%;
+    }
+
+.lapiz-blanco,
+.trash-blanco {
+    display: none;
 }
 
-/* MENU FLOTANTE ADMIN */
-#menu-flotante {
-  background-color: #002664;
-  border-radius: 90px;
-  padding: 1%;
-  width: 80%;
-  height: 10%;
-  max-height: 100%;
-  max-width: 80%;
-  margin: auto;
-  position: absolute;
-  top: 89%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  box-shadow: 0px 8px 21px -9px rgba(0, 0, 0, 0.7);
+#boton-Agregar {
+    background-color: #3d6db8;
+    width: 70px;
+    height: 70px;
+    border-radius: 50px;
+    position: absolute;
+    text-align: center;
+    top: 85%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: -3px 6px 5px -3px rgba(0, 0, 0, 0.75);
 }
 
-#menu-flotante ul {
-  list-style: none;
-  color: #ffffff;
-  display: flex;
-  justify-content: space-around;
-  text-align: center;
-  height: 100%;
-  align-content: center;
-  width: 100%;
-  position: relative;
-  align-self: center;
+    #boton-Agregar img {
+        width: 65px;
+        align-self: center;
+        margin-top: 4%;
+    }
+
+/* VISTA VER EQUIPOS ************************************************/
+.info-equipo {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
 }
 
-#menu-flotante ul li {
-  display: flex;
-  flex-direction: column;
-  width: 22%;
-  align-content: center;
-  border-radius: 50%;
-  padding-left: 1%;
+    .info-equipo label {
+        align-self: flex-start !important;
+    }
+
+/* VISTA VER TIPOS ********************************************/
+
+.span-tipo {
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
-/* CLASE PARA OPCION SELECCIONADA DEL MENU FLOTANTE */
-.seleccionado {
-  background-color: #d9dfe8;
-  color: #002664;
+    .span-tipo img {
+        width: 35px;
+    }
+
+    .span-tipo label {
+        margin-left: 5%;
+    }
+
+/* * */
+.opciones-elemento {
+    align-self: center;
 }
 
-.selec {
-  font-weight: bold;
+/* HEADERS POSICION ***********************************/
+.body-headers {
+    position: fixed;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
-.s {
-  color: #002664 !important;
+/* VISTA AGREGAR EQUIPO ***********************/
+
+#main-agregaraula {
+    padding-top: 30%;
+    display: flex;
+    flex-direction: column;
 }
 
-/* ********************************************************** */
+    #main-agregaraula label {
+        width: 80%;
+        margin: auto;
+        font-weight: bolder;
+    }
 
-#menu-flotante ul li label {
-  font-size: 0.8em;
+    #main-agregaraula input {
+        width: 80%;
+        margin: auto;
+        border-radius: 20px;
+        padding: 5px;
+        font-size: 0.8em;
+        margin-top: 3%;
+        border: 1px solid black;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        outline: none;
+        margin-bottom: 5%;
+    }
+
+#excepcion {
+    color: red;
+    font-size: 0.8em;
+    text-align: center;
+    font-weight: normal;
 }
 
-#menu-flotante ul li i {
-  font-size: 1.2em;
-  color: #ffffff;
-  margin-top: 25%;
+#main-agregarEquipo {
+    padding-top: 10%;
+    height: calc(100vh - 20px);
+    overflow-y: scroll;
 }
 
-#menu-flotante a {
-  width: 95%;
-  height: 40%;
-  justify-content: space-between;
-  text-align: center;
-  margin-top: 10%;
+    #main-agregarEquipo > label {
+        font-weight: bold;
+        padding-left: 10%;
+        width: 100%;
+        display: block;
+        margin-top: 3%;
+    }
+
+#grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-content: center;
+    text-align: center;
+    margin: 5%;
+    margin-top: 2%;
 }
 
-#menu-flotante img {
-  width: 90%;
-  height: 90%;
+#grid1 {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    align-content: center;
+    text-align: center;
+    margin: 5%;
+    margin-top: 4%;
 }
 
-/* VISTA AGREGAR AULA **************************/
-/* #btn-regresar,
-#btn-sig {
-  margin-left: 7%; 
-  align-self: center;
-} */
+#grid picture img {
+    width: 45%;
+    padding: 5%;
+}
+
+#grid1 picture img {
+    width: 45%;
+    padding: 5%;
+}
+
+#grid span {
+    background-color: #002664;
+    margin: 8%;
+    color: #ffffff;
+    border-radius: 10px;
+    padding-bottom: 3%;
+    text-align: center;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+}
+
+#grid1 span {
+    background-color: #002664;
+    margin: 8%;
+    color: #ffffff;
+    border-radius: 10px;
+    padding-bottom: 3%;
+    text-align: center;
+    font-weight: 500;
+    display: flex;
+    flex-direction: column;
+}
+
+.opcion-seleccionada {
+    background-color: #335183 !important;
+}
 
 #btn-regresar {
-  margin-left: 90%;
+    width: 15px;
+    margin-left: 50%;
+    align-self: center;
+}
+
+.sig-btn {
+    width: 15px;
+    margin-right: 1%;
+    align-self: center;
+}
+
+.opcion-seleccionada {
+    background-color: #335183 !important;
 }
 
 #btn-accion {
-  margin-right: 4%;
-  align-self: center;
-  font-size: 0.9em;
-  color: #ffffff;
-  padding: 2px;
+    margin-right: 5%;
+    align-self: center;
+    font-size: 0.7em;
+    color: #ffffff !important;
+    padding: 2px;
+    text-decoration: none;
 }
 
-#main-agregaraula {
-  display: flex;
-  flex-direction: column;
-  margin-top: 30%;
-}
-
-#main-agregaraula label {
-  width: 80%;
-  margin: auto;
-  font-weight: bolder;
-}
-
-#main-agregaraula input {
-  width: 80%;
-  margin: auto;
-  border-radius: 20px;
-  padding: 5px;
-  font-size: 0.8em;
-  margin-top: 3%;
-  border: 1px solid black;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-  outline: none;
-  margin-bottom: 5%;
-}
-
-#excepcion {
-  color: red;
-  font-size: 0.8em;
-  text-align: center;
-  font-weight: normal;
+.add {
+    margin-right: 13% !important;
 }
 
 /* VISTA ELIMINAR AULA ***********************************************/
 #main-eliminarraula {
-  display: flex;
-  flex-direction: column;
-  margin-top: 30%;
-  justify-self: center;
-  align-self: center;
-  font-size: 1.1em;
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-self: center;
+    font-size: 1.1em;
+    padding-top: 30%;
 }
 
-#main-eliminarraula section {
-  display: flex;
-  flex-direction: column;
-}
-
-#main-eliminarraula span {
-  align-items: center;
-  text-align: center;
-  margin-bottom: 5%;
-  font-weight: 500;
-  display: flex;
-  flex-direction: column;
-}
-
-#main-eliminarraula label {
-  text-align: center;
-  background-color: #335183;
-  color: #ffffff;
-  border-radius: 9px;
-  padding: 2%;
-  font-weight: bold;
-  display: inline-block;
-  width: 50%;
-  max-width: 90%;
-}
-
-#span2 {
-  margin-top: 5%;
-}
-
-#main-eliminarraula img {
-  width: 37%;
-  align-self: center;
-  margin-top: 20%;
-}
-
-#main-eliminarraula picture {
-  align-self: center;
-  text-align: center;
-}
-.regresar-btn {
-  margin-left: 7%;
-  align-self: center;
-}
-
-.sig-btn {
-  margin-right: 7%;
-  align-self: center;
-  font-size: 1.5em;
-}
-
-/* VISTA VER EQUIPOS ******************************************/
-.letra-bold {
-  font-weight: bold;
-}
-
-/* VISTA AGREGAR EQUIPO TIPO *****************************************/
-#main-agregarEquipo {
-  padding-top: 15%;
-}
-
-#main-agregarEquipo > label {
-  font-weight: bold;
-  padding-left: 10%;
-}
-
-#grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  align-content: center;
-  text-align: center;
-  margin: 5%;
-  margin-top: 10%;
-}
-
-#grid picture img {
-  width: 45%;
-  padding: 5%;
-}
-
-#grid span {
-  background-color: #002664;
-  margin: 8%;
-  color: #ffffff;
-  border-radius: 10px;
-  padding-bottom: 3%;
-  text-align: center;
-  font-weight: 500;
-  display: flex;
-  flex-direction: column;
-}
-
-.opcion-seleccionada {
-  background-color: #335183 !important;
-}
-
-/* VISTA AGREGAR EQUIPO (LAB) *************************/
-#main-agregarEquipo > label {
-  width: 100%;
-  display: block;
-}
-
-#grid1 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  align-content: center;
-  text-align: center;
-  margin: 5%;
-  margin-top: 10%;
-}
-
-#grid1 picture img {
-  width: 45%;
-  padding: 5%;
-}
-
-#grid1 span {
-  background-color: #002664;
-  margin: 8%;
-  color: #ffffff;
-  border-radius: 10px;
-  padding-bottom: 3%;
-  text-align: center;
-  font-weight: 500;
-  display: flex;
-  flex-direction: column;
-}
-
-/* VISTA TIPOS ADMIN *************************************************/
-
-.span-tipo {
-    /* NUEVO */
-    display: flex !important;
-    flex-direction: row !important;
-}
-
-    .span-tipo picture {
-        /* NUEVO */
-        width: 13%;
+    #main-eliminarraula section {
+        display: flex;
+        flex-direction: column;
     }
 
+    #main-eliminarraula span {
+        align-items: center;
+        text-align: center;
+        margin-bottom: 5%;
+        font-weight: 500;
+        display: flex;
+        flex-direction: column;
+    }
 
-.span-tipo img {
-    /* NUEVO */
-    width: 100%;
-    align-self: flex-start;
+    #main-eliminarraula label {
+        text-align: center;
+        background-color: #335183;
+        color: #ffffff;
+        border-radius: 9px;
+        padding: 2%;
+        font-weight: bold;
+        display: inline-block;
+        width: 50%;
+        max-width: 90%;
+        overflow-wrap: break-word;
+    }
+
+    #main-eliminarraula img {
+        width: 37%;
+        align-self: center;
+        margin-top: 15%;
+    }
+
+    #main-eliminarraula picture {
+        align-self: center;
+        text-align: center;
+    }
+
+#span2 {
+    margin-top: 5%;
 }
 
-.span-tipo label {
-    /* NUEVO */
-    padding: 0;
-    align-content: center;
-    padding-left: 5%;
-}
-
-.tipo-estilo {
-    /* NUEVO */
-    padding: 3% !important;
+.sig-palabra {
+    width: auto !important;
+    margin-right: 1% !important;
+    color: #ffffff !important;
 }
 
 /* VISTA AGREGAR TIPO (ICONO) ****************************************/
 #file {
-  border: 0 !important;
-  box-shadow: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
 }
 
 .div-upload {
-  align-self: center;
-  width: 70%;
-  height: 40vh;
-  display: flex;
-  flex-direction: column;
-  margin-top: 5%;
-  justify-content: center;
+    align-self: center;
+    width: 70%;
+    height: 40vh;
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+    justify-content: center;
 }
 
-.div-upload span {
-  width: 35%;
-  align-self: flex-end;
-  display: flex;
-  padding: 1%;
-  justify-content: space-around;
-}
+    .div-upload span {
+        width: 35%;
+        align-self: flex-end;
+        display: flex;
+        padding: 1%;
+        justify-content: space-around;
+    }
 
-.div-upload label img {
-  background-color: #335183;
-  font-size: 1.5em;
-  padding: 7%;
-  border-radius: 5px;
-  width: 90%;
-  height: 90%;
-}
+    .div-upload label img {
+        background-color: #335183;
+        font-size: 1.5em;
+        padding: 7%;
+        border-radius: 5px;
+        width: 90%;
+        height: 90%;
+    }
 
 .uno {
-  width: 65%;
-  height: 65%;
+    width: 65%;
+    height: 65%;
 }
 
 .dos {
-  width: 65%;
-  height: 65%;
+    width: 65%;
+    height: 65%;
 }
 
 .div-upload input[type="file"] {
-  display: none;
+    display: none;
 }
 
 .contenedor-img {
-  width: 95%;
-  margin-top: 10%;
-  text-align: center;
-  border: 1px solid #b9b9b9;
-  border-radius: 15px;
-  padding: 10%;
-  align-self: center;
-  height: 80%;
+    width: 95%;
+    margin-top: 10%;
+    text-align: center;
+    border: 1px solid #b9b9b9;
+    border-radius: 15px;
+    padding: 10%;
+    align-self: center;
+    height: 85%;
 }
 
-.contenedor-img img {
-  position: relative;
-  width: 50%;
-}
+    .contenedor-img img {
+        position: relative;
+        width: 50%;
+    }
 
-.contenedor-img figcaption {
-  margin-top: 10%;
-}
+    .contenedor-img figcaption {
+        margin-top: 10%;
+    }
 
-/* #add-icono main {
-  background-color: brown;
-  margin-top: 8%;
-} */
+.add1 {
+    margin-right: 12% !important;
+}
 
 /* VISTA PRINCIPAL ENCARGADO ****************************************/
 #body-encargado {
-  overflow-y: hidden;
+    overflow-y: hidden;
 }
 
-#body-encargado header label {
-  justify-self: center;
-  text-align: center;
-  width: 100%;
-}
+    #body-encargado header label {
+        justify-self: center;
+        text-align: center;
+        width: 100%;
+        color: #ffffff;
+    }
 
 #iconofiltros-movil {
-  margin-right: 7%;
-  width: 18px;
-  height: 18px;
-}
-
-.conf-encargado {
-  margin-left: auto;
-}
-
-.filtros input {
-  display: none;
-}
-
-.filtros select {
-  display: none;
-}
-
-#btn-buscar {
-  display: none;
-}
-
-#lista-reportesEncargado {
-  list-style: none;
-  margin: 2% 3% 0% 2%;
-  width: 94%;
-  color: #ffffff;
-  padding: 1%;
-  font-size: 1.2em;
-  overflow-y: scroll !important;
-  height: calc(100vh - 100px);
-}
-
-#lista-reportesEncargado li {
-  border-radius: 10px;
-  background-color: #335183;
-  padding: 3%;
-  display: flex;
-  width: 100%;
-  margin-bottom: 2%;
-  font-size: 0.7em;
-}
-
-.num {
-  font-weight: bold;
-}
-
-#lista-reportesEncargado li img {
-  width: 20px;
-  height: 20px;
-  margin-left: auto;
-}
-
-#lista-reportesEncargado li span {
-  display: flex;
-  flex-direction: column;
-  font-size: 0.8em;
-  justify-content: space-between;
-  /* width: 95%; */
-}
-
-#filtros-flotante {
-  background-color: #002664;
-  display: flex;
-  flex-direction: column;
-}
-
-#filtros-flotante span {
-  display: flex;
-  flex-direction: column;
-  color: #ffffff;
-  justify-content: center;
-}
-
-#filtros-flotante span input {
-  width: 55%;
-}
-
-#btn-cerrarFiltros {
-  width: 18px;
-  height: 18px;
-  margin-left: auto;
-  margin-right: 9%;
-  margin-top: 3%;
-}
-
-.lbl-completado {
-  background-color: #d9dfe8;
-  margin-left: auto;
-  height: fit-content;
-  font-size: 0.7em;
-  color: #002664;
-  padding: 0.8%;
-  border-radius: 5px;
+    width: 16px;
+    height: 16px;
+    margin-left: 2%;
 }
 
 /* FILTROS PARA MOVIL ******************************************/
+
 #filtros-flotante {
+    background-color: #002664;
+    display: flex;
+    flex-direction: column;
     border: 1px solid #ffffff;
     margin: 1%;
     width: 92%;
@@ -678,15 +553,15 @@ header span {
 }
 
     #filtros-flotante span {
+        display: flex;
+        flex-direction: column;
+        color: #ffffff;
+        justify-content: center;
         margin: 1%;
         margin-bottom: 8%;
         padding-left: 10%;
         font-size: 0.8em;
         font-weight: 600;
-    }
-
-    #filtros-flotante label {
-        margin-bottom: 2%;
     }
 
     #filtros-flotante input {
@@ -705,6 +580,10 @@ header span {
         border: none;
         padding: 1%;
         border-radius: 15px;
+    }
+
+    #filtros-flotante label {
+        margin-bottom: 2%;
     }
 
 #btn-Aplicar {
@@ -726,703 +605,1561 @@ header span {
     margin-top: 3%;
 }
 
-/* HEADERS POSICION ***********************************/
-.body-headers {
-  position: fixed;
-  width: 100%;
-}
-
-/* MEDIA QUERIES **********************************************/
-
-/* VISTA ELIMINAR AULA */
-@media (width > 1000px) {
-  #main-eliminarraula {
-    margin-top: 4%;
-  }
-
-  #main-eliminarraula img {
-    margin-top: 0%;
-  }
-}
-
-@media (width >= 440px) {
-  /* VISTA AGREGAR AULA */
-  #main-agregaraula {
-    margin-top: 10%;
-  }
-
-  #btn-regresar:hover {
-    transition: all 0.3s;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  #btn-accion {
-    font-size: 1em;
-  }
-
-  #btn-accion:hover {
-    transition: all 0.1s;
-    font-weight: bold;
-    cursor: pointer;
-  }
-
-  #main-agregaraula input {
-    height: 40px;
-  }
-
-  .regresar-btn {
-    margin-left: 3%;
-  }
-}
-
-/* TABLETAS *************************************************************************/
-@media (min-width: 765px) and (max-width: 1024px) {
-  /* VISTA VER AULAS ******************************************/
-
-  header label {
-    font-size: 1em;
-  }
-
-  #lista-Aulas li {
-    padding: 3%;
-  }
-
-  #lista-Aulas li img {
-    height: 23px;
-    width: 23px;
-  }
-
-  .seleccionado {
-    max-width: 150px;
-    max-height: 150px;
-  }
-
-  #menu-flotante li {
-    width: 18% !important;
-  }
-
-  #menu-flotante li img {
-    margin-top: 5%;
-  }
-
-  #menu-flotante li label {
-    margin-top: 5%;
-  }
-
-  #opcionCerrarSesion {
-    width: 18%;
-    padding: 1%;
-  }
-
-  /* VISTA AGREGAR EQUIPO (TIPO) **************************/
-  #main-agregarEquipo {
-    padding-top: 4%;
-  }
-
-  #grid,
-  #grid1 {
-    margin-top: 4%;
-    align-items: center;
-    justify-items: center;
-    grid-template-columns: repeat(3, 1fr);
-  }
-
-  #eq-tipo {
-    margin-top: 5%;
-  }
-
-  #grid span {
-    width: 70%;
-    height: 70%;
-  }
-
-  #grid label {
-    padding-bottom: 5%;
-  }
-
-  #grid img {
-    width: 45% !important;
-  }
-
-  /* VISTA AGREGAR EQUIPO (LAB) ****************************/
-  #eq-aula {
-    padding-top: 10%;
-  }
-
-  #grid1 span {
-    width: 70%;
-    height: 70%;
-  }
-
-  #grid1 img {
-    width: 45% !important;
-  }
-
-  /* VISTA VER TIPOS ****************************************/
-  .span-tipo img {
-    width: 40px !important;
-    height: 40px !important;
-    margin: 0;
-  }
-
-  /* VISTA PRINCIPAL ENCARGADO ******************************/
-
-  #iconofiltros-movil {
+.filtros {
     display: none;
-  }
+}
 
-  #principal-encargado {
-    padding-top: 3%;
-  }
+#lista-reportesEncargado {
+    margin: 3%;
+    margin-top: 5%;
+    overflow-y: scroll;
+    height: calc(94vh - 100px);
+}
 
-  .titulo-encargado {
-    text-align: left !important;
-  }
+    #lista-reportesEncargado li {
+        background-color: #002664;
+        display: flex;
+        flex-direction: column;
+        padding: 4%;
+        margin-bottom: 3%;
+        border-radius: 20px;
+        box-shadow: 3px 5px 2px 0px rgba(0, 0, 0, 0.3);
+        /* overflow-y: scroll;
+  scrollbar-width: none; */
+    }
 
-  .filtros {
-    height: 6vh;
-    align-content: center;
-    display: flex;
-    justify-content: space-between;
-    margin: 0 1% 1% 3%;
-  }
+        #lista-reportesEncargado li span {
+            display: flex;
+        }
 
-  .filtros input {
-    height: 40%;
-    max-height: 40px;
-    align-self: center;
-    width: 20%;
-    border: none;
-    border-radius: 5px;
+.estado {
+    align-items: center;
+    margin-bottom: 1%;
+}
+
+.circulo {
+    background-color: #9edf9c;
+    width: 12px;
+    height: 12px;
+    border-radius: 40px;
+}
+
+.lbl-estado {
+    margin-left: 1%;
+    color: #9edf9c;
+    font-size: 0.7em;
+}
+
+.marca-completado {
+    background-color: #ffffff;
+    color: #002664;
+    width: 40%;
+    font-size: 0.7em;
     text-align: center;
-    border: 1px solid #a6a6a6;
-    box-shadow: 0px 3px 12px -3px rgba(0, 0, 0, 0.75);
-    height: 100%;
-    display: inline;
-  }
-
-  .filtros select {
-    height: 40%;
-    align-self: center;
-    width: 20%;
-    height: 100%;
-    max-height: 40px;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-    border: 1px solid #a6a6a6;
-    box-shadow: 0px 3px 12px -3px rgba(0, 0, 0, 0.75);
-    color: black !important;
-    text-align: center;
-    vertical-align: middle;
-    display: inline;
-  }
-
-  #btn-buscar {
-    display: inline;
-    width: 31px;
-    height: 32px;
-    align-self: center;
-    margin-right: 7%;
-    cursor: pointer;
-  }
-
-  #lista-reportesEncargado {
-    list-style: none;
-    margin: 2% 3% 0% 2%;
-    width: 92%;
-    color: #ffffff;
-    padding: 1%;
-    overflow-y: scroll !important;
-    height: calc(90vh - 100px);
-  }
-
-  #lista-reportesEncargado li {
-    border-radius: 15px;
-    background-color: #335183;
-    padding: 2%;
-    display: flex;
-    width: 100%;
-    margin-bottom: 2%;
-    font-size: 1em;
-  }
-
-  .num {
-    font-weight: bold;
-  }
-
-  #lista-reportesEncargado li img {
-    width: 25px;
-    height: 25px;
+    padding: 0.5%;
     margin-left: auto;
-  }
+    border-radius: 10px;
+    margin-bottom: 2%;
+    box-shadow: 3px 5px 2px 0px rgba(0, 0, 0, 0.3);
+}
 
-  #lista-reportesEncargado li span {
+.problema {
+    color: #ffffff;
+    margin-bottom: 13px;
+    align-items: center;
+    font-size: 0.9em;
+}
+
+    .problema label {
+        margin-left: 2%;
+        overflow-wrap: break-word;
+    }
+
+.inf {
+    color: #ffffff;
+    font-size: 0.8em;
+}
+
+#lista-reportesEncargado li img {
+    width: 14px;
+    height: 14px;
+    align-self: flex-start;
+}
+
+/* VISTA DETALLES REPORTE ********************************/
+#body-detalles {
+    display: block;
+}
+
+    #body-detalles main {
+        padding-top: 14%;
+    }
+
+.title {
+    margin-left: 5%;
+    font-weight: bold;
+}
+
+#detalles {
+    margin: 4%;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-row-gap: 3%;
+    grid-column-gap: 4%;
+    height: 75vh;
+    overflow-y: scroll;
+}
+
+    #detalles img {
+        width: 20px;
+        height: 100%;
+        margin-left: 5%;
+    }
+
+    #detalles div {
+        display: flex;
+        flex-direction: column;
+        background-color: #d9dfe8;
+        min-height: 100px;
+        border-radius: 20px;
+        padding: 2%;
+        box-shadow: 1px 1px 5px -2px rgba(0, 0, 0, 0.75);
+    }
+
+        #detalles div > label {
+            font-weight: bold;
+            margin-left: 5%;
+            font-size: 0.8em;
+            margin-top: 3%;
+        }
+
+        #detalles div span {
+            align-items: center;
+            overflow-wrap: break-word;
+            margin-top: 1%;
+            display: flex;
+            height: 100%;
+        }
+
+            #detalles div span label {
+                width: 90%;
+                margin-left: 5%;
+            }
+
+.ultimo {
+    grid-column: 1/3;
+    height: fit-content;
+    min-height: 100px;
+}
+
+    .ultimo span {
+        height: 100%;
+    }
+
+        .ultimo span label {
+            height: 100%;
+        }
+
+    .ultimo img {
+        align-self: flex-start;
+    }
+
+/* VISTA INVITADO VER REPORTES ENVIADOS ************************/
+
+.titulo-repEnviados {
+    display: flex;
+    margin-top: 4%;
+    margin-left: 4%;
+    font-size: 0.9em;
+}
+
+.rep-enviados {
+    margin-top: 4%;
+}
+
+/* VISTA INVITADO DESCRIPCION ************************************/
+#main-Desc {
     display: flex;
     flex-direction: column;
-    font-size: 0.8em;
-  }
+}
 
-  .lbl-completado {
-    padding: 0.7%;
+.lbl-desc {
+    display: block;
+    margin-top: 15%;
+    margin-left: 10%;
+    font-weight: bold;
+}
+
+textarea {
+    resize: none;
+    width: 75%;
+    height: 220px;
+    align-self: center;
+    margin-top: 20%;
+    padding: 2%;
+    border: 1px solid #b9b9b9;
+    border-radius: 15px;
+    box-shadow: -1px 3px 5px -2px rgba(0, 0, 0, 0.75);
+}
+
+#main-confirmacion label {
+    font-size: 1.5em;
+    text-align: center;
+    display: flex;
+    width: 70%;
+    justify-self: center;
+    margin-top: 45%;
+    font-weight: bold;
+}
+
+#main-confirmacion img {
+    width: 85px;
+    height: 85px;
+    display: flex;
+    justify-self: center;
+    margin-top: 4%;
+}
+
+#main-confirmacion button {
+    background-color: #002664;
+    color: #ffffff;
+    padding: 1.5%;
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    justify-self: center;
+    margin-top: 20%;
+    box-shadow: -1px 1px 5px 0px rgba(0, 0, 0, 0.75);
+    font-size: 1em;
+}
+
+/* VISTA LOG IN ************************************************************************/
+
+#body-logIn {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+    #body-logIn header {
+        background-color: #ffffff;
+        display: flex;
+        flex-direction: column;
+    }
+
+#logo {
+    height: 110px;
+    width: 110px;
+    justify-self: center;
+    margin-top: 5%;
+    padding: 1.5%;
+    border: 2px solid #002664;
+    border-radius: 55px;
+    box-shadow: -1px 5px 5px 0px rgba(0, 0, 0, 0.75);
+}
+
+#body-logIn h3 {
+    color: #002664;
+    text-align: center;
+    width: 70%;
+    margin-top: 4%;
+}
+
+#body-logIn main {
+    margin-top: 9%;
+    width: 95%;
+}
+
+.lbl-log {
+    font-size: 0.6em;
+    margin-left: 7%;
+    color: #758694;
+}
+
+#form-LogIn {
+    display: flex;
+    flex-direction: column;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+    #form-LogIn div {
+        align-content: center;
+        justify-content: center;
+        text-align: center;
+        position: relative;
+    }
+
+    #form-LogIn img {
+        position: absolute;
+        height: 3%;
+        margin-top: 3%;
+        margin-left: 4%;
+        height: 15px;
+        width: 15px;
+    }
+
+.input-field {
+    width: 80%;
+    padding: 10px;
+    text-align: center;
+    height: 35px;
+    justify-self: center;
+    align-self: center;
+    border: 1px solid #b9b9b9;
+    border-radius: 20px;
+}
+
+    .input-field::placeholder {
+        color: #bbbbbb;
+        font-size: 0.8em;
+    }
+
+.pass {
+    margin-top: 6%;
+}
+
+.excepcion {
+    display: flex;
+    width: 80%;
+    justify-self: center;
+    justify-content: center;
+    font-size: 0.8em;
+    color: #c7253e;
+}
+
+#body-logIn button {
+    background-color: #033e8c;
+    color: #ffffff;
+    border: none;
+    display: flex;
+    justify-self: center;
+    margin-top: 8%;
+    padding: 1%;
+    font-size: 1em;
+    width: 40%;
+    justify-content: center;
+    border-radius: 20px;
+    box-shadow: -3px 1px 5px 0px rgba(0, 0, 0, 0.75);
+}
+/* 
+#body-logIn a {
+  display: flex;
+  margin-top: 15%;
+  justify-content: center;
+  color: #1230ae;
+  text-decoration: none;
+  font-size: 0.8em;
+}
+
+#body-logIn a span {
+  margin-left: 1%;
+  text-decoration: underline;
+  font-weight: bold;
+} */
+
+.link-log {
+    margin-top: 10%;
+    display: flex;
+    align-items: center;
+    height: 5%;
+    overflow: hidden;
+    text-align: center;
+    justify-content: center;
+    font-size: 0.8em;
+    color: #1230ae;
+}
+
+    .link-log a {
+        height: 100%;
+        margin-left: 1%;
+        font-size: 0.9em !important;
+        align-self: center;
+        margin-bottom: 1%;
+        color: #1230ae;
+        font-weight: bold;
+    }
+
+/* OPCION CERRAR SESION *******************************************************/
+#opcionCerrarSesion {
+    visibility: hidden;
+    background-color: #002664;
+    position: absolute;
+    top: 40px;
+    width: 30%;
+    text-align: center;
     border-radius: 8px;
-  }
+    padding: 0.5%;
+    right: 5%;
+    font-size: 0.8em;
+    color: #ffffff;
+    box-shadow: 3px 7px 6px 1px rgba(0, 0, 0, 0.66);
+}
+
+/************************************** ESCRITORIO ************************************/
+
+@media (min-width: 1024px) {
+    #fijo header label {
+        font-size: 1em;
+    }
+
+    #btn-menu {
+        display: none;
+    }
+
+    #menu-flotanteMoviles {
+        display: none;
+    }
+
+    #btn-regresar {
+        width: 17px;
+    }
+
+    .sig-btn {
+        width: 17px;
+    }
+
+    /* ICONO HEADER ***********************************/
+    .config-grande {
+        width: 35px;
+        height: 35px;
+    }
+
+    .config-chico {
+        display: none;
+    }
+
+    /* VISTA LISTA DE AULAS **************************/
+
+    #lista-Aulas {
+        width: 90%;
+        padding: 1%;
+        max-width: 85%;
+        margin: 2% 1% 1% 14%;
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: minmax(80px, 185px);
+        grid-row-gap: 20%;
+        grid-column-gap: 15px;
+        height: calc(98vh - 100px);
+    }
+
+        #lista-Aulas li {
+            width: 100%;
+            height: 100%;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            font-size: 1.1em;
+            color: #ffffff;
+            align-items: center;
+            padding: 5%;
+            text-align: center;
+            border-radius: 15px;
+            box-shadow: 3px 5px 2px 0px rgba(0, 0, 0, 0.3);
+        }
+
+        #lista-Aulas label {
+            margin-bottom: 10%;
+            text-wrap: wrap;
+            height: 50%;
+            align-content: center;
+            font-size: 1em;
+        }
+
+    /* VISTA VER EQUIPOS ***********************************/
+
+    .info-equipo {
+        display: flex;
+        flex-direction: column;
+        height: 50%;
+        margin-bottom: 10%;
+        margin-top: 2%;
+        width: 95%;
+    }
+
+        .info-equipo label {
+            width: 100% !important;
+            padding: 0;
+            margin: 0 !important;
+        }
+
+    .bold {
+        font-weight: bold;
+    }
+    /* * */
+    .opciones-elemento {
+        width: 60%;
+        display: flex;
+        justify-content: space-evenly;
+        border-radius: 20px;
+        height: 30px;
+        min-height: 30px;
+        align-items: center;
+    }
+
+        .opciones-elemento span {
+            height: 30px;
+            width: 30px;
+            border-radius: 15px;
+        }
+
+            .opciones-elemento span img {
+                width: 15px;
+                height: 18px;
+                align-self: center;
+                margin-top: 20%;
+            }
+
+    /* VISTA VER TIPOS *******************************/
+
+    .span-tipo {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+
+        .span-tipo img {
+            width: 45px;
+            max-width: 45px;
+            height: 45px;
+            max-height: 45px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .span-tipo label {
+            width: 100% !important;
+            margin-bottom: 7% !important;
+            margin-top: 3px !important;
+            margin-left: 0px !important;
+        }
+
+    .nombre-lab {
+        overflow-y: scroll;
+        scrollbar-width: none;
+    }
+
+    /* EFECTO HOVER EN OPCIONES ******************/
+
+    .lapiz-blanco {
+        display: none;
+    }
+
+    .span-editar:hover {
+        background-color: #002664;
+        transition: all 0.1s ease;
+    }
+
+        .span-editar:hover .lapiz-normal {
+            display: none;
+        }
+
+        .span-editar:hover .lapiz-blanco {
+            display: inline;
+            cursor: pointer;
+        }
+
+    .trash-blanco {
+        display: none;
+    }
+
+    .span-eliminar:hover {
+        background-color: #002664;
+        transition: all 0.1s ease;
+    }
+
+        .span-eliminar:hover .trash-normal {
+            display: none;
+        }
+
+        .span-eliminar:hover .trash-blanco {
+            display: inline;
+            cursor: pointer;
+        }
+
+    #menu-flotante {
+        display: flex;
+        border: 1px solid #b9b9bb;
+        background-color: #002664;
+        color: #ffffff;
+        position: absolute;
+        top: 0%;
+        height: 100%;
+        width: 10%;
+        min-width: 20px;
+        border-radius: 0px 23px 23px 0px;
+        left: 0%;
+        box-shadow: 10px 10px 5px -5px rgba(0, 0, 0, 0.33);
+    }
+
+        #menu-flotante ul {
+            list-style: none;
+            height: 70%;
+            align-content: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin-top: 50%;
+        }
+
+            #menu-flotante ul li {
+                display: flex;
+                flex-direction: column;
+                text-align: center;
+            }
+
+    .seleccionado {
+        background-color: #d9dfe8;
+        border-radius: 100%;
+        height: 100px;
+        min-height: 100px;
+        width: 100px;
+        align-self: center;
+        padding-top: 10%;
+    }
+
+    .selec {
+        font-weight: bold;
+        color: #002664;
+    }
+
+    #menu-flotante ul img {
+        margin-top: 10%;
+        width: 28%;
+    }
+
+    /* BOTON AGREGAR FLOTANTE *****************************/
+    #boton-Agregar {
+        background-color: #3d6db8;
+        position: absolute;
+        left: 91%;
+        top: 85%;
+        width: 80px;
+        max-width: 80px;
+        height: 80px;
+        max-height: 80px;
+        text-align: center;
+        border-radius: 80px;
+        box-shadow: -2px 5px 5px 0px rgba(0, 0, 0, 0.75);
+        cursor: pointer;
+    }
+
+        #boton-Agregar img {
+            height: 75px;
+            width: 80px;
+            align-self: center;
+            padding: 0%;
+            position: relative;
+        }
+
+    /* VISTA AGREGAR EQUIPO **************************************/
+    #main-agregaraula {
+        padding-top: 15%;
+    }
+
+    /* VISTA AGREGAR EQUIPO TIPO ***********************/
+
+    #main-agregarEquipo {
+        padding-top: 8%;
+    }
+
+        #main-agregarEquipo > label {
+            margin-top: 0;
+        }
+
+    #grid,
+    #grid1 {
+        width: 100%;
+        overflow-x: hidden;
+        justify-content: space-between;
+        margin: 0;
+        padding: 8%;
+        padding-top: 3%;
+        grid-template-columns: repeat(4, 1fr);
+        row-gap: 2%;
+        overflow-y: hidden;
+    }
+
+    /* VISTA AGREGAR EQUIPO LAB ***********************/
+    #btn-accion {
+        font-size: 1em;
+        margin-right: 5%;
+    }
+
+    .add {
+        margin-right: 5% !important;
+    }
+
+    #btn-accion:hover {
+        transition: all 0.1s;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    /* VISTA ELIMINAR EQUIPO *********************************/
+    #main-eliminarraula {
+        padding-top: 10%;
+    }
+
+        #main-eliminarraula img {
+            margin-top: 5%;
+        }
+
+    .eliminar {
+        padding-top: 5% !important;
+    }
+
+        .eliminar img {
+            margin-top: 0% !important;
+        }
+
+    /* VISTA AGREGAR TIPO ICONO **************************/
+
+    #add-icono main {
+        padding-top: 3%;
+        margin: 0;
+    }
+
+    #add-icono .div-upload {
+        height: 70vh;
+        margin-top: 1%;
+    }
+
+        #add-icono .div-upload span {
+            padding: 0;
+            margin: 0;
+            height: 15%;
+            align-items: center;
+            width: 20%;
+            margin-right: 7%;
+        }
+
+            #add-icono .div-upload span label {
+                padding: 0;
+                margin: 0;
+                width: 70%;
+                height: 60%;
+                text-align: center;
+            }
+
+            #add-icono .div-upload span label {
+                padding: 0;
+                margin: 0;
+                width: 70%;
+                height: 60%;
+                text-align: center;
+            }
+
+                #add-icono .div-upload span label img {
+                    width: 50%;
+                    height: 100%;
+                    padding: 4%;
+                    margin: 0;
+                }
+
+    .contenedor-img {
+        margin-top: 3%;
+        width: 85%;
+        height: 70%;
+        padding: 0;
+        align-self: center;
+    }
+
+        .contenedor-img img {
+            width: 15%;
+            margin-top: 5%;
+        }
+
+    #nombre-img {
+        margin-top: 4%;
+    }
+
+    .add1 {
+        margin-right: 5% !important;
+    }
+
+    /* VISTA PRINCIPAL ENCARGADO *******************************/
+    #principal-encargado {
+        padding-top: 2.2%;
+    }
+
+    .filtros {
+        height: 7vh;
+        align-content: center;
+        display: flex;
+        justify-content: space-between;
+        margin: 0 3% 1% 3%;
+    }
+
+        .filtros input {
+            display: inline;
+            height: 40%;
+            max-height: 40px;
+            align-self: center;
+            width: 20%;
+            border: 1px solid #b9b9b9;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid #a6a6a6;
+            box-shadow: 0px 3px 12px -3px rgba(0, 0, 0, 0.75);
+            height: 100%;
+        }
+
+        .filtros select {
+            display: inline;
+            height: 40%;
+            align-self: center;
+            width: 20%;
+            height: 100%;
+            max-height: 40px;
+            border: none;
+            border-radius: 5px;
+            text-align: center;
+            border: 1px solid #a6a6a6;
+            box-shadow: 0px 3px 12px -3px rgba(0, 0, 0, 0.75);
+            color: black !important;
+            text-align: center;
+            vertical-align: middle;
+        }
+
+    #lista-reportesEncargado {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        margin: 2%;
+        height: calc(85vh - 100px);
+        grid-row-gap: 3%;
+        grid-auto-rows: minmax(165px, 170px);
+        overflow-y: scroll;
+    }
+
+        #lista-reportesEncargado li {
+            width: 90%;
+            justify-self: center;
+            padding: 5%;
+            box-shadow: -5px 1px 12px -1px rgba(0, 0, 0, 0.75);
+            overflow-y: scroll;
+            scrollbar-width: none;
+        }
+
+    .estado {
+        display: flex;
+        font-size: 0.6em;
+    }
+
+    .circulo {
+        width: 13px;
+        height: 13px;
+        border-radius: 50px;
+        margin-right: 3%;
+    }
+
+    .lbl-estado {
+        color: #9edf9c;
+        font-size: 1em;
+    }
+
+    .marca-completado {
+        font-size: 0.6em;
+        width: 118px;
+        max-width: 135px;
+        margin-left: auto;
+        margin-right: 1%;
+        text-align: center;
+        padding: 2%;
+        border-radius: 20px;
+        margin-top: 5px;
+    }
+
+        .marca-completado:hover {
+            font-weight: bold;
+            box-shadow: -5px 1px 12px -1px rgba(0, 0, 0, 0.75);
+            transition: all 0.2s ease-in-out;
+        }
+
+    .problema {
+        margin-top: 15px;
+    }
+
+        .problema img {
+            width: 7%;
+            margin-right: 1%;
+        }
+
+    .inf {
+        text-wrap: wrap;
+        overflow-wrap: break-word;
+        margin-top: 5px;
+        font-size: 0.8em;
+    }
 
     /* VISTA FILTROS PARA MOVIL ***************************************/
     #filtros-flotante {
         display: none;
     }
+
+    #iconofiltros-movil {
+        display: none;
+    }
+
+    /* VISTA VER DETALLES *****************************/
+    #body-detalles main {
+        padding-top: 7%;
+    }
+
+        #body-detalles main > label {
+            font-size: 1.1em;
+        }
+
+    #detalles {
+        grid-template-columns: repeat(3, 1fr);
+        margin-top: 2%;
+        height: calc(90vh - 100px);
+        grid-auto-rows: minmax(120px, 200px);
+        scrollbar-width: none;
+    }
+
+        #detalles div {
+            height: 80%;
+            padding: 2%;
+        }
+
+            #detalles div span {
+                width: 85%;
+                margin-left: 2%;
+                padding: 0;
+                margin-top: 1%;
+                padding-top: 0%;
+                height: 65%;
+            }
+
+            #detalles div > label {
+                font-size: 1.1em;
+                margin-top: 1%;
+                margin-left: 2%;
+            }
+
+            #detalles div span label {
+                font-size: 1.1em;
+            }
+
+            #detalles div img {
+                margin-left: 0%;
+                width: 28px;
+                height: 28px;
+            }
+
+    .ultimo {
+        grid-column: 2/4;
+        width: 100% !important;
+        overflow-y: scroll;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+    }
+
+        .ultimo > label {
+            margin-top: 0% !important;
+            margin-left: 1% !important;
+        }
+
+        .ultimo span {
+            margin-top: 2% !important;
+            margin-left: 1% !important;
+            padding-left: 0% !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+            .ultimo span label {
+                height: 100%;
+            }
+
+    /* VISTA INVITADO VER REPORTES ENVIADOS **********************************/
+    .titulo-repEnviados {
+        margin-top: 1%;
+    }
+
+    .rep-enviados {
+        margin-top: 12%;
+    }
+
+    /* VISTA INVITADO DESCRIPCION *********************************************/
+    .lbl-desc {
+        margin-top: 8%;
+    }
+
+    textarea {
+        margin-top: 5%;
+        width: 55%;
+    }
+
+    /* VISTA INVITADO CONFIRMACION ***********************************************/
+    #main-confirmacion label {
+        margin-top: 7%;
+        width: 100%;
+        justify-content: center;
+    }
+
+    #main-confirmacion button {
+        margin-top: 5%;
+        padding: 0.7%;
+    }
+
+        #main-confirmacion button:hover {
+            background-color: #d9dfe8;
+            color: black;
+            transition: all 0.2s ease;
+        }
+
+    /* VISTA LOG IN *********************************************************************/
+
+    #logo {
+        margin-top: 0%;
+        height: 120px;
+        width: 120px;
+        border-radius: 85px;
+        padding: 1%;
+    }
+
+    #body-logIn {
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+    }
+
+        #body-logIn h3 {
+            font-size: 1.1em;
+            margin-top: 1.5%;
+        }
+
+        #body-logIn header {
+            width: 90%;
+        }
+
+        #body-logIn main {
+            margin-top: 1%;
+            width: 90%;
+        }
+
+    .lbl-log {
+        font-size: 0.7em;
+        margin-left: 25%;
+    }
+
+    #form-LogIn {
+        margin-top: 2.5%;
+    }
+
+    .input-field {
+        width: 50%;
+        height: 45px;
+        border-radius: 30px;
+    }
+
+        .input-field::placeholder {
+            font-size: 1em;
+        }
+
+    .pass {
+        margin-top: 2%;
+    }
+
+    #form-LogIn img {
+        margin-top: 1%;
+        height: 20px;
+        width: 20px;
+    }
+
+    #form-LogIn {
+        margin-top: 1%;
+        margin-bottom: 2%;
+    }
+
+    .excepcion {
+        font-size: 0.7em;
+    }
+
+    #body-logIn button {
+        margin-top: 2%;
+        width: 16%;
+        padding: 0.5%;
+        border-radius: 30px;
+        font-size: 0.9em;
+        box-shadow: none;
+    }
+
+        #body-logIn button:hover {
+            background-color: #d9dfe8;
+            color: black;
+            box-shadow: -3px 1px 5px 0px rgba(0, 0, 0, 0.75);
+            transition: all 0.2s ease;
+        }
+
+    #body-logIn a {
+        margin-top: 2%;
+        font-size: 0.8em;
+        margin-left: 0.5%;
+        font-weight: normal;
+        text-decoration: none;
+    }
+
+        #body-logIn a:hover {
+            font-weight: bold;
+            text-decoration: underline;
+            transition: all 0.1s ease;
+        }
+
+    /* #body-logIn a span {
+    font-weight: 400;
+    text-decoration: none;
+    margin-left: 0.5%;
+  }
+
+  #body-logIn a span:hover {
+    font-weight: bold;
+    text-decoration: underline;
+    transition: all 0.1s ease;
+  } */
+
+    /* OPCION CERRAR SESION ******************************************************/
+
+    #opcionCerrarSesion {
+        width: 13%;
+        top: 80px;
+    }
+
+        #opcionCerrarSesion:hover {
+            font-weight: bold;
+            transition: all 0.1s ease;
+        }
+
+    /* VISTA LOG IN *********************************************************/
+    .link-log {
+        margin-top: 4%;
+    }
 }
 
-@media (min-width: 1024px) {
-  /* VISTA VER AULAS ***************************************/
-  #fijo header {
-    background-color: #ffffff;
-  }
-
-  #fijo header label {
-    margin-left: 15%;
-    font-size: 1.1em;
-    color: #002664;
-    font-weight: bold;
-  }
-
-  #fijo header span {
-    justify-content: right;
-    margin-right: 2%;
-  }
-
-  #fijo header span a {
-    width: 18%;
-    max-width: 18%;
-    height: 100%;
-    margin-right: 7%;
-  }
-
-  #fijo header span img {
-    height: 100%;
-    width: 100%;
-    min-width: 100%;
-  }
-
-  #opcionCerrarSesion {
-    width: 10%;
-    padding: 1%;
-    padding: 0.5% !important;
-    top: 10%;
-    margin-right: 3%;
-  }
-
-  #opcionCerrarSesion label {
-    color: #ffffff !important;
-    font-size: 0.7em !important;
-  }
-
-  #lista-Aulas {
-    width: 90%;
-    margin-left: 10%;
-    margin-top: 0;
-    height: calc(90vh - 100px);
-  }
-
-
-    /* NUEVO */
+@media (width>1600px) {
     #lista-Aulas label {
-        width: 85% !important;
+        margin-bottom: 8%;
+        margin-top: 10%;
+    }
+
+    #lista-Aulas {
+        grid-row-gap: 5%;
+    }
+
+    .seleccionado {
+        width: 150px;
+        height: 150px;
+        max-width: 150px;
+        max-height: 150px;
+        padding-top: 15%;
+    }
+
+    .opciones-elemento {
+        width: 50%;
+        height: 60px !important;
+    }
+
+        .opciones-elemento span {
+            height: 36px;
+            width: 36px;
+            border-radius: 20px;
+        }
+
+            .opciones-elemento span img {
+                width: 23px;
+            }
+
+    #lista-Aulas label {
+        font-size: 1.3em;
+    }
+
+    .span-tipo label {
+        margin-top: 0px !important;
+    }
+
+    /* VISTA AGREGAR EQUIPO TIPO */
+    #main-agregarEquipo > label {
+        font-size: 1.3em;
+    }
+
+    #grid span {
+        font-size: 1.2em;
+    }
+
+    /* VISTA ELIMINAR EQUIPO ********************************/
+    #main-eliminarraula {
+        font-size: 1.3em;
+    }
+
+    /* VISTA LISTA DE REPORTES *******************************/
+    #lista-reportesEncargado {
+        grid-auto-rows: minmax(180px, 190px);
+    }
+
+    /* VISTA VER DETALLES ***********************************/
+    #body-detalles main > label {
+        font-size: 1.4em;
+    }
+
+    #detalles div > label {
+        font-size: 1.3em;
+    }
+
+    #detalles div span label {
+        font-size: 1.7em;
+    }
+
+    /* VISTA LOG IN *****************************************/
+    #logo {
+        height: 135px;
+        width: 135px;
+    }
+
+    #body-logIn h3 {
+        font-size: 1.6em;
+    }
+
+    .lbl-log {
+        font-size: 1em;
+    }
+
+    #form-LogIn img {
+        height: 25px;
+        width: 25px;
+        margin-top: 0.5%;
+    }
+
+    .input-field::placeholder {
         font-size: 1.1em;
     }
 
-
-  #lista-Aulas li {
-    padding: 3%;
-    height: 5%;
-    margin-bottom: 2%;
-  }
-
-  #lista-Aulas li div {
-    height: 2%;
-    width: 2%;
-    padding-bottom: 2% !important;
-  }
-
-  .seleccionado {
-    max-height: 120px;
-    max-width: 120px;
-  }
-
-  .icono-grande,
-  .config-grande {
-    display: inline-block;
-    width: 75%;
-    height: 80%;
-  }
-
-  .extra,
-  .config-chico {
-    display: none;
-  }
-
-  #menu-flotante {
-    top: 50%;
-    height: 100%;
-    width: 10%;
-    min-width: 10% !important;
-    border-radius: 0px 23px 23px 0px;
-    left: 5%;
-    box-shadow: 10px 10px 5px -5px rgba(0, 0, 0, 0.33);
-  }
-
-  #menu-flotante ul {
-    flex-direction: column;
-    align-self: center;
-    flex-shrink: 0 !important;
-  }
-
-  #menu-flotante ul li {
-    width: 90%;
-    min-width: 90px;
-    height: 15%;
-    min-height: 10px;
-    align-self: center;
-    flex-shrink: 0 !important;
-  }
-
-  #menu-flotante img {
-    width: 90%;
-    height: 90%;
-    margin-top: 10%;
-  }
-
-  #menu-flotante li label {
-    margin-top: 8%;
-  }
-
-    /* VISTA VER EQUIPOS **********************************/
-    #lista-Aulas span {
-        width: 85%;
+    .excepcion {
+        font-size: 1em;
     }
 
-
-  /* VISTA AGREGAR TIPO DE EQUIPO ***********************/
-  #main-agregarEquipo {
-    padding-top: 2%;
-    overflow-y: hidden;
-  }
-
-  #main-agregarEquipo label {
-    padding-left: 8%;
-  }
-
-  #eq-tipo {
-    margin-top: 2%;
-  }
-
-  /* #grid {
-    margin-top: 2%;
-    display: flex;
-    width: 100%;
-    overflow-x: hidden;
-    justify-content: space-between;
-    margin: 0;
-    padding: 8%;
-    padding-top: 5%;
-    background-color: aqua;
-  }
-
-  #grid picture img {
-    width: 50%;
-  }
-
-  #grid span {
-    padding: 3%;
-    margin: 0;
-    width: 18%;
-    height: 18%;
-  } */
-
-  /* VISTA AGREGAR LAB EQUIPO ****************************/
-
-  #eq-aula {
-    margin-top: 5%;
-  }
-
-  #grid1,
-  #grid {
-    width: 100%;
-    overflow-x: hidden;
-    justify-content: space-between;
-    margin: 0;
-    padding: 8%;
-    grid-template-columns: repeat(4, 1fr);
-    row-gap: 2%;
-    overflow-y: hidden;
-  }
-
-  #grid1 picture img,
-  #grid picture img {
-    width: 50%;
-  }
-
-  #grid1 span,
-  #grid span {
-    padding: 3%;
-    margin: 0;
-    width: 80%;
-    height: 98%;
-  }
-
-  /* VISTA VER TIPOS ***********************************/
-  .span-tipo {
-    display: flex;
-    flex-direction: row !important;
-  }
-
-    /* NUEVO */
-    .span-tipo label {
-        padding-left: 0;
+    #body-logIn button {
+        font-size: 1em;
     }
 
-  .span-tipo picture {
-    width: 8%;
-    margin-right: 2%;
-  }
-
-  .span-tipo img {
-    width: 70% !important;
-  }
-
-  /* VISTA AGREGAR TIPO ICONO **************************/
-
-  #add-icono main {
-    padding-top: 3%;
-    margin: 0;
-  }
-
-  #add-icono .div-upload {
-    height: 70vh;
-    margin-top: 1%;
-  }
-
-  #add-icono .div-upload span {
-    padding: 0;
-    margin: 0;
-    height: 15%;
-    align-items: center;
-    width: 20%;
-    margin-right: 7%;
-  }
-
-  #add-icono .div-upload span label {
-    padding: 0;
-    margin: 0;
-    width: 70%;
-    height: 60%;
-    text-align: center;
-  }
-
-  #add-icono .div-upload span label img {
-    width: 50%;
-    height: 100%;
-    padding: 4%;
-    margin: 0;
-  }
-
-  .contenedor-img {
-    margin-top: 3%;
-    width: 85%;
-    height: 70%;
-    padding: 0;
-    align-self: center;
-  }
-
-  .contenedor-img img {
-    width: 15%;
-    margin-top: 5%;
-  }
-
-  #nombre-img {
-    margin-top: 4%;
-  }
-
-  /* VISTA PRINCIPAL ENCARGADO *******************************/
-
-  #body-encargado {
-    overflow-y: hidden;
-  }
-
-  #iconofiltros-movil {
-    display: none;
-  }
-
-  .titulo-encargado {
-    font-size: 1.1em;
-  }
-
-  .conf-encargado {
-    width: 40px;
-    height: 40px;
-    margin-left: 60%;
-  }
-
-  .titulo-encargado {
-    text-align: left !important;
-  }
-
-  #principal-encargado {
-    padding-top: 2.2%;
-  }
-
-  .filtros {
-    height: 6vh;
-    align-content: center;
-    display: flex;
-    justify-content: space-between;
-    margin: 0 4% 1% 3%;
-  }
-
-  .filtros input {
-    display: inline;
-    height: 40%;
-    max-height: 40px;
-    align-self: center;
-    width: 20%;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-    border: 1px solid #a6a6a6;
-    box-shadow: 0px 3px 12px -3px rgba(0, 0, 0, 0.75);
-    height: 100%;
-  }
-
-  .filtros select {
-    display: inline;
-    height: 40%;
-    align-self: center;
-    width: 20%;
-    height: 100%;
-    max-height: 40px;
-    border: none;
-    border-radius: 5px;
-    text-align: center;
-    border: 1px solid #a6a6a6;
-    box-shadow: 0px 3px 12px -3px rgba(0, 0, 0, 0.75);
-    color: black !important;
-    text-align: center;
-    vertical-align: middle;
-  }
-
-  #btn-buscar {
-    display: inline;
-    width: 31px;
-    height: 32px;
-    align-self: center;
-    margin-right: 7%;
-    cursor: pointer;
-  }
-
-  #lista-reportesEncargado {
-    list-style: none;
-    margin: 2% 3% 0% 2%;
-    width: 92%;
-    color: #ffffff;
-    padding: 1%;
-    overflow-y: scroll !important;
-    height: calc(85vh - 100px);
-  }
-
-  #lista-reportesEncargado li {
-    border-radius: 8px;
-    background-color: #335183;
-    padding: 1%;
-    display: flex;
-    width: 100%;
-    margin-bottom: 1%;
-    font-size: 0.9em;
-  }
-
-  .num {
-    font-weight: bold;
-  }
-
-  #lista-reportesEncargado li img {
-    width: 25px;
-    height: 25px;
-    margin-left: auto;
-  }
-
-  #lista-reportesEncargado li span {
-    display: flex;
-    flex-direction: column;
-    font-size: 0.8em;
-  }
-
-  .lbl-completado {
-    padding: 0.5%;
-    border-radius: 8px;
-    font-size: 0.7em;
-  }
-
-    /* VISTA FILTROS PARA MOVIL ***************************************/
-    #filtros-flotante {
-        display: none;
+    #body-logIn a {
+        font-size: 1em;
     }
 }
 
-/* MOVILES MAS CHICOS */
-@media (max-width: 320px) {
-  #fijo header label {
-    font-size: 0.5em;
-  }
+@media (min-width: 765px) and (max-width: 1024px) {
+    #fijo header label {
+        font-size: 1em;
+    }
 
-  #lista-Aulas {
-    background-color: pink;
-  }
+    #btn-regresar {
+        width: 22px;
+    }
 
-  #menu-flotante ul li {
-    width: 17%;
-    font-size: 0.7em;
-  }
+    .sig-btn {
+        width: 22px;
+    }
 
-  #opcionCerrarSesion {
-    top: 11%;
-  }
+    #lista-Aulas li {
+        font-size: 1.1em;
+    }
 
-  /* VISTA ELIMINAR AULA */
-  #main-eliminarraula {
-    margin-top: 20%;
-  }
+    .opciones-elemento {
+        height: 38px;
+    }
 
-  #main-eliminarraula label {
-    width: 65%;
-  }
+        .opciones-elemento span img {
+            width: 25px;
+        }
 
-  /* VISTA AGREGAR EQUIPO (TIPO) */
+    #boton-Agregar {
+        width: 100px;
+        height: 100px;
+    }
 
-  #main-agregarEquipo {
-    padding-top: 10%;
-  }
+        #boton-Agregar img {
+            width: 90px;
+            align-self: center;
+            margin-top: 4%;
+        }
 
-  #grid {
-    margin-top: 8%;
-  }
+    /* VISTA VER TIPOS *************************************/
 
-  /* VISTA AGREGAR EQUIPO (LAB) */
-  #eq-aula {
-    margin-top: 10%;
-  }
+    .span-tipo img {
+        width: 60px;
+    }
 
-  /* VISTA AGREGAR TIPO ICONO **************************/
-  .contenedor-img {
-    height: 80%;
-  }
+    .opciones-elemento {
+        align-self: center;
+    }
 
-  .div-upload {
-    height: 55vh;
-  }
+    /* MENU LATERAL MOVILES TABLET ***************/
+    #menu-flotanteMoviles li img {
+        width: 50px;
+        height: 50px;
+    }
 
-  #add-icono main {
-    padding-top: 10%;
-    margin: 0;
-  }
+    #menu-flotanteMoviles li label {
+        font-size: 1.3em;
+    }
+
+    /* VISTA AGREGAR TIPO EQUIPO ***********************/
+
+    #grid,
+    #grid1 {
+        margin-top: 4%;
+        align-items: center;
+        justify-items: center;
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+        #grid1 span {
+            width: 70%;
+            height: 70%;
+        }
+
+        #grid1 img {
+            width: 45% !important;
+        }
+
+    .add {
+        margin-right: 10% !important;
+    }
+
+    /* VISTA ELIMINAR EQUIPO **********************************/
+    #main-eliminarraula {
+        font-size: 1.2em;
+    }
+
+    #btn-accion {
+        font-size: 1.1em;
+    }
+
+    /* VISTA AGREGAR ICONO DEL TIPO *****************************/
+    #add-icono main {
+        padding-top: 5%;
+    }
+
+    /* VISTA ENCARGADO *********************************************/
+
+    #filtros-flotante label {
+        font-size: 1.2em;
+    }
+
+    #filtros-flotante span button {
+        padding: 1%;
+        width: 40%;
+        font-size: 1.3em;
+    }
+
+    .lbl-estado {
+        font-size: 1.1em;
+    }
+
+    .marca-completado {
+        width: 30%;
+        padding: 1%;
+        font-size: 1em;
+        border-radius: 30px;
+    }
+
+    #lista-reportesEncargado li img {
+        width: 30px;
+        height: 30px;
+    }
+
+    .problema label {
+        font-size: 1.4em;
+    }
+
+    .inf {
+        font-size: 1.2em;
+    }
+
+    #btn-Aplicar {
+        width: 25%;
+        font-size: 1em;
+        border-radius: 13px;
+    }
+
+    /* VISTA VER DETALLES ********************************/
+    #body-detalles main {
+        padding-top: 13%;
+    }
+
+    #detalles {
+        margin-top: 5%;
+        grid-auto-rows: minmax(80px, 120px);
+        grid-template-columns: repeat(3, 1fr);
+        scrollbar-width: none;
+    }
+
+        #detalles div > label {
+            font-size: 1em;
+            margin-left: 5%;
+        }
+
+        #detalles div span label {
+            margin-left: 5%;
+            font-size: 1em;
+            overflow-wrap: break-word;
+        }
+
+    .ultimo {
+        grid-column: 1/4;
+    }
+
+        .ultimo > label {
+            margin-top: 1% !important;
+        }
+
+        .ultimo span {
+            margin-top: 1% !important;
+        }
+
+            .ultimo span label {
+                margin-left: 1% !important;
+            }
+
+    /* VISTA INVITADO DESCRIPCION **********************************************/
+    textarea {
+        margin-top: 10%;
+    }
+
+    /* VISTA INVITADO CONFIRMACION **********************************************/
+    #main-confirmacion label {
+        font-size: 1.8em;
+        margin-top: 30%;
+    }
+
+    #main-confirmacion img {
+        width: 110px;
+        height: 110px;
+    }
+
+    #main-confirmacion button {
+        font-size: 1.3em;
+        padding: 1.5%;
+        margin-top: 13%;
+    }
+
+    /* VISTA LOG IN  ************************************************************/
+    #logo {
+        height: 150px;
+        width: 150px;
+        border-radius: 80px;
+    }
+
+    #body-logIn h3 {
+        font-size: 1.3em;
+    }
+
+    .lbl-log {
+        font-size: 1em;
+    }
+
+    .input-field {
+        height: 45px;
+    }
+
+        .input-field::placeholder {
+            font-size: 1.1em;
+        }
+
+    #form-LogIn img {
+        margin-top: 1.5%;
+    }
+
+    .excepcion {
+        font-size: 1em;
+    }
+
+    #body-logIn button {
+        width: 35%;
+        margin-top: 4%;
+        border-radius: 25px;
+        font-size: 1.1em;
+    }
+
+    #body-logIn a {
+        font-size: 1em;
+    }
+
+    /* OPCION CERRAR SESION ******************************************************/
+    #opcionCerrarSesion {
+        width: 17%;
+        top: 53px;
+    }
+
+    /* VISTA LOG IN ****************************************************/
+    .link-log {
+        font-size: 1em;
+    }
+
+        .link-log a {
+            margin-bottom: 0%;
+        }
+}
+
+/* DISP MAS CHICOS *************************************/
+@media (width = 320px) {
+    .marca-completado {
+        width: 50%;
+        margin-bottom: 10px;
+    }
+
+    #filtros-flotante label {
+        font-size: 0.8em;
+    }
+
+    #filtros-flotante input {
+        font-size: 0.7em;
+    }
+
+    #filtros-flotante span button {
+        padding: 1%;
+        width: 40%;
+        font-size: 0.9em;
+    }
+
+    #detalles {
+        height: calc(95vh - 100px);
+        overflow-y: scroll;
+    }
+
+        #detalles div {
+            border-radius: 13px;
+        }
+
+            #detalles div span label {
+                font-size: 1em;
+            }
+
+    /* VISTA INVITADO CONFIRMACION *****************************************************/
+    #main-confirmacion label {
+        margin-top: 10%;
+        font-size: 1.3em;
+    }
+
+    /* VISTA LOG IN **************************************************/
+    #body-logIn h3 {
+        font-size: 0.9em;
+    }
+
+    #body-logIn main {
+        margin-top: 2%;
+    }
+
+    .link-log {
+        margin-top: 5%;
+    }
 }

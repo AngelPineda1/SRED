@@ -1,0 +1,153 @@
+﻿@page
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ver Reportes Enviados</title>
+    <link rel="stylesheet" href="../css/Estilos.css" />
+</head>
+<body id="fijo">
+    <header>
+        <label for="">Sistema de Reportes de Equipo Dañado</label>
+        <span>
+            <img class="config-grande"
+                 src="../assets/settings-3-fill (1).svg"
+                 alt="" />
+        </span>
+    </header>
+    <div id="opcionCerrarSesion">
+        <label for="">Cerrar sesión</label>
+    </div>
+    <main id="principal-encargado">
+        <label for="" class="titulo-repEnviados">Reportes enviados:</label>
+        <ul id="lista-reportesEncargado">
+            <li>
+                <span class="estado">
+                    <div class="circulo"></div>
+                    <label for="" class="lbl-estado">Completado</label>
+                </span>
+                <span class="problema rep-enviados">
+                    <img src="../assets/fix.svg" alt="" />
+                    <label for="">El monitor no enciende.</label>
+                </span>
+                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
+            </li>
+            <li>
+                <span class="estado">
+                    <div class="circulo"></div>
+                    <label for="" class="lbl-estado">Completado</label>
+                </span>
+                <span class="problema rep-enviados">
+                    <img src="../assets/fix.svg" alt="" />
+                    <label for="">El monitor no enciende.</label>
+                </span>
+                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
+            </li>
+            <li>
+                <span class="estado">
+                    <div class="circulo"></div>
+                    <label for="" class="lbl-estado">Completado</label>
+                </span>
+                <span class="problema rep-enviados">
+                    <img src="../assets/fix.svg" alt="" />
+                    <label for="">El monitor no enciende.</label>
+                </span>
+                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
+            </li>
+            <li>
+                <span class="estado">
+                    <div class="circulo"></div>
+                    <label for="" class="lbl-estado">Completado</label>
+                </span>
+                <span class="problema rep-enviados">
+                    <img src="../assets/fix.svg" alt="" />
+                    <label for="">El monitor no enciende.</label>
+                </span>
+                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
+            </li>
+            <li>
+                <span class="estado">
+                    <div class="circulo"></div>
+                    <label for="" class="lbl-estado">Completado</label>
+                </span>
+                <span class="problema rep-enviados">
+                    <img src="../assets/fix.svg" alt="" />
+                    <label for="">El monitor no enciende.</label>
+                </span>
+                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
+            </li>
+            <li>
+                <span class="estado">
+                    <div class="circulo"></div>
+                    <label for="" class="lbl-estado">Completado</label>
+                </span>
+                <span class="problema rep-enviados">
+                    <img src="../assets/fix.svg" alt="" />
+                    <label for="">El monitor no enciende.</label>
+                </span>
+                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
+            </li>
+            <li>
+                <span class="estado">
+                    <div class="circulo"></div>
+                    <label for="" class="lbl-estado">Completado</label>
+                </span>
+                <span class="problema rep-enviados">
+                    <img src="../assets/fix.svg" alt="" />
+                    <label for="">El monitor no enciende.</label>
+                </span>
+                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
+            </li>
+            <li>
+                <span class="estado">
+                    <div class="circulo"></div>
+                    <label for="" class="lbl-estado">Completado</label>
+                </span>
+                <span class="problema rep-enviados">
+                    <img src="../assets/fix.svg" alt="" />
+                    <label for="">El monitor no enciende.</label>
+                </span>
+                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
+            </li>
+            <li>
+                <span class="estado">
+                    <div class="circulo"></div>
+                    <label for="" class="lbl-estado">Completado</label>
+                </span>
+                <span class="problema rep-enviados">
+                    <img src="../assets/fix.svg" alt="" />
+                    <label for="">El monitor no enciende.</label>
+                </span>
+                <label for="" class="inf">Computadora 5 de Laboratorio CCA3.</label>
+            </li>
+        </ul>
+        <div id="boton-Agregar">
+            <a href="/Invitado/SeleccionarLab">
+                <img src="../assets/add-line.svg" alt="" />
+            </a>
+        </div>
+    </main>
+</body>
+</html>
+
+<script>
+    let btnCerrarSesion = document.querySelector(".config-grande");
+    let opcionCerrarSesion = document.getElementById("opcionCerrarSesion");
+
+    btnCerrarSesion.addEventListener("click", function (e) {
+        e.stopPropagation();
+
+        if (opcionCerrarSesion.style.visibility === "hidden") {
+            opcionCerrarSesion.style.visibility = "visible";
+        } else {
+            opcionCerrarSesion.style.visibility = "hidden";
+        }
+    });
+
+    document.addEventListener("click", function (e) {
+        if (opcionCerrarSesion.style.visibility == "visible") {
+            opcionCerrarSesion.style.visibility = "hidden";
+        }
+    });
+</script>

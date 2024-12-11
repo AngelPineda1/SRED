@@ -1,0 +1,133 @@
+﻿@page
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Seleccionar Lab</title>
+    <link rel="stylesheet" href="../css/Estilos.css" />
+</head>
+<body>
+    <header class="body-headers">
+        <a href="/Invitado/Index">
+            <img src="../assets/arrow-left-solid.svg" alt="" id="btn-regresar" />
+        </a>
+        <a href="/Invitado/SeleccionarEquipo" class="sig-btn">
+            <img src="../assets/arrow-right-solid.svg" alt="" />
+        </a>
+    </header>
+    <main id="main-agregarEquipo">
+        <label id="eq-aula" for="">Seleccione el aula correspondiente:</label>
+        <div id="grid1">
+            <span class="opcion">
+                <picture>
+                    <source type="image/webp" srcset="../assets/obrero.webp" />
+                    <img src="../assets/obrero.png" alt="" />
+                </picture>
+                <label for="">Laboratorio</label>
+            </span>
+            <span class="opcion">
+                <picture>
+                    <source type="image/webp" srcset="../assets/obrero.webp" />
+                    <img src="../assets/obrero.png" alt="" />
+                </picture>
+                <label for="">Laboratorio</label>
+            </span>
+            <span class="opcion">
+                <picture>
+                    <source type="image/webp" srcset="../assets/obrero.webp" />
+                    <img src="../assets/obrero.png" alt="" />
+                </picture>
+                <label for="">Laboratorio</label>
+            </span>
+            <span class="opcion">
+                <picture>
+                    <source type="image/webp" srcset="../assets/obrero.webp" />
+                    <img src="../assets/obrero.png" alt="" />
+                </picture>
+                <label for="">Laboratorio</label>
+            </span>
+            <span class="opcion">
+                <picture>
+                    <source type="image/webp" srcset="../assets/obrero.webp" />
+                    <img src="../assets/obrero.png" alt="" />
+                </picture>
+                <label for="">Laboratorio</label>
+            </span>
+            <span class="opcion">
+                <picture>
+                    <source type="image/webp" srcset="../assets/obrero.webp" />
+                    <img src="../assets/obrero.png" alt="" />
+                </picture>
+                <label for="">Laboratorio</label>
+            </span>
+            <span class="opcion">
+                <picture>
+                    <source type="image/webp" srcset="../assets/obrero.webp" />
+                    <img src="../assets/obrero.png" alt="" />
+                </picture>
+                <label for="">Laboratorio</label>
+            </span>
+            <span class="opcion">
+                <picture>
+                    <source type="image/webp" srcset="../assets/obrero.webp" />
+                    <img src="../assets/obrero.png" alt="" />
+                </picture>
+                <label for="">Laboratorio</label>
+            </span>
+            <span class="opcion">
+                <picture>
+                    <source type="image/webp" srcset="../assets/obrero.webp" />
+                    <img src="../assets/obrero.png" alt="" />
+                </picture>
+                <label for="">Laboratorio</label>
+            </span>
+            <span class="opcion">
+                <picture>
+                    <source type="image/webp" srcset="../assets/obrero.webp" />
+                    <img src="../assets/obrero.png" alt="" />
+                </picture>
+                <label for="">Laboratorio</label>
+            </span>
+            <span class="opcion">
+                <picture>
+                    <source type="image/webp" srcset="../assets/obrero.webp" />
+                    <img src="../assets/obrero.png" alt="" />
+                </picture>
+                <label for="">Laboratorio</label>
+            </span>
+            <span class="opcion">
+                <picture>
+                    <source type="image/webp" srcset="../assets/obrero.webp" />
+                    <img src="../assets/obrero.png" alt="" />
+                </picture>
+                <label for="">Laboratorio</label>
+            </span>
+            <span class="opcion">
+                <picture>
+                    <source type="image/webp" srcset="../assets/obrero.webp" />
+                    <img src="../assets/obrero.png" alt="" />
+                </picture>
+                <label for="">Laboratorio</label>
+            </span>
+        </div>
+    </main>
+</body>
+</html>
+<script>
+    function cambiarColorAlSeleccionar() {
+        let opciones = document.querySelectorAll(".opcion");
+
+        opciones.forEach((e) => {
+            e.addEventListener("click", function () {
+                if (e.classList.contains("opcion-seleccionada")) {
+                    e.classList.remove("opcion-seleccionada");
+                } else {
+                    e.classList.add("opcion-seleccionada");
+                }
+            });
+        });
+    }
+
+    cambiarColorAlSeleccionar();
+</script>
