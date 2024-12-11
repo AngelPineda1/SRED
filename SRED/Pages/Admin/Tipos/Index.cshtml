@@ -6,38 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ver Tipos</title>
     <link rel="stylesheet" href="~/css/estilos.css" />
-    <script src="/Index.js" type="module"></script>
 </head>
 <body id="fijo">
     <header>
         <label for="">Sistema de Reportes de Equipo Dañado</label>
         <span>
-            <a href="/Admin/Tipos/AgregarTipo">
-                <img class="extra" src="~/assets/add-line.svg" alt="" />
-                <img class="icono-grande" src="~/assets/add-line (1).svg" alt="" />
-            </a>
-            <span>
-                <img src="~/assets/settings-3-fill (1).svg"
-                     alt=""
-                     class="config-chico" />
-                <img class="config-grande"
-                     src="~/assets/settings-3-line.svg"
-                     alt="" />
-            </span>
+            <img class="config-grande"
+                 src="~/assets/settings-3-fill (1).svg"
+                 alt="" />
         </span>
-        <div id="opcionCerrarSesion">
-            <label for="">Cerrar sesión</label>
-        </div>
     </header>
+    <div id="opcionCerrarSesion">
+        <label for="">Cerrar sesión</label>
+    </div>
     <main id="main-aulas">
         <ul id="lista-Aulas">
-           
-            <!-- <li>
-              <label for="">Laboratorio CCA3</label>
-              <i class="fa-solid fa-ellipsis-vertical"></i>
-            </li> -->
         </ul>
-
+        <div id="boton-Agregar">
+            <a href="/Admin/Tipos/AgregarTipo">
+                <img src="~/assets/add-line.svg" alt="" />
+            </a>
+        </div>
         <div id="menu-flotante">
             <ul>
                 <li>
@@ -60,6 +49,35 @@
                 </li>
             </ul>
         </div>
+        <div id="menu-flotanteMoviles">
+            <img id="btn-menu1" src="~/assets/menu.png" alt="" />
+            <ul>
+                <li>
+                    <a href="/Admin/Aulas" class="prueba">
+                        <span>
+                            <img src="~/assets/person-chalkboard-solid.svg" alt="" />
+                            <label for="">Aulas</label>
+                        </span>
+                    </a>
+                </li>
+                <li class="seleccionado">
+                    <a href="/Admin/Equipos">
+                        <span>
+                            <img src="~/assets/computer-solid.svg" alt="" />
+                            <label for="">Equipos</label>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/Admin/Tipos">
+                        <span>
+                            <img src="~/assets/cubes-solid.svg" alt="" />
+                            <label for="">Tipos</label>
+                        </span>
+                    </a>
+                </li>
+            </ul>
+        </div>
     </main>
 </body>
 </html>
@@ -77,63 +95,87 @@
                 const li = document.createElement('li');
                 li.classList.add('swipe-item');
 
-           
-                const revealLeft = document.createElement('div');
-                revealLeft.classList.add('reveal-left');
-                const editLink = document.createElement('a');
-                editLink.href = `/Admin/Tipos/EditarTipo?id=${aula.id}`;
-                const editIcon = document.createElement('img');
-                editIcon.src = "/assets/pencil-fill.svg";
-                editIcon.alt = "editar";
-                editLink.appendChild(editIcon);
-                revealLeft.appendChild(editLink);
-
-                
                 const span = document.createElement('span');
-                span.classList = "span-tipo";
+                span.classList.add("span-tipo");
+
                 const picture = document.createElement('picture');
                 const source = document.createElement('source');
                 const mimeType = "image/jpg";
                 source.srcset = `data:${mimeType};base64,${aula.icono}`;
-                source.type = aula.mimeType; 
+                source.type = aula.mimeType;
                 picture.appendChild(source);
 
-       
                 const imgFallback = document.createElement('img');
                 imgFallback.src = `data:${mimeType};base64,${aula.icono}`;
-                imgFallback.alt = "icono"; 
-                imgFallback.classList.add("imagen-icono"); 
+                imgFallback.alt = "icono";
+                imgFallback.classList.add("imagen-icono");
 
-               
                 picture.appendChild(imgFallback);
+
                 const labelNombre = document.createElement('label');
-                labelNombre.classList.add('letra-bold');
+                labelNombre.classList.add('nombre-lab');
                 labelNombre.textContent = aula.nombre;
-              
 
                 span.appendChild(picture);
                 span.appendChild(labelNombre);
 
-              
-                const revealRight = document.createElement('div');
-                revealRight.classList.add('reveal-right');
+                // SPAN EDITAR
+
+                const opcionesElemento = document.createElement('span');
+                opcionesElemento.classList.add("opciones-elemento");
+
+                const spanEditar = document.createElement('span');
+                spanEditar.classList.add("span-editar");
+
+                const editLink = document.createElement('a');
+                editLink.href = `/Admin/Tipos/EditarTipo?id=${aula.id}`;
+
+                const editIcon = document.createElement('img');
+                editIcon.classList.add("lapiz-blanco");
+                editIcon.src = "/assets/pencil-solid.svg";
+
+                const editIcon1 = document.createElement('img');
+                editIcon1.classList.add("lapiz-normal");
+                editIcon1.src = "/assets/pencil-solid2.svg";
+
+
+                editLink.appendChild(editIcon);
+                editLink.appendChild(editIcon1);
+
+                spanEditar.appendChild(editLink);
+
+
+
+                // SPAN ELIMINAR
+
+                const spanEliminar = document.createElement('span');
+                spanEliminar.classList.add("span-eliminar");
+
                 const deleteLink = document.createElement('a');
                 deleteLink.href = `/Admin/Tipos/Eliminar?id=${aula.id}`;
+
+
                 const deleteIcon = document.createElement('img');
-                deleteIcon.src = "/assets/trash-solid.svg";
-                deleteIcon.alt = "elminiar";
+                deleteIcon.classList.add("trash-normal");
+                deleteIcon.src = "/assets/trash-solid2.svg";
+
+                const deleteIcon1 = document.createElement('img');
+                deleteIcon1.classList.add("trash-blanco");
+                deleteIcon1.src = "/assets/trash-solid.svg";
+
                 deleteLink.appendChild(deleteIcon);
-                revealRight.appendChild(deleteLink);
+                deleteLink.appendChild(deleteIcon1);
 
-               
+                spanEliminar.appendChild(deleteLink);
+
+                opcionesElemento.appendChild(spanEditar);
+                opcionesElemento.appendChild(spanEliminar);
+
                 li.appendChild(span);
-                li.appendChild(revealLeft);
-                li.appendChild(revealRight);
+                li.appendChild(opcionesElemento);
 
-                
                 listaAulas.appendChild(li);
             });
-            mostrarOpciones();
         } catch (error) {
             console.error('Error:', error);
         }
@@ -142,77 +184,37 @@
    
     cargarEquipos();
 
-    function mostrarOpciones() {
-        let elemento = document.querySelectorAll(".swipe-item");
+    let btnmenuLateral = document.getElementById("btn-menu1");
+    let menuMoviles = document.getElementById("menu-flotanteMoviles");
+    let listaLateralMovil = document.getElementById("lista-menuMovil");
 
-        elemento.forEach((e) => {
-            e.addEventListener("click", function () {
-                const iconoEditar = e.querySelector(".reveal-left");
-                const iconoEliminar = e.querySelector(".reveal-right");
+    btnmenuLateral.addEventListener("click", function () {
+        menuMoviles.classList.toggle("abrir");
+    });
 
-                if (iconoEditar && iconoEliminar) {
-                  
-                    if (
-                        !iconoEditar.style.transition &&
-                        !iconoEliminar.style.transition
-                    ) {
-                        iconoEditar.style.transition = "opacity 0.1s ease-in";
-                        iconoEliminar.style.transition = "opacity 0.1s ease-in";
-                    }
-                    iconoEditar.style.opacity =
-                        iconoEditar.style.opacity === "1" ? "0" : "1";
-                    iconoEliminar.style.opacity =
-                        iconoEliminar.style.opacity === "1" ? "0" : "1";
-                }
-            });
-        });
-    }
 
-    let btnCerrarSesionChico = document.querySelector(".config-chico");
-    let btnCerrarSesionGrande = document.querySelector(".config-grande");
-
+    let btnCerrarSesion = document.querySelector(".config-grande");
     let opcionCerrarSesion = document.getElementById("opcionCerrarSesion");
 
-    
+    btnCerrarSesion.addEventListener("click", function (e) {
+        e.stopPropagation();
 
-    function mostrarCerrarSesion(btnCerrarSesion) {
-        if (btnCerrarSesion) {
-            btnCerrarSesion.addEventListener("click", function (e) {
-                e.stopPropagation();
-
-                if (opcionCerrarSesion.style.visibility === "hidden") {
-                    opcionCerrarSesion.style.visibility = "visible";
-                } else {
-                    opcionCerrarSesion.style.visibility = "hidden";
-                }
-            });
+        if (opcionCerrarSesion.style.visibility === "hidden") {
+            opcionCerrarSesion.style.visibility = "visible";
+        } else {
+            opcionCerrarSesion.style.visibility = "hidden";
         }
-    }
-
-    function ActualizarBtnCerrarSesion() {
-        let btnCerrarSesion = document.getElementById("btn-config");
-        mostrarCerrarSesion(btnCerrarSesion);
-    }
+    });
 
     document.addEventListener("click", function (e) {
+        if (e.target.id != "btn-menu1") {
+            menuMoviles.classList.remove("abrir");
+        }
+
         if (opcionCerrarSesion.style.visibility == "visible") {
             opcionCerrarSesion.style.visibility = "hidden";
         }
-
-        if (e.target == btnCerrarSesionChico) {
-            btnCerrarSesionGrande.id = "";
-            btnCerrarSesionChico.id = "btn-config";
-            ActualizarBtnCerrarSesion();
-        } else if (e.target == btnCerrarSesionGrande) {
-            btnCerrarSesionGrande.id = "btn-config";
-            btnCerrarSesionChico.id = "";
-            ActualizarBtnCerrarSesion();
-        }
     });
-
-    document.addEventListener("DOMContentLoaded", () => {
-
-        ActualizarBtnCerrarSesion();
-    });
+    
 </script>
 

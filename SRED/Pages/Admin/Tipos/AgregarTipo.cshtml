@@ -8,11 +8,11 @@
     <link rel="stylesheet" href="~/css/estilos.css" />
 </head>
 <body>
-    <header>
+    <header class="body-headers">
         <a href="/Admin/Tipos/">
             <img src="~/assets/arrow-left-solid.svg" alt="" id="btn-regresar" />
         </a>
-        <a id="btn-accion" class="sig-btn">
+        <a class="sig-btn">
             <img src="~/assets/arrow-right-solid.svg" alt="" />
         </a>
     </header>
@@ -28,7 +28,7 @@
     const nombre = document.getElementById('nombre');
     let errores = [];
     const errorLabel = document.getElementById("excepcion");
-    const sig = document.getElementById("btn-accion");
+    const sig = document.querySelector(".sig-btn");
     const ant = document.getElementById("btn-regresar");
 
     if (nombretipio != null) {
