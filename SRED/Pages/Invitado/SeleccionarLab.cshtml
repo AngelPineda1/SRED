@@ -12,104 +12,13 @@
         <a href="/Invitado/Index">
             <img src="../assets/arrow-left-solid.svg" alt="" id="btn-regresar" />
         </a>
-        <a href="/Invitado/SeleccionarEquipo" class="sig-btn">
+        <a class="sig-btn">
             <img src="../assets/arrow-right-solid.svg" alt="" />
         </a>
     </header>
     <main id="main-agregarEquipo">
         <label id="eq-aula" for="">Seleccione el aula correspondiente:</label>
         <div id="grid1">
-            <span class="opcion">
-                <picture>
-                    <source type="image/webp" srcset="../assets/obrero.webp" />
-                    <img src="../assets/obrero.png" alt="" />
-                </picture>
-                <label for="">Laboratorio</label>
-            </span>
-            <span class="opcion">
-                <picture>
-                    <source type="image/webp" srcset="../assets/obrero.webp" />
-                    <img src="../assets/obrero.png" alt="" />
-                </picture>
-                <label for="">Laboratorio</label>
-            </span>
-            <span class="opcion">
-                <picture>
-                    <source type="image/webp" srcset="../assets/obrero.webp" />
-                    <img src="../assets/obrero.png" alt="" />
-                </picture>
-                <label for="">Laboratorio</label>
-            </span>
-            <span class="opcion">
-                <picture>
-                    <source type="image/webp" srcset="../assets/obrero.webp" />
-                    <img src="../assets/obrero.png" alt="" />
-                </picture>
-                <label for="">Laboratorio</label>
-            </span>
-            <span class="opcion">
-                <picture>
-                    <source type="image/webp" srcset="../assets/obrero.webp" />
-                    <img src="../assets/obrero.png" alt="" />
-                </picture>
-                <label for="">Laboratorio</label>
-            </span>
-            <span class="opcion">
-                <picture>
-                    <source type="image/webp" srcset="../assets/obrero.webp" />
-                    <img src="../assets/obrero.png" alt="" />
-                </picture>
-                <label for="">Laboratorio</label>
-            </span>
-            <span class="opcion">
-                <picture>
-                    <source type="image/webp" srcset="../assets/obrero.webp" />
-                    <img src="../assets/obrero.png" alt="" />
-                </picture>
-                <label for="">Laboratorio</label>
-            </span>
-            <span class="opcion">
-                <picture>
-                    <source type="image/webp" srcset="../assets/obrero.webp" />
-                    <img src="../assets/obrero.png" alt="" />
-                </picture>
-                <label for="">Laboratorio</label>
-            </span>
-            <span class="opcion">
-                <picture>
-                    <source type="image/webp" srcset="../assets/obrero.webp" />
-                    <img src="../assets/obrero.png" alt="" />
-                </picture>
-                <label for="">Laboratorio</label>
-            </span>
-            <span class="opcion">
-                <picture>
-                    <source type="image/webp" srcset="../assets/obrero.webp" />
-                    <img src="../assets/obrero.png" alt="" />
-                </picture>
-                <label for="">Laboratorio</label>
-            </span>
-            <span class="opcion">
-                <picture>
-                    <source type="image/webp" srcset="../assets/obrero.webp" />
-                    <img src="../assets/obrero.png" alt="" />
-                </picture>
-                <label for="">Laboratorio</label>
-            </span>
-            <span class="opcion">
-                <picture>
-                    <source type="image/webp" srcset="../assets/obrero.webp" />
-                    <img src="../assets/obrero.png" alt="" />
-                </picture>
-                <label for="">Laboratorio</label>
-            </span>
-            <span class="opcion">
-                <picture>
-                    <source type="image/webp" srcset="../assets/obrero.webp" />
-                    <img src="../assets/obrero.png" alt="" />
-                </picture>
-                <label for="">Laboratorio</label>
-            </span>
         </div>
     </main>
 </body>
@@ -120,14 +29,81 @@
 
         opciones.forEach((e) => {
             e.addEventListener("click", function () {
-                if (e.classList.contains("opcion-seleccionada")) {
-                    e.classList.remove("opcion-seleccionada");
-                } else {
-                    e.classList.add("opcion-seleccionada");
-                }
+
+                opciones.forEach(opcion => opcion.classList.remove("opcion-seleccionada"));
+
+
+                e.classList.add("opcion-seleccionada");
             });
         });
     }
 
     cambiarColorAlSeleccionar();
+
+    async function cargarAulas() {
+        const div = document.getElementById('grid1');
+        div.innerHTML = '<label>Cargando...</label>';
+        try {
+
+            const response = await fetch('https://sredapi.websitos256.com/api/Aula');
+            const data = await response.json();
+            div.innerHTML = '';
+            data.forEach(aula => {
+                const span = document.createElement('span');
+                span.classList.add('opcion');
+                span.id = aula.id;
+
+                const picture = document.createElement('picture');
+                const source = document.createElement('source');
+                const mimeType = "image/webp";
+                source.srcset = `/assets/obrero (1).webp`;
+                source.type = mimeType;
+                picture.appendChild(source);
+
+
+                const imgFallback = document.createElement('img');
+                imgFallback.src = `/assets/obrero (1).png`;
+                imgFallback.alt = "icono";
+
+
+                picture.appendChild(imgFallback);
+                const labelNombre = document.createElement('label');
+                nombreTipo = aula.nombre;
+                labelNombre.textContent = aula.nombre;
+
+
+                span.appendChild(picture);
+                span.appendChild(labelNombre);
+
+                div.appendChild(span);
+            });
+            cambiarColorAlSeleccionar();
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+
+    }
+
+
+    cargarAulas();
+
+    const btn = document.querySelector(".sig-btn");
+    btn.addEventListener('click', () => {
+        let opcion = document.querySelectorAll(".opcion-seleccionada");
+        if (opcion.length == 0) {
+            window.alert("Debe seleccionar un aula.");
+        } else {
+            nombreTipo = opcion[0].getAttribute('data-nombre');
+
+            let id = opcion[0].id;
+            reporte = {
+                idaula: parseInt(id),
+            };
+            localStorage.setItem('reporte', JSON.stringify(reporte));
+            console.log(reporte);
+            window.location.replace("/Invitado/SeleccionarEquipo");
+
+        }
+    })
 </script>
