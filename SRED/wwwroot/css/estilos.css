@@ -447,6 +447,10 @@ header span {
     color: #ffffff !important;
 }
 
+/*.exp-eliminarAula{
+    background-color: aqua;
+    margin-top: 2px !important;
+}*/
 /* VISTA AGREGAR TIPO (ICONO) ****************************************/
 #file {
     border: 0 !important;
