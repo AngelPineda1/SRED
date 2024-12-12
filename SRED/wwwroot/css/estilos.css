@@ -852,6 +852,8 @@ textarea {
     justify-content: center;
     align-items: center;
     height: 100vh;
+    overflow-y: scroll;
+    scrollbar-width: none !important;
 }
 
     #body-logIn header {
@@ -988,7 +990,7 @@ textarea {
         margin-left: 1%;
         font-size: 0.9em !important;
         align-self: center;
-        margin-bottom: 1%;
+       /* margin-bottom: 1%;*/
         color: #1230ae;
         font-weight: bold;
     }
@@ -1753,6 +1755,10 @@ textarea {
     /* VISTA LOG IN *********************************************************/
     .link-log {
         margin-top: 4%;
+    }
+
+    .link-log a {
+        margin-bottom: 2%;
     }
 }
 
