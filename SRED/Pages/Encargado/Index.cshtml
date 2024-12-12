@@ -179,13 +179,28 @@
                     span.classList.add("estado");
 
                     const divEstado = document.createElement('div');
-                    divEstado.classList.add("circuloVerde");
+
+                    if(rep.estado == 0){
+                        divEstado.classList.add("circuloRojo");
+                    }
+                    else{
+                        divEstado.classList.add("circuloVerde");
+                    }
 
                     const lblEstado = document.createElement('label');
+
                     lblEstado.classList.add("lbl-estado");
 
                     //TEXTO DEL LABEL DE ESTADO DE REPORTE
-                    lblEstado.textContent = 'Completado';
+
+                    if (rep.estado == 0) {
+                        lblEstado.textContent = 'Pendiente';
+                        lblEstado.style.color = '#FAB12F';
+                    }
+                    else{
+                        lblEstado.textContent = 'Completado';
+                        lblEstado.style.color = '#9edf9c';
+                    }
 
                     span.appendChild(divEstado);
                     span.appendChild(lblEstado);
@@ -205,7 +220,7 @@
                     img.src = '/assets/fix.svg';
 
                     const lblDesc = document.createElement('label');
-                    lblDesc.textContent = 'El monitor no enciende.';
+                    lblDesc.textContent = rep.descripcion;
 
                     spanProblema.appendChild(img);
                     spanProblema.appendChild(lblDesc);
@@ -219,7 +234,11 @@
 
 
                     li.appendChild(span);
-                    li.appendChild(lblMarcar);
+
+                    if(rep.estado == 0){
+                        li.appendChild(lblMarcar);
+                    }
+
                     li.appendChild(spanProblema);
                     li.appendChild(lblInfo);
 
@@ -270,7 +289,8 @@
     };
     function eventoClick() {
 
-        const labels = document.querySelectorAll('.lbl-completado');
+        //const labels = document.querySelectorAll('.lbl-completado');
+        const labels = document.querySelectorAll('.marca-completado');
         labels.forEach(label => {
 
             label.addEventListener('click', function () {
