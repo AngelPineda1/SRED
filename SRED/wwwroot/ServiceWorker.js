@@ -1,18 +1,18 @@
 ﻿
 let cacheName = "SREDCacheV1";
 self.addEventListener("install", function (e) {
-    //e.waitUntil(precache());
-    //createDatabase();
+    e.waitUntil(precache());
 });
 
 
 async function precache() {
     let cache = await caches.open(cacheName);
-    /* await cache.add("api/encuesta");*/
+  /* await cache.add("api/");*/
 
 }
 
 self.addEventListener('fetch', event => {
+    createIndexedDB();
     if (event.request.url.protocol !== 'http' || event.request.url.protocol !== 'https') {
         return;
     }
@@ -35,6 +35,27 @@ self.addEventListener('fetch', event => {
         event.respondWith(networkFirst(event.request));
     }
 });
+async function createIndexedDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open("AuthDatabase", 1);
+
+        request.onupgradeneeded = function (event) {
+            const db = event.target.result;
+
+            if (!db.objectStoreNames.contains("tokens")) {
+                db.createObjectStore("tokens", { keyPath: "id" });
+            }
+        };
+
+        request.onsuccess = function (event) {
+            resolve(event.target.result);
+        };
+
+        request.onerror = function (event) {
+            reject("Error al crear la base de datos: " + event.target.errorCode);
+        };
+    });
+}
 
 async function networkIndexDbFallBack(req) {
     let clon = req.clone();

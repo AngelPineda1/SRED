@@ -8,8 +8,8 @@
   "theme_color": "#ffcc00",
   "icons": [
     {
-      "src": "assets/facebook.png",
-      "sizes": "512x512",
+      "src": "assets/icono.png",
+      "sizes": "512x513",
       "type": "image/png"
     }
   ],
