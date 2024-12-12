@@ -18,19 +18,46 @@
         <img src="../assets/user-LogIn.svg" alt="" />
         <input type="text"
                class="input-field"
-               placeholder="Número de control o de empleado" />
+               placeholder="Número de control o de empleado" id="usuario"/>
     </div>
     <div class="pass">
         <img src="../assets/lock-solid.svg" alt="" />
-        <input type="password" class="input-field" placeholder="Contraseña" />
+        <input type="password" class="input-field" placeholder="Contraseña" id="pass"/>
     </div>
 </form>
 <label for="" class="excepcion">Número o contraseña incorrectos.</label>
-<button>Ingresar</button>
+<button id="ingresar">Ingresar</button>
 <!-- <a href="#">¿Eres administrador?<span>Ingresa aquí</span></a> -->
 <div class="link-log">
     <label>¿Eres administrador?</label>
     <a href="../LogInAdmin">Ingresa aquí</a>
 </div>
 
+<script>
+    const btn = document.getElementById("ingresar");
+    btn.addEventListener("click",async () => {
+        try {
+            body = {
+                usuario: document.getElementById("usuario").value,
+                contrasena:document.getElementById("pass").value
+                }
+            const response = await fetch("https://sredapi.websitos256.com/api/Login/UserLog", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(body),
+            });
 
+            const data = await response.text();
+
+            if (response.ok) {
+                console.log("Login exitoso:", data);
+            } else {
+                console.error("Error al iniciar sesión:", data.message);
+            }
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
+        }
+    })
+</script>

@@ -7,34 +7,59 @@ self.addEventListener("install", function (e) {
 
 async function precache() {
     let cache = await caches.open(cacheName);
-  /* await cache.add("api/");*/
+    /* await cache.add("api/");*/
 
 }
 
 self.addEventListener('fetch', event => {
+    console.log(event.request.url)
     createIndexedDB();
-    if (event.request.url.protocol !== 'http' || event.request.url.protocol !== 'https') {
-        return;
-    }
-    else if (event.request.url.includes('/assets/')
+    if (event.request.url.includes('/assets/')
         || event.request.url.includes('/css/')
         || event.request.url.includes('/js/')
-        || event.request.url.includes('/fonts/'))
-    {
+        || event.request.url.includes('/fonts/')) {
         event.respondWith(cacheFirst(event.request))
     }
-    else if (event.request.method == "POST" && event.request.url.includes("api/Login")) {
-        event.respondWith(networkIndexDbFallBack(event.request));
-    }
-    else if (event.request.method == "GET" && (event.request.url.includes("api/Aula")
-        || event.request.url.includes("api/Equipo") || event.request.url.includes("api/Tipo"))) {
-        event.respondWith(cacheFirst(event.request));
+    if (event.request.url.startsWith('http:') || event.request.url.startsWith('https:')) {
+        // Continúa con las reglas
+        if (event.request.method == "POST" && event.request.url.includes("/api/Login/UserLog")) {
+            event.respondWith(
+                (async () => {
+                    try {
+                        const response = await fetch(event.request.clone());
+                        const data = await response.clone().text();
 
+                        if (response.ok && data) {
+                            await saveTokenToIndexedDB(data );
+                            console.log("Token guardado exitosamente en IndexedDB desde el Service Worker.");
+                        } else {
+                            console.warn("La respuesta no contenía un token válido.");
+                        }
+
+                        return response;
+                    } catch (error) {
+                        console.error("Error al manejar la solicitud de login:", error);
+                        return new Response("Error al manejar la solicitud de login.", { status: 500 });
+                    }
+                })()
+            );
+        }
+        else if (event.request.method == "GET" && (event.request.url.includes("api/Aula")
+            || event.request.url.includes("api/Equipo") || event.request.url.includes("api/Tipo"))) {
+            event.respondWith(cacheFirst(event.request));
+
+        } else {
+
+            event.respondWith(networkFirst(event.request));
+        }
     } else {
-
-        event.respondWith(networkFirst(event.request));
+        return;
     }
+
 });
+
+
+
 async function createIndexedDB() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open("AuthDatabase", 1);
@@ -56,6 +81,27 @@ async function createIndexedDB() {
         };
     });
 }
+
+async function saveTokenToIndexedDB(token) {
+    const db = await createIndexedDB();
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction("tokens", "readwrite");
+        const store = transaction.objectStore("tokens");
+
+        store.put({ id: "authToken", token });
+
+        transaction.oncomplete = function () {
+            console.log("Token guardado en IndexedDB.");
+            resolve();
+        };
+
+        transaction.onerror = function (event) {
+            console.error("Error al guardar el token en IndexedDB:", event);
+            reject(event);
+        };
+    });
+}
+
 
 async function networkIndexDbFallBack(req) {
     let clon = req.clone();
