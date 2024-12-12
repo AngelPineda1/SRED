@@ -12,19 +12,21 @@ async function precache() {
 
 }
 
-//self.addEventListener('fetch', event => {
+self.addEventListener('fetch', event => {
 
-//    if (event.request.method == "POST" && event.request.url.includes("api/encuesta")) {
-//        event.respondWith(networkIndexDbFallBack(event.request));
-//    }
-//    else if (event.request.url.includes("api/encuesta")) {
-//        event.respondWith(cacheFirst(event.request));
+    if (event.request.method == "POST" && event.request.url.includes("api/Login")) {
+        event.respondWith(networkIndexDbFallBack(event.request));
+    }
+    else if (event.request.method == "GET" && (event.request.url.includes("api/Aula")
+        || event.request.url.includes("api/Equipo") || event.request.url.includes("api/Tipo")))
+    {
+        event.respondWith(cacheFirst(event.request));
 
-//    } else {
+    } else {
 
-//        event.respondWith(networkFirst(event.request));
-//    }
-//});
+        event.respondWith(networkFirst(event.request));
+    }
+});
 
 async function networkIndexDbFallBack(req) {
     let clon = req.clone();
