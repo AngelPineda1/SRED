@@ -9,7 +9,7 @@
 </head>
 <body>
     <header class="body-headers">
-        <a href="/Invitado/Index">
+        <a id="regresaIndex">
             <img src="../assets/arrow-left-solid.svg" alt="" id="btn-regresar" />
         </a>
         <a class="sig-btn">
@@ -24,6 +24,11 @@
 </body>
 </html>
 <script>
+    const numContr = localStorage.getItem('numControl');
+    const atras = document.getElementById("regresaIndex");
+    atras.addEventListener("click", () => {
+        window.location.href = `/Invitado?numControl=${numContr}`;
+    });
     function cambiarColorAlSeleccionar() {
         let opciones = document.querySelectorAll(".opcion");
 
@@ -45,7 +50,7 @@
         div.innerHTML = '<label>Cargando...</label>';
         try {
 
-            const response = await fetch('https://sredapi.websitos256.com/api/Aula');
+            const response = await fetch('https://sredapi.websitos256.com/aulas/conequipos');
             const data = await response.json();
             div.innerHTML = '';
             data.forEach(aula => {

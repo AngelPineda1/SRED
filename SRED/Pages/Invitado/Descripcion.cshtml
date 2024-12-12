@@ -55,9 +55,9 @@
             if (!response.ok) {
                 throw new Error(`Error en la solicitud: ${response.statusText}`);
             }
+            const numContr = localStorage.getItem('numControl');
             localStorage.removeItem('reporte');
-
-            window.location.replace("/Invitado/Index");
+            window.location.href = `/Invitado?numControl=${numContr}`;
 
 
 

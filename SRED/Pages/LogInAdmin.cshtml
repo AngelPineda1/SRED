@@ -17,17 +17,59 @@
         <img src="../assets/user-LogIn.svg" alt="" />
         <input type="text"
                class="input-field"
-               placeholder="Nombre de usuario" />
+               placeholder="Nombre de usuario" id="usuario" />
     </div>
     <div class="pass">
         <img src="../assets/lock-solid.svg" alt="" />
-        <input type="password" class="input-field" placeholder="Contraseña" />
+        <input type="password" class="input-field" placeholder="Contraseña" id="pass" />
     </div>
 </form>
-<label for="" class="excepcion">Usuario o contraseña incorrectos.</label>
-<button>Ingresar</button>
+<label for="" class="excepcion"></label>
+<button id="ingresar">Ingresar</button>
 <!-- <a href="#"><span>Ir a Inicio de sesión de invitado</span></a> -->
 <div class="link-log">
     <a href="../Index">Ir a Inicio de sesión de invitado</a>
 </div>
+<script>
+    const btn = document.getElementById("ingresar");
+    const message = document.querySelector(".excepcion");
+    btn.addEventListener("click", async () => {
+        message.textContent = "";
+        try {
+            body = {
+                usuario: document.getElementById("usuario").value,
+                contrasena: document.getElementById("pass").value
+            }
+            const response = await fetch("https://sredapi.websitos256.com/api/Login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(body),
+            });
 
+            const data = await response.text();
+
+            if (response.ok) {
+                var payload = decodeJWT(data);
+
+                if (payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] === "Admin") {
+
+                window.location.href = `/Admin/Aulas`;
+                }else{
+                    window.location.href = `/Encargado`;
+                }
+            } else {
+                message.textContent = "Contraseña o nombre de usuario incorrectos";
+            }
+        } catch (error) {
+            console.error("Error en la solicitud:", error);
+        }
+    })
+
+    function decodeJWT(token) {
+        const payloadBase64 = token.split('.')[1]; // El payload está en la segunda parte del token
+        const decodedPayload = atob(payloadBase64); // Decodifica Base64
+        return JSON.parse(decodedPayload); // Convierte el string JSON a objeto
+    }
+</script>

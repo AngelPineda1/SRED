@@ -12,17 +12,19 @@ async function precache() {
 }
 
 self.addEventListener('fetch', event => {
-    console.log(event.request.url)
+    
     createIndexedDB();
     if (event.request.url.includes('/assets/')
         || event.request.url.includes('/css/')
         || event.request.url.includes('/js/')
-        || event.request.url.includes('/fonts/')) {
+        || event.request.url.includes('/fonts/')
+        || event.request.url.includes('/Pages/Index')
+        || event.request.url.includes('/Pages/LogInAdmin')) {
         event.respondWith(cacheFirst(event.request))
     }
     if (event.request.url.startsWith('http:') || event.request.url.startsWith('https:')) {
         // Continúa con las reglas
-        if (event.request.method == "POST" && event.request.url.includes("/api/Login/UserLog")) {
+        if (event.request.method == "POST" && (event.request.url.includes("/api/Login/UserLog") || event.request.url.includes("/api/Login"))) {
             event.respondWith(
                 (async () => {
                     try {
@@ -30,8 +32,15 @@ self.addEventListener('fetch', event => {
                         const data = await response.clone().text();
 
                         if (response.ok && data) {
-                            await saveTokenToIndexedDB(data );
+                            
+
+                            // Guardar el token en IndexedDB
+                            await saveTokenToIndexedDB(data);
+
+                  
+              
                             console.log("Token guardado exitosamente en IndexedDB desde el Service Worker.");
+                            
                         } else {
                             console.warn("La respuesta no contenía un token válido.");
                         }
@@ -57,6 +66,11 @@ self.addEventListener('fetch', event => {
     }
 
 });
+function decodeJWT(token) {
+    const payloadBase64 = token.split('.')[1]; 
+    const decodedPayload = atob(payloadBase64); 
+    return JSON.parse(decodedPayload); 
+}
 
 
 

@@ -53,13 +53,17 @@
     });
 
     async function cargarReportes() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const num = urlParams.get('numControl');
         const listaReportes = document.getElementById('lista-reportesEncargado');
         listaReportes.innerHTML = '<label>Cargando...</label>';
         try {
 
-            const response = await fetch('https://sredapi.websitos256.com/api/Reporte/pornumerocontrol/201G0276');
+            const response = await fetch(`https://sredapi.websitos256.com/api/Reporte/pornumerocontrol/${num}`);
             const data = await response.json();
             listaReportes.innerHTML = '';
+            if(data){
+            
             data.forEach(aula => {
 
                 const li = document.createElement('li');
@@ -107,6 +111,9 @@
                 li.appendChild(label3);
                 listaReportes.appendChild(li);
             });
+            }else{
+                listaReportes.innerHTML = '<label>No has Realizado Reportes Aun</label>';
+            }
 
         } catch (error) {
             console.error('Error:', error);

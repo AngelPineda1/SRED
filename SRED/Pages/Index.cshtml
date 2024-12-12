@@ -18,14 +18,14 @@
         <img src="../assets/user-LogIn.svg" alt="" />
         <input type="text"
                class="input-field"
-               placeholder="Número de control o de empleado" id="usuario"/>
+               placeholder="Número de control o de empleado" id="usuario" />
     </div>
     <div class="pass">
         <img src="../assets/lock-solid.svg" alt="" />
-        <input type="password" class="input-field" placeholder="Contraseña" id="pass"/>
+        <input type="password" class="input-field" placeholder="Contraseña" id="pass" />
     </div>
 </form>
-<label for="" class="excepcion">Número o contraseña incorrectos.</label>
+<label for="" class="excepcion"></label>
 <button id="ingresar">Ingresar</button>
 <!-- <a href="#">¿Eres administrador?<span>Ingresa aquí</span></a> -->
 <div class="link-log">
@@ -34,13 +34,18 @@
 </div>
 
 <script>
+    if (localStorage.getItem('numControl')) {
+        localStorage.removeItem('numControl');
+    };
     const btn = document.getElementById("ingresar");
-    btn.addEventListener("click",async () => {
+    const message = document.querySelector(".excepcion");
+    btn.addEventListener("click", async () => {
+        message.textContent = "";
         try {
             body = {
                 usuario: document.getElementById("usuario").value,
-                contrasena:document.getElementById("pass").value
-                }
+                contrasena: document.getElementById("pass").value
+            }
             const response = await fetch("https://sredapi.websitos256.com/api/Login/UserLog", {
                 method: "POST",
                 headers: {
@@ -52,12 +57,22 @@
             const data = await response.text();
 
             if (response.ok) {
-                console.log("Login exitoso:", data);
+               
+                var payload = decodeJWT(data);
+                var numContr = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+                localStorage.setItem('numControl', numContr);
+                window.location.href = `/Invitado?numControl=${numContr}`;
+               
             } else {
-                console.error("Error al iniciar sesión:", data.message);
+                message.textContent = "Contraseña o nombre de usuario incorrectos";
             }
         } catch (error) {
             console.error("Error en la solicitud:", error);
         }
-    })
+    });
+    function decodeJWT(token) {
+        const payloadBase64 = token.split('.')[1]; // El payload está en la segunda parte del token
+        const decodedPayload = atob(payloadBase64); // Decodifica Base64
+        return JSON.parse(decodedPayload); // Convierte el string JSON a objeto
+    }
 </script>
