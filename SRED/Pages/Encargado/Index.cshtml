@@ -448,4 +448,23 @@
         btnCerrarFiltros.click();
     });
 
+    let btnCerrarSesion = document.querySelector(".config-grande");
+    let opcionCerrarSesion = document.getElementById("opcionCerrarSesion");
+
+    btnCerrarSesion.addEventListener("click", function (e) {
+        e.stopPropagation();
+
+        if (opcionCerrarSesion.style.visibility === "hidden") {
+            opcionCerrarSesion.style.visibility = "visible";
+        } else {
+            opcionCerrarSesion.style.visibility = "hidden";
+        }
+    });
+
+    document.addEventListener("click", function (e) {
+        if (opcionCerrarSesion.style.visibility == "visible") {
+            opcionCerrarSesion.style.visibility = "hidden";
+        }
+    });
+
 </script>
