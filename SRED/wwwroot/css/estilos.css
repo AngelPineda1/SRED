@@ -549,7 +549,7 @@ header span {
     border: 1px solid #ffffff;
     margin: 1%;
     width: 92%;
-    min-width: 92%;
+    max-width: 92%;
     padding-bottom: 5%;
     position: absolute;
     left: 3%;
@@ -1960,6 +1960,13 @@ textarea {
     }
 
     /* VISTA ENCARGADO *********************************************/
+    #filtros-flotante {
+        width: 70%;
+        position: absolute;
+        margin-top: 43%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
 
     #filtros-flotante label {
         font-size: 1.2em;
@@ -2119,6 +2126,22 @@ textarea {
             margin-bottom: 0%;
         }
 }
+
+/*CAMBIOS PARA FILTROS DE ENCARGADO MOVIL*/
+@media (width > 550px) and (width < 765px) {
+    #filtros-flotante {
+        width: 50%;
+        position: absolute;
+        left: 23%;
+    }
+}
+
+@media (width > 1010px) {
+    #filtros-flotante {
+        display: none !important;
+    }
+}
+
 
 /* DISP MAS CHICOS *************************************/
 @media (width = 320px) {

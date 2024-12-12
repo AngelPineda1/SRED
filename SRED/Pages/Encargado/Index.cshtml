@@ -7,17 +7,19 @@
     <title>Principal Encargado</title>
     <link rel="stylesheet" href="~/css/estilos.css" />
 </head>
-<body id="body-encargado">
+<body id="fijo">
     <header>
-        <img src="../assets/filter-solid.svg" alt="" id="iconofiltros-movil" />
-        <label for="" class="titulo-encargado">Sistema de Reportes de Equipo Dañado</label>
+        <img src="~/assets/filter-solid.svg" alt="" id="iconofiltros-movil" />
+        <label for="">Sistema de Reportes de Equipo Dañado</label>
         <span>
-            <img class="conf-encargado"
+            <img class="config-grande"
                  src="~/assets/settings-3-fill (1).svg"
                  alt="" />
         </span>
     </header>
-
+    <div id="opcionCerrarSesion">
+        <label for="">Cerrar sesión</label>
+    </div>
     <!-- MENU DE FILTROS PARA VISTA MOVIL -->
     <div id="filtros-flotante">
         <img src="~/assets/xmark-solid.svg" alt="" id="btn-cerrarFiltros" />
@@ -52,9 +54,6 @@
                 <option value="">Más recientes</option>
                 <option value="">Más antiguos</option>
             </select>
-            @* <img src="~/assets/magnifying-glass-solid.svg"
-            alt=""
-            id="btn-buscar" /> *@
         </div>
         <ul id="lista-reportesEncargado">
         </ul>
@@ -173,41 +172,92 @@
                 listaReportes.innerHTML = '';
                 data.forEach(rep => {
                     const li = document.createElement('li');
+                    li.id = rep.id;
 
+                    //SPAN ESTADO DE REPORTE
                     const span = document.createElement('span');
-                    span.id = rep.id;
-                    const labelNum = document.createElement('label');
-                    labelNum.classList.add("num");
-                    labelNum.textContent = `${rep.folio} reportado por ${rep.noControlTrabajo}`;
+                    span.classList.add("estado");
 
-                    const labelEquipo = document.createElement('label');
-                    labelEquipo.textContent = rep.equipo;
+                    const divEstado = document.createElement('div');
+                    divEstado.classList.add("circuloVerde");
 
-                    const labelAula = document.createElement('label');
-                    labelAula.textContent = rep.aula;
+                    const lblEstado = document.createElement('label');
+                    lblEstado.classList.add("lbl-estado");
 
-                    const labelDesc = document.createElement('label');
-                    labelDesc.textContent = rep.descripcion;
-                    const labelCompletado = document.createElement('label');
-                    labelCompletado.classList.add("lbl-completado");
-                    labelCompletado.textContent = "Marcar Completado";
-                    const labelFecha = document.createElement("label");
-                    const [year, mes, dia] = rep.fechaCreacion.split("-");
-                    labelFecha.textContent = `${dia}/${mes}/${year}`;
-                    span.appendChild(labelNum);
-                    span.appendChild(labelFecha);
+                    //TEXTO DEL LABEL DE ESTADO DE REPORTE
+                    lblEstado.textContent = 'Completado';
 
-                    span.appendChild(labelEquipo);
-                    span.appendChild(labelAula);
-                    span.appendChild(labelDesc);
+                    span.appendChild(divEstado);
+                    span.appendChild(lblEstado);
+
+
+                    //LABEL PARA MARCAR COMPLETADO
+                    const lblMarcar = document.createElement('label');
+                    lblMarcar.classList.add("marca-completado");
+                    lblMarcar.textContent = 'Marcar Completado';
+
+
+                    //SPAN PROBLEMA
+                    const spanProblema = document.createElement('span');
+                    spanProblema.classList.add('problema');
+
+                    const img = document.createElement('img');
+                    img.src = '/assets/fix.svg';
+
+                    const lblDesc = document.createElement('label');
+                    lblDesc.textContent = 'El monitor no enciende.';
+
+                    spanProblema.appendChild(img);
+                    spanProblema.appendChild(lblDesc);
+
+                    
+                    
+                    //LABEL DE EQUIPO Y AULA
+                    const lblInfo = document.createElement('label');
+                    lblInfo.classList.add("inf");
+                    lblInfo.textContent = `${rep.equipo} de ${rep.aula}`;
+
+
                     li.appendChild(span);
-                    if (rep.estado == 0) {
-
-                        li.appendChild(labelCompletado);
-
-                    };
+                    li.appendChild(spanProblema);
+                    li.appendChild(lblInfo);
 
                     listaReportes.appendChild(li);
+
+                    //const span = document.createElement('span');
+                    //span.id = rep.id;
+                    //const labelNum = document.createElement('label');
+                    // labelNum.classList.add("num");
+                    // labelNum.textContent = `${rep.folio} reportado por ${rep.noControlTrabajo}`;
+
+                    // const labelEquipo = document.createElement('label');
+                    // labelEquipo.textContent = rep.equipo;
+
+                    // const labelAula = document.createElement('label');
+                    // labelAula.textContent = rep.aula;
+
+                    // const labelDesc = document.createElement('label');
+                    // labelDesc.textContent = rep.descripcion;
+                    // const labelCompletado = document.createElement('label');
+                    // labelCompletado.classList.add("lbl-completado");
+                    // labelCompletado.textContent = "Marcar Completado";
+                    // const labelFecha = document.createElement("label");
+                    // const [year, mes, dia] = rep.fechaCreacion.split("-");
+                    // labelFecha.textContent = `${dia}/${mes}/${year}`;
+                    // span.appendChild(labelNum);
+                    // span.appendChild(labelFecha);
+
+                    // span.appendChild(labelEquipo);
+                    // span.appendChild(labelAula);
+                    // span.appendChild(labelDesc);
+                    // li.appendChild(span);
+                    // if (rep.estado == 0) {
+
+                    //     li.appendChild(labelCompletado);
+
+                    // };
+
+                    // listaReportes.appendChild(li);
                 });
                 eventoClick();
             }
