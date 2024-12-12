@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Pages\Shared\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\assets\add-line %281%29.svg" />
     <None Include="wwwroot\assets\add-line.svg" />
     <None Include="wwwroot\assets\arrow-left-solid.svg" />

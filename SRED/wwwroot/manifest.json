@@ -1,0 +1,17 @@
+﻿{
+  "name": "SRED",
+  "short_name": "App de sistema de reportes",
+  "description": "Una aplicación web progresiva para realizar reportes de equipos dañados.",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#ffcc00",
+  "icons": [
+    {
+      "src": "assets/facebook.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "scope": "/"
+}

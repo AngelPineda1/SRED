@@ -295,7 +295,28 @@
 
             label.addEventListener('click', function () {
 
-                const reporteId = parseInt(this.previousElementSibling.id);
+                const reporteId = parseInt(this.parentElement.id);
+                const parent = this.parentElement;
+
+                // Encuentra el primer span dentro del padre
+                const firstSpan = parent.querySelector('span');
+
+                if (firstSpan) {
+                    // Modifica el contenido y estilo del span
+                    const siblingDiv = firstSpan.querySelector('div');
+                    const siblingLabel = firstSpan.querySelector('label');
+
+                    if (siblingDiv) {
+                        siblingDiv.classList.remove("circuloRojo");
+                        siblingDiv.classList.add("circuloVerde");
+                    }
+                    if (siblingLabel) {
+                        siblingLabel.textContent = "Completado";
+                        siblingLabel.style.color = "#9edf9c";
+                    }
+                }
+
+                // Obtiene el ID del reporte del elemento anterior al label
                 actualizarReporte(reporteId);
                 label.remove();
                 url = 'https://sredapi.websitos256.com/api/Reporte/reportesxatender';

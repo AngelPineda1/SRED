@@ -8,18 +8,26 @@ self.addEventListener("install", function (e) {
 
 async function precache() {
     let cache = await caches.open(cacheName);
-   /* await cache.add("api/encuesta");*/
+    /* await cache.add("api/encuesta");*/
 
 }
 
 self.addEventListener('fetch', event => {
-
-    if (event.request.method == "POST" && event.request.url.includes("api/Login")) {
+    if (event.request.url.protocol !== 'http' || event.request.url.protocol !== 'https') {
+        return;
+    }
+    else if (event.request.url.includes('/assets/')
+        || event.request.url.includes('/css/')
+        || event.request.url.includes('/js/')
+        || event.request.url.includes('/fonts/'))
+    {
+        event.respondWith(cacheFirst(event.request))
+    }
+    else if (event.request.method == "POST" && event.request.url.includes("api/Login")) {
         event.respondWith(networkIndexDbFallBack(event.request));
     }
     else if (event.request.method == "GET" && (event.request.url.includes("api/Aula")
-        || event.request.url.includes("api/Equipo") || event.request.url.includes("api/Tipo")))
-    {
+        || event.request.url.includes("api/Equipo") || event.request.url.includes("api/Tipo"))) {
         event.respondWith(cacheFirst(event.request));
 
     } else {

@@ -1,38 +1,36 @@
 ﻿@page
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Log In</title>
-    <link rel="stylesheet" href="../css/Estilos.css" />
-</head>
-<body id="body-logIn">
+@{
+    Layout = "Layout";
+    ViewData["Title"] = "LogIn";
+}
+
+@section header {
+
     <header>
         <img src="../assets/logo1.jpg" alt="" id="logo" />
         <h3>Sistema de Reportes de Equipo Dañado</h3>
     </header>
-    <main>
-        <label class="lbl-log" for="">Ingresa con tu núm de control o de empleado</label>
-        <form action="" id="form-LogIn">
-            <div>
-                <img src="../assets/user-LogIn.svg" alt="" />
-                <input type="text"
-                       class="input-field"
-                       placeholder="Número de control o de empleado" />
-            </div>
-            <div class="pass">
-                <img src="../assets/lock-solid.svg" alt="" />
-                <input type="password" class="input-field" placeholder="Contraseña" />
-            </div>
-        </form>
-        <label for="" class="excepcion">Número o contraseña incorrectos.</label>
-        <button>Ingresar</button>
-        <!-- <a href="#">¿Eres administrador?<span>Ingresa aquí</span></a> -->
-        <div class="link-log">
-            <label>¿Eres administrador?</label>
-            <a href="../LogInAdmin">Ingresa aquí</a>
-        </div>
-    </main>
-</body>
-</html>
+}
+
+<label class="lbl-log" for="">Ingresa con tu núm de control o de empleado</label>
+<form action="" id="form-LogIn">
+    <div>
+        <img src="../assets/user-LogIn.svg" alt="" />
+        <input type="text"
+               class="input-field"
+               placeholder="Número de control o de empleado" />
+    </div>
+    <div class="pass">
+        <img src="../assets/lock-solid.svg" alt="" />
+        <input type="password" class="input-field" placeholder="Contraseña" />
+    </div>
+</form>
+<label for="" class="excepcion">Número o contraseña incorrectos.</label>
+<button>Ingresar</button>
+<!-- <a href="#">¿Eres administrador?<span>Ingresa aquí</span></a> -->
+<div class="link-log">
+    <label>¿Eres administrador?</label>
+    <a href="../LogInAdmin">Ingresa aquí</a>
+</div>
+
+

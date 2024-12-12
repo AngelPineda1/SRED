@@ -1,37 +1,33 @@
 ﻿@page
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Log In Admin</title>
-    <link rel="stylesheet" href="../css/Estilos.css" />
-</head>
-<body id="body-logIn">
+@{
+    Layout = "Layout";
+    ViewData["Title"] = "LogIn Admin";
+}
+@section header {
+
     <header>
         <img src="../assets/logo1.jpg" alt="" id="logo" />
         <h3>Sistema de Reportes de Equipo Dañado</h3>
     </header>
-    <main>
-        <label class="lbl-log" for="">Ingresa con tu nombre de usuario</label>
-        <form action="" id="form-LogIn">
-            <div>
-                <img src="../assets/user-LogIn.svg" alt="" />
-                <input type="text"
-                       class="input-field"
-                       placeholder="Nombre de usuario" />
-            </div>
-            <div class="pass">
-                <img src="../assets/lock-solid.svg" alt="" />
-                <input type="password" class="input-field" placeholder="Contraseña" />
-            </div>
-        </form>
-        <label for="" class="excepcion">Usuario o contraseña incorrectos.</label>
-        <button>Ingresar</button>
-        <!-- <a href="#"><span>Ir a Inicio de sesión de invitado</span></a> -->
-        <div class="link-log">
-            <a href="../LogIn">Ir a Inicio de sesión de invitado</a>
-        </div>
-    </main>
-</body>
-</html>
+}
+
+<label class="lbl-log" for="">Ingresa con tu nombre de usuario</label>
+<form action="" id="form-LogIn">
+    <div>
+        <img src="../assets/user-LogIn.svg" alt="" />
+        <input type="text"
+               class="input-field"
+               placeholder="Nombre de usuario" />
+    </div>
+    <div class="pass">
+        <img src="../assets/lock-solid.svg" alt="" />
+        <input type="password" class="input-field" placeholder="Contraseña" />
+    </div>
+</form>
+<label for="" class="excepcion">Usuario o contraseña incorrectos.</label>
+<button>Ingresar</button>
+<!-- <a href="#"><span>Ir a Inicio de sesión de invitado</span></a> -->
+<div class="link-log">
+    <a href="../Index">Ir a Inicio de sesión de invitado</a>
+</div>
+
