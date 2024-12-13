@@ -8,19 +8,34 @@
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="../css/Estilos.css" />
     <link rel="manifest" href="/manifest.json" />
-   
+
 </head>
 <body id="body-logIn">
-    @RenderSection("header", required:false)
-   
+    @RenderSection("header", required: false)
+
     <main>
         @RenderBody()
     </main>
 
 </body>
 <script>
-    if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/ServiceWorker.js');
-    }
+    document.addEventListener("DOMContentLoaded", async () => {
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('/ServiceWorker.js');
+
+        }
+        const resp = await fetch("/token");
+        if (resp.ok) {
+
+            const data = await resp.json();
+
+            if (data.token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === "Invitado") {
+                window.location.href = `/Invitado?numControl=${data.token["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]}`;
+            } else if (data.token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === "Admin") {
+                window.location.href = `/Admin/Aulas`;
+
+            }
+        }
+    });
 </script>
 </html>

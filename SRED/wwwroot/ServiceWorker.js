@@ -26,7 +26,29 @@ self.addEventListener('fetch', event => {
     //    event.respondWith(cacheFirst(event.request));
     //    return;
     //}
-
+    if (event.request.method === "GET" && (event.request.url.includes("/token"))) {
+        event.respondWith(
+            (async () => {
+                try {
+                    const decodedToken = await token();  // Obtiene y valida el token
+                    const response = new Response(JSON.stringify({ token: decodedToken }), {
+                        headers: { 'Content-Type': 'application/json' },
+                        status: 200
+                    });
+                    return response;
+                } catch (error) {
+                
+                    console.error(error.message);
+                    return new Response(JSON.stringify({ error: error.message }), {
+                        headers: { 'Content-Type': 'application/json' },
+                        status: 401
+                    });
+                }
+                return response;
+            })()
+        );
+        return;
+    }
     // Continúa con las reglas
     if (event.request.method == "POST" && (event.request.url.includes("/api/Login/UserLog") || event.request.url.includes("/api/Login"))) {
         event.respondWith(
@@ -58,7 +80,8 @@ self.addEventListener('fetch', event => {
         );
     }
     else {
-        event.respondWith(cacheFirst(event.request));
+        event.respondWith(networkFirst(event.request));
+       
 
     }
     //else if (event.request.method == "GET" && (event.request.url.includes("api/Aula")
@@ -76,7 +99,39 @@ function decodeJWT(token) {
     const decodedPayload = atob(payloadBase64);
     return JSON.parse(decodedPayload);
 }
+async function token() {
 
+    const token = await getTokenFromIndexedDB();
+   
+    const resp = (decodeJWT(token));
+   
+    const now = Math.floor(Date.now() / 1000); 
+    if (resp.exp && resp.exp < now) {
+        throw new Error('Token has expired');
+    }
+
+    return resp;
+}
+
+async function getTokenFromIndexedDB() {
+    const db = await createIndexedDB();
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction("tokens", "readonly");
+        const store = transaction.objectStore("tokens");
+
+        const request = store.get("authToken");
+
+        request.onsuccess = function (event) {
+            const token = event.target.result ? event.target.result.token : null;
+            resolve(token);
+        };
+
+        request.onerror = function (event) {
+            console.error("Error al leer el token de IndexedDB:", event);
+            reject(event);
+        };
+    });
+}
 
 
 async function createIndexedDB() {
