@@ -68,8 +68,8 @@
     })
 
     function decodeJWT(token) {
-        const payloadBase64 = token.split('.')[1]; // El payload está en la segunda parte del token
-        const decodedPayload = atob(payloadBase64); // Decodifica Base64
-        return JSON.parse(decodedPayload); // Convierte el string JSON a objeto
+        const payloadBase64 = token.split('.')[1]; 
+        const decodedPayload = atob(payloadBase64); 
+        return JSON.parse(decodedPayload); 
     }
 </script>
