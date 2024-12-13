@@ -215,6 +215,8 @@
             opcionCerrarSesion.style.visibility = "hidden";
         }
     });
-    
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/ServiceWorker.js');
+    }
 </script>
 

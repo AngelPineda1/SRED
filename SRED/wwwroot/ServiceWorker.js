@@ -12,64 +12,69 @@ async function precache() {
 }
 
 self.addEventListener('fetch', event => {
-    
+
     createIndexedDB();
-    if (event.request.url.includes('/assets/')
-        || event.request.url.includes('/css/')
-        || event.request.url.includes('/js/')
-        || event.request.url.includes('/fonts/')
-        || event.request.url.includes('/Pages/Index')
-        || event.request.url.includes('/Pages/LogInAdmin')) {
-        event.respondWith(cacheFirst(event.request))
-    }
-    if (event.request.url.startsWith('http:') || event.request.url.startsWith('https:')) {
-        // Continúa con las reglas
-        if (event.request.method == "POST" && (event.request.url.includes("/api/Login/UserLog") || event.request.url.includes("/api/Login"))) {
-            event.respondWith(
-                (async () => {
-                    try {
-                        const response = await fetch(event.request.clone());
-                        const data = await response.clone().text();
+    //if (event.request.url.includes('/assets/')
+    //    || event.request.url.includes('/css/')
+    //    || event.request.url.includes('/js/')
+    //    || event.request.url.includes('/fonts/')
+    //    || event.request.url.includes('/Pages/Index')
+    //    || event.request.url.includes('/Pages/LogInAdmin')) {
+    //    event.respondWith(cacheFirst(event.request))
+    //}
+    //if (event.request.method === "GET" && event.request.url.includes("/api/Reporte/pornumerocontrol")) {
+    //    event.respondWith(cacheFirst(event.request));
+    //    return;
+    //}
 
-                        if (response.ok && data) {
-                            
+    // Continúa con las reglas
+    if (event.request.method == "POST" && (event.request.url.includes("/api/Login/UserLog") || event.request.url.includes("/api/Login"))) {
+        event.respondWith(
+            (async () => {
+                try {
+                    const response = await fetch(event.request.clone());
+                    const data = await response.clone().text();
 
-                            // Guardar el token en IndexedDB
-                            await saveTokenToIndexedDB(data);
+                    if (response.ok && data) {
 
-                  
-              
-                            console.log("Token guardado exitosamente en IndexedDB desde el Service Worker.");
-                            
-                        } else {
-                            console.warn("La respuesta no contenía un token válido.");
-                        }
 
-                        return response;
-                    } catch (error) {
-                        console.error("Error al manejar la solicitud de login:", error);
-                        return new Response("Error al manejar la solicitud de login.", { status: 500 });
+                        // Guardar el token en IndexedDB
+                        await saveTokenToIndexedDB(data);
+
+
+
+                        console.log("Token guardado exitosamente en IndexedDB desde el Service Worker.");
+
+                    } else {
+                        console.warn("La respuesta no contenía un token válido.");
                     }
-                })()
-            );
-        }
-        else if (event.request.method == "GET" && (event.request.url.includes("api/Aula")
-            || event.request.url.includes("api/Equipo") || event.request.url.includes("api/Tipo"))) {
-            event.respondWith(cacheFirst(event.request));
 
-        } else {
-
-            event.respondWith(networkFirst(event.request));
-        }
-    } else {
-        return;
+                    return response;
+                } catch (error) {
+                    console.error("Error al manejar la solicitud de login:", error);
+                    return new Response("Error al manejar la solicitud de login.", { status: 500 });
+                }
+            })()
+        );
     }
+    else {
+        event.respondWith(cacheFirst(event.request));
 
-});
+    }
+    //else if (event.request.method == "GET" && (event.request.url.includes("api/Aula")
+    //    || event.request.url.includes("api/Equipo") || event.request.url.includes("api/Tipo"))) {
+    //    event.respondWith(cacheFirst(event.request));
+
+    //} else {
+
+    //    event.respondWith(networkFirst(event.request));
+    //}
+
+} );
 function decodeJWT(token) {
-    const payloadBase64 = token.split('.')[1]; 
-    const decodedPayload = atob(payloadBase64); 
-    return JSON.parse(decodedPayload); 
+    const payloadBase64 = token.split('.')[1];
+    const decodedPayload = atob(payloadBase64);
+    return JSON.parse(decodedPayload);
 }
 
 
