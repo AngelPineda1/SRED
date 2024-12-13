@@ -56,12 +56,11 @@
     });
 
     async function cargarReportes() {
-        const urlParams = new URLSearchParams(window.location.search);
-        const num = urlParams.get('numControl');
+
         const listaReportes = document.getElementById('lista-reportesEncargado');
         listaReportes.innerHTML = '<label>Cargando...</label>';
         try {
-
+            const num = localStorage.getItem('numControl');
             const response = await fetch(`https://sredapi.websitos256.com/api/Reporte/pornumerocontrol/${num}`);
             const data = await response.json();
             listaReportes.innerHTML = '';

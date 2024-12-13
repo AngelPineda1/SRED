@@ -28,11 +28,17 @@
         if (resp.ok) {
 
             const data = await resp.json();
+            if (data.token["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]) {
 
-            if (data.token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === "Invitado") {
-                window.location.href = `/Invitado?numControl=${data.token["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]}`;
-            } else if (data.token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === "Admin") {
+                localStorage.setItem('numControl', data.token["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]);
+            }
+
+
+            if (data.token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === "Admin") {
                 window.location.href = `/Admin/Aulas`;
+
+            } else {
+                window.location.href = `/${data.token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]}`;
 
             }
         }
