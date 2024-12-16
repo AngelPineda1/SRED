@@ -31,10 +31,10 @@
         if (desc.value.trim() == "") {
             window.alert("Debe ingresar la descripcion del problema");
         }else{
-            
+            const num = localStorage.getItem('numControl');
             reporteData={
                 id:0,
-                noControlTrabajo:"201G0276",
+                noControlTrabajo:num,
                 descripcion:desc.value.trim(),
                 equipoId: parseInt(repObj.idequipo)
             }
@@ -57,7 +57,7 @@
             }
             const numContr = localStorage.getItem('numControl');
             localStorage.removeItem('reporte');
-            window.location.href = `/Invitado?numControl=${numContr}`;
+            window.location.href = `/Invitado`;
 
 
 

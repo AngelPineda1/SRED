@@ -25,7 +25,7 @@ self.addEventListener('fetch', event => {
     //    event.respondWith(cacheFirst(event.request))
     //}
    
-    if (event.request.url.includes("/api/")) {
+    if (event.request.url.includes("/api/") && event.request.method === "GET") {
         event.respondWith((async () => {
             const token = await getTokenFromIndexedDB();
             if (token) {
