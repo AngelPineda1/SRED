@@ -17,7 +17,7 @@
         </span>
     </header>
     <div id="opcionCerrarSesion">
-        <label for="">Cerrar sesión</label>
+        <label for="" id="logout">Cerrar sesión</label>
     </div>
     <main id="principal-encargado">
         <label for="" class="titulo-repEnviados">Reportes enviados:</label>
@@ -48,7 +48,15 @@
             opcionCerrarSesion.style.visibility = "hidden";
         }
     });
+    const logout=document.getElementById("logout");
+    logout.addEventListener("click",async ()=>{
+        const resp =await fetch("/logout");
+        if(resp.ok){
+            window.location.href = `/Index`;
 
+        }
+
+    })
     document.addEventListener("click", function (e) {
         if (opcionCerrarSesion.style.visibility == "visible") {
             opcionCerrarSesion.style.visibility = "hidden";

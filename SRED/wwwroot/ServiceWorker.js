@@ -1,7 +1,9 @@
-﻿
+﻿const token = getTokenFromIndexedDB();
+
 let cacheName = "SREDCacheV1";
 self.addEventListener("install", function (e) {
     e.waitUntil(precache());
+    createIndexedDB();
 });
 
 
@@ -13,7 +15,6 @@ async function precache() {
 
 self.addEventListener('fetch', event => {
 
-    createIndexedDB();
     //if (event.request.url.includes('/assets/')
     //    || event.request.url.includes('/css/')
     //    || event.request.url.includes('/js/')
@@ -26,18 +27,36 @@ self.addEventListener('fetch', event => {
     //    event.respondWith(cacheFirst(event.request));
     //    return;
     //}
+    if (event.request.url.includes("/logout")) {
+        event.respondWith((async () => {
+            const token = await getTokenFromIndexedDB();
+            if (token) {
+                try {
+                    await deleteTokenFromIndexedDB(); // Asegúrate de esperar a que la eliminación se complete.
+                    const response = new Response("Logout successful", { status: 200 });
+                    return response;
+                } catch (ex) {
+                    console.error("Error during logout:", ex);
+                    return new Response("Error during logout", { status: 500 });
+                }
+                return response;
+            } else {
+                return new Response("No token found", { status: 400 });
+            }
+        })());
+    }
     if (event.request.method === "GET" && (event.request.url.includes("/token"))) {
         event.respondWith(
             (async () => {
                 try {
-                    const decodedToken = await token();  // Obtiene y valida el token
+                    const decodedToken = await tokenDecode();  // Obtiene y valida el token
                     const response = new Response(JSON.stringify({ token: decodedToken }), {
                         headers: { 'Content-Type': 'application/json' },
                         status: 200
                     });
                     return response;
                 } catch (error) {
-                
+
                     console.error(error.message);
                     return new Response(JSON.stringify({ error: error.message }), {
                         headers: { 'Content-Type': 'application/json' },
@@ -81,7 +100,7 @@ self.addEventListener('fetch', event => {
     }
     else {
         event.respondWith(networkFirst(event.request));
-       
+
 
     }
     //else if (event.request.method == "GET" && (event.request.url.includes("api/Aula")
@@ -93,25 +112,48 @@ self.addEventListener('fetch', event => {
     //    event.respondWith(networkFirst(event.request));
     //}
 
-} );
+});
 function decodeJWT(token) {
     const payloadBase64 = token.split('.')[1];
     const decodedPayload = atob(payloadBase64);
     return JSON.parse(decodedPayload);
 }
-async function token() {
-
+async function tokenDecode() {
     const token = await getTokenFromIndexedDB();
-   
-    const resp = (decodeJWT(token));
-   
-    const now = Math.floor(Date.now() / 1000); 
-    if (resp.exp && resp.exp < now) {
-        throw new Error('Token has expired');
-    }
+    if (token) {
+        const resp = (decodeJWT(token));
 
-    return resp;
+        const now = Math.floor(Date.now() / 1000);
+        if (resp.exp && resp.exp < now) {
+            throw new Error('Token has expired');
+        }
+
+        return resp;
+
+    }
+    return null;
+
 }
+async function deleteTokenFromIndexedDB() {
+    const db = await createIndexedDB();
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction("tokens", "readwrite");
+        const store = transaction.objectStore("tokens");
+
+        const request = store.delete("authToken");
+
+        request.onsuccess = function () {
+            console.log("Token eliminado de IndexedDB.");
+            resolve();
+        };
+
+        request.onerror = function (event) {
+            console.error("Error al eliminar el token de IndexedDB:", event);
+            reject(event);
+        };
+    });
+}
+
 
 async function getTokenFromIndexedDB() {
     const db = await createIndexedDB();

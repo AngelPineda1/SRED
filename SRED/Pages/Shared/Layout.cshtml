@@ -23,6 +23,10 @@
         if (localStorage.getItem('numControl')) {
             localStorage.removeItem('numControl')
         }
+        if (localStorage.getItem('reporte')){
+            localStorage.removeItem('reporte')
+
+        }
         if (localStorage.getItem('aula')) {
             localStorage.removeItem('aula')
         }
@@ -37,18 +41,21 @@
         if (resp.ok) {
 
             const data = await resp.json();
-            if (data.token["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]) {
+            if (data) {
 
-                localStorage.setItem('numControl', data.token["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]);
-            }
+                if (data.token["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]) {
+
+                    localStorage.setItem('numControl', data.token["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]);
+                }
 
 
-            if (data.token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === "Admin") {
-                window.location.href = `/Admin/Aulas`;
+                if (data.token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"] === "Admin") {
+                    window.location.href = `/Admin/Aulas`;
 
-            } else {
-                window.location.href = `/${data.token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]}`;
+                } else {
+                    window.location.href = `/${data.token["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]}`;
 
+                }
             }
         }
     });
