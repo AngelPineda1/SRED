@@ -52,7 +52,7 @@
 
             if (response.ok) {
                 var payload = decodeJWT(data);
-
+                console.log(payload);
                 if (payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'] === "Admin") {
 
                 window.location.href = `/Admin/Aulas`;

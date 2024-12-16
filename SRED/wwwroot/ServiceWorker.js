@@ -1,4 +1,5 @@
 ﻿const token = getTokenFromIndexedDB();
+const url = 'https://sredapi.websitos256.com';
 
 let cacheName = "SREDCacheV1";
 self.addEventListener("install", function (e) {
@@ -23,16 +24,39 @@ self.addEventListener('fetch', event => {
     //    || event.request.url.includes('/Pages/LogInAdmin')) {
     //    event.respondWith(cacheFirst(event.request))
     //}
-    //if (event.request.method === "GET" && event.request.url.includes("/api/Reporte/pornumerocontrol")) {
-    //    event.respondWith(cacheFirst(event.request));
-    //    return;
-    //}
+   
+    if (event.request.url.includes("/api/")) {
+        event.respondWith((async () => {
+            const token = await getTokenFromIndexedDB();
+            if (token) {
+                const resp = decodeJWT(token);
+                console.log(resp);
+
+                const now = Math.floor(Date.now() / 1000);
+
+                if (resp.exp && resp.exp < now) {
+
+                    try {
+                        const newToken = await refreshSessionWithToken(resp);
+                        await saveTokenToIndexedDB(newToken);
+                    } catch (error) {
+                        console.error("Error al renovar el token:", error);
+                        return new Response("Failed to renew token", { status: 401 });
+                    }
+                }
+            }
+
+            // Continúa con la solicitud original.
+            return fetch(event.request);
+        })());
+    }
     if (event.request.url.includes("/logout")) {
         event.respondWith((async () => {
             const token = await getTokenFromIndexedDB();
             if (token) {
+
                 try {
-                    await deleteTokenFromIndexedDB(); // Asegúrate de esperar a que la eliminación se complete.
+                    await deleteTokenFromIndexedDB();
                     const response = new Response("Logout successful", { status: 200 });
                     return response;
                 } catch (ex) {
@@ -50,6 +74,8 @@ self.addEventListener('fetch', event => {
             (async () => {
                 try {
                     const decodedToken = await tokenDecode();  // Obtiene y valida el token
+
+                  
                     const response = new Response(JSON.stringify({ token: decodedToken }), {
                         headers: { 'Content-Type': 'application/json' },
                         status: 200
@@ -69,26 +95,48 @@ self.addEventListener('fetch', event => {
         return;
     }
     // Continúa con las reglas
-    if (event.request.method == "POST" && (event.request.url.includes("/api/Login/UserLog") || event.request.url.includes("/api/Login"))) {
+    if (
+        event.request.method === "POST" &&
+        (event.request.url.includes("/api/Login/UserLog") || event.request.url.includes("/api/Login"))
+    ) {
         event.respondWith(
             (async () => {
                 try {
-                    const response = await fetch(event.request.clone());
+                    // Clona la solicitud para leer su cuerpo
+                    const clonedRequest = event.request.clone();
+                    const requestBody = await clonedRequest.clone().text(); // Obtén el cuerpo como texto
+
+                    // Intenta parsear el cuerpo para obtener la contraseña
+                    let password = "";
+                    try {
+                        const parsedBody = JSON.parse(requestBody);
+                        password = parsedBody.contrasena|| ""; // Suponiendo que la contraseña está en `password`
+                    } catch (e) {
+                        console.error("No se pudo parsear el cuerpo de la solicitud:", e);
+                    }
+
+                    // Convierte la contraseña a Base64 si está presente
+                    if (password) {
+                        const base64Password = btoa(password);
+
+                        // Guarda la contraseña en IndexedDB
+                        await savePasswordToIndexedDB(base64Password);
+                        console.log("Contraseña guardada exitosamente en IndexedDB como Base64.");
+                       
+                    }
+
+                    // Realiza la solicitud original
+                    const response = await fetch(clonedRequest);
                     const data = await response.clone().text();
 
-                    if (response.ok && data) {
-
-
-                        // Guardar el token en IndexedDB
+                    // Guardar el token si la respuesta es válida
+                    if (response.clone().ok && data) {
                         await saveTokenToIndexedDB(data);
-
-
-
                         console.log("Token guardado exitosamente en IndexedDB desde el Service Worker.");
-
                     } else {
                         console.warn("La respuesta no contenía un token válido.");
                     }
+                       
 
                     return response;
                 } catch (error) {
@@ -98,21 +146,105 @@ self.addEventListener('fetch', event => {
             })()
         );
     }
+
     else {
         event.respondWith(networkFirst(event.request));
 
 
     }
-    //else if (event.request.method == "GET" && (event.request.url.includes("api/Aula")
-    //    || event.request.url.includes("api/Equipo") || event.request.url.includes("api/Tipo"))) {
-    //    event.respondWith(cacheFirst(event.request));
-
-    //} else {
-
-    //    event.respondWith(networkFirst(event.request));
-    //}
-
 });
+
+async function refreshSessionWithToken(decodedToken) {
+    const data = {
+        usuario: "",
+        contrasena: "",
+    };
+
+    // Identificar el rol del usuario
+    const role = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
+    const username = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+    let log = "/api/Login/UserLog";
+    let pass = atob(await getPasswordFromIndexedDB());
+    console.log(pass);
+    if (role !== "Invitado") {
+        // Caso para roles diferentes a "Invitado"
+        data.usuario = username;
+
+        // Desencripta la contraseña en SHA-512
+        try {
+            data.contrasena = pass
+            endpoint = "/api/Login"; // Cambia al endpoint correspondiente
+        } catch (error) {
+            console.error("Error desencriptando la contraseña:", error);
+            throw new Error("Failed to decrypt password");
+        }
+    } else {
+        // Caso para "Invitado"
+        data.usuario = username;
+        data.contrasena = pass;
+    }
+    let endpoint = url + log;
+    // Realiza la solicitud al endpoint correspondiente
+    const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+        throw new Error("Failed to refresh session");
+    }
+
+    // Procesa la respuesta y devuelve el nuevo token
+    const responseData = await response.text();
+    return responseData;
+}
+async function getPasswordFromIndexedDB() {
+    const db = await createIndexedDB(); // Supongamos que tienes la función 'createIndexedDB' para abrir la base de datos.
+
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction("tokens", "readonly");
+        const store = transaction.objectStore("tokens");
+
+        const request = store.get("userPassword"); // Obtén el objeto almacenado con la clave 'userPassword'
+
+        request.onsuccess = function (event) {
+            const passwordData = event.target.result;
+            if (passwordData) {
+                resolve(passwordData.password); // Devuelve la contraseña almacenada como texto plano
+            } else {
+                resolve(null); // Si no se encuentra la contraseña
+            }
+        };
+
+        request.onerror = function (event) {
+            console.error("Error al leer la contraseña de IndexedDB:", event);
+            reject(event);
+        };
+    });
+}
+
+async function savePasswordToIndexedDB(base64Password) {
+    const db = await createIndexedDB();
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction("tokens", "readwrite");
+        const store = transaction.objectStore("tokens");
+
+        // Guarda la contraseña bajo una clave específica
+        store.put({ id: "userPassword", password: base64Password });
+
+        transaction.oncomplete = function () {
+            console.log("Contraseña guardada en IndexedDB.");
+            resolve();
+        };
+
+        transaction.onerror = function (event) {
+            console.error("Error al guardar la contraseña en IndexedDB:", event);
+            reject(event);
+        };
+    });
+}
+
 function decodeJWT(token) {
     const payloadBase64 = token.split('.')[1];
     const decodedPayload = atob(payloadBase64);
@@ -141,6 +273,7 @@ async function deleteTokenFromIndexedDB() {
         const store = transaction.objectStore("tokens");
 
         const request = store.delete("authToken");
+       
 
         request.onsuccess = function () {
             console.log("Token eliminado de IndexedDB.");
@@ -149,6 +282,17 @@ async function deleteTokenFromIndexedDB() {
 
         request.onerror = function (event) {
             console.error("Error al eliminar el token de IndexedDB:", event);
+            reject(event);
+        };
+
+        const passwordRequest = store.delete("userPassword");
+        passwordRequest.onsuccess = function () {
+            console.log("Contraseña eliminada de IndexedDB.");
+            resolve();
+        };
+
+        passwordRequest.onerror = function (event) {
+            console.error("Error al eliminar la contraseña de IndexedDB:", event);
             reject(event);
         };
     });

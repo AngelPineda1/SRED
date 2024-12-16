@@ -42,7 +42,7 @@
 
             const data = await resp.json();
             if (data) {
-
+               
                 if (data.token["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]) {
 
                     localStorage.setItem('numControl', data.token["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]);
