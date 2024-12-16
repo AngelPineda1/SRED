@@ -20,6 +20,15 @@
 </body>
 <script>
     document.addEventListener("DOMContentLoaded", async () => {
+        if (localStorage.getItem('numControl')) {
+            localStorage.removeItem('numControl')
+        }
+        if (localStorage.getItem('aula')) {
+            localStorage.removeItem('aula')
+        }
+        if (localStorage.getItem('equipo')) {
+            localStorage.removeItem('equipo')
+        }
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/ServiceWorker.js');
 
