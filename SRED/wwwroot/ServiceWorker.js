@@ -24,13 +24,13 @@ self.addEventListener('fetch', event => {
     //    || event.request.url.includes('/Pages/LogInAdmin')) {
     //    event.respondWith(cacheFirst(event.request))
     //}
-   
+
     if (event.request.url.includes("/api/") && event.request.method === "GET") {
         event.respondWith((async () => {
             const token = await getTokenFromIndexedDB();
             if (token) {
                 const resp = decodeJWT(token);
-                console.log(resp);
+
 
                 const now = Math.floor(Date.now() / 1000);
 
@@ -75,7 +75,7 @@ self.addEventListener('fetch', event => {
                 try {
                     const decodedToken = await tokenDecode();  // Obtiene y valida el token
 
-                  
+
                     const response = new Response(JSON.stringify({ token: decodedToken }), {
                         headers: { 'Content-Type': 'application/json' },
                         status: 200
@@ -110,7 +110,7 @@ self.addEventListener('fetch', event => {
                     let password = "";
                     try {
                         const parsedBody = JSON.parse(requestBody);
-                        password = parsedBody.contrasena|| ""; // Suponiendo que la contraseña está en `password`
+                        password = parsedBody.contrasena || ""; // Suponiendo que la contraseña está en `password`
                     } catch (e) {
                         console.error("No se pudo parsear el cuerpo de la solicitud:", e);
                     }
@@ -122,7 +122,7 @@ self.addEventListener('fetch', event => {
                         // Guarda la contraseña en IndexedDB
                         await savePasswordToIndexedDB(base64Password);
                         console.log("Contraseña guardada exitosamente en IndexedDB como Base64.");
-                       
+
                     }
 
                     // Realiza la solicitud original
@@ -136,7 +136,7 @@ self.addEventListener('fetch', event => {
                     } else {
                         console.warn("La respuesta no contenía un token válido.");
                     }
-                       
+
 
                     return response;
                 } catch (error) {
@@ -165,7 +165,6 @@ async function refreshSessionWithToken(decodedToken) {
     const username = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
     let log = "/api/Login/UserLog";
     let pass = atob(await getPasswordFromIndexedDB());
-    console.log(pass);
     if (role !== "Invitado") {
         // Caso para roles diferentes a "Invitado"
         data.usuario = username;
@@ -273,7 +272,7 @@ async function deleteTokenFromIndexedDB() {
         const store = transaction.objectStore("tokens");
 
         const request = store.delete("authToken");
-       
+
 
         request.onsuccess = function () {
             console.log("Token eliminado de IndexedDB.");
