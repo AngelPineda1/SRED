@@ -4,7 +4,7 @@ const url = 'https://sredapi.websitos256.com';
 let cacheName = "SREDCacheV1";
 self.addEventListener("install", function (e) {
     e.waitUntil(precache());
-    createIndexedDB();
+    createIndexedDbTokens();
 });
 
 
@@ -24,8 +24,11 @@ self.addEventListener('fetch', event => {
     //    || event.request.url.includes('/Pages/LogInAdmin')) {
     //    event.respondWith(cacheFirst(event.request))
     //}
-
-    if (event.request.url.includes("/api/") && event.request.method === "GET") {
+    if ((event.request.method === 'PUT' || event.request.method === 'POST') && !event.request.url.includes("/api/Login/UserLog") && !event.request.url.includes("/api/Login")) {
+        event.respondWith(handlePostOrPut(event.request));
+        return;
+    }
+    if (event.request.url.includes("/api/") && event.request.method === "GET" && navigator.onLine) {
         event.respondWith((async () => {
             const token = await getTokenFromIndexedDB();
             if (token) {
@@ -33,21 +36,30 @@ self.addEventListener('fetch', event => {
 
 
                 const now = Math.floor(Date.now() / 1000);
+                if (resp.exp && resp.exp >= now) {
 
-                if (resp.exp && resp.exp < now) {
-
-                    try {
-                        const newToken = await refreshSessionWithToken(resp);
-                        await saveTokenToIndexedDB(newToken);
-                    } catch (error) {
-                        console.error("Error al renovar el token:", error);
-                        return new Response("Failed to renew token", { status: 401 });
-                    }
+                    return fetch(event.request);
                 }
+
+
+                try {
+                    const newToken = await refreshSessionWithToken(resp);
+                    await saveTokenToIndexedDB(newToken);
+
+
+                    
+                    return fetch(event.request);
+
+                } catch (error) {
+                    console.error("Error al renovar el token:", error);
+                    return new Response("Failed to renew token", { status: 401 });
+                }
+
             }
 
-            // Continúa con la solicitud original.
-            return fetch(event.request);
+
+            console.warn("Token no válido o no encontrado.");
+            return new Response("Token inválido o expirado", { status: 401 });
         })());
     }
     if (event.request.url.includes("/logout")) {
@@ -94,7 +106,6 @@ self.addEventListener('fetch', event => {
         );
         return;
     }
-    // Continúa con las reglas
     if (
         event.request.method === "POST" &&
         (event.request.url.includes("/api/Login/UserLog") || event.request.url.includes("/api/Login"))
@@ -153,6 +164,162 @@ self.addEventListener('fetch', event => {
 
     }
 });
+self.addEventListener('message', async (event) => {
+    if (event.data && event.data.type === 'SYNC_PENDING_REQUESTS') {
+        console.log('Sincronizando solicitudes pendientes...');
+        await syncPendingRequests();
+    }
+});
+async function syncPendingRequests() {
+    const db = await createIndexedDB();
+    const transaction = db.transaction('pendingRequests', 'readonly');
+    const store = transaction.objectStore('pendingRequests');
+
+    const allRequests = await new Promise((resolve, reject) => {
+        const request = store.getAll();
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = (event) => reject(event.target.error);
+    });
+
+
+    for (const savedRequest of allRequests) {
+        const { url, method, headers, body, timestamp } = savedRequest;
+
+        try {
+            const request = new Request(url, {
+                method: method,
+                headers: new Headers(headers),
+                body: body,
+            });
+
+            const response = await fetch(request);
+
+            if (response.ok) {
+                console.log(`Solicitud reenviada con éxito: ${url}`);
+                await deleteRequestFromIndexedDB(timestamp);
+            } else {
+                console.warn(`Error en la solicitud: ${url}, estado: ${response.status}`);
+            }
+        } catch (error) {
+            console.error(`Error al reenviar la solicitud (${url}):`, error);
+            // No eliminamos la solicitud para intentar de nuevo más tarde
+        }
+    }
+}
+
+
+async function handlePostOrPut(request) {
+    const clone = request.clone();
+
+    try {
+        
+        const response = await fetch(request);
+        if (response.ok) {
+            return response;
+        } else {
+            throw new Error('Network response was not ok');
+        }
+    } catch (error) {
+      
+        await saveRequestToIndexedDB(clone);
+       
+     
+        return new Response(JSON.stringify({ message: 'Solicitud almacenada y será enviada más tarde.' }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+        });
+    }
+}
+
+async function saveRequestToIndexedDB(request) {
+    const db = await createIndexedDB();
+    const body = await request.clone().text();  
+
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction('pendingRequests', 'readwrite');
+        const store = transaction.objectStore('pendingRequests');
+
+        try {
+            const requestData = {
+                url: request.url,
+                method: request.method,
+                headers: [...request.headers.entries()],
+                body: body,
+                timestamp: Date.now(),
+            };
+
+            const requestAdd = store.add(requestData);
+
+            requestAdd.onsuccess = () => {
+                console.log('Request saved to IndexedDB successfully');
+                resolve();
+            };
+
+            requestAdd.onerror = (event) => {
+                console.error('Failed to save request:', event.target.error);
+                reject(event.target.error);
+            };
+
+        } catch (error) {
+            console.error('Error in transaction:', error);
+            reject(error);
+        }
+
+        transaction.oncomplete = () => console.log('Transaction completed successfully.');
+        transaction.onerror = (event) => reject('Transaction failed: ' + event.target.error);
+    });
+}
+
+
+
+// Sincroniza las solicitudes pendientes
+
+async function deleteRequestFromIndexedDB(timestamp) {
+    const db = await createIndexedDB();
+    return new Promise((resolve, reject) => {
+        const transaction = db.transaction('pendingRequests', 'readwrite');
+        const store = transaction.objectStore('pendingRequests');
+
+        const deleteRequest = store.delete(timestamp);
+
+        deleteRequest.onsuccess = () => {
+            console.log(`Request with timestamp ${timestamp} deleted from IndexedDB.`);
+            resolve();
+        };
+
+        deleteRequest.onerror = (event) => {
+            console.error('Failed to delete request:', event.target.error);
+            reject(event.target.error);
+        };
+
+        transaction.oncomplete = () => console.log('Delete transaction completed successfully.');
+        transaction.onerror = (event) => reject('Delete transaction failed: ' + event.target.error);
+    });
+}
+
+
+// Crea la base de datos IndexedDB para solicitudes pendientes
+async function createIndexedDB() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open('PendingRequestsDB', 1);
+
+        request.onupgradeneeded = function (event) {
+            const db = event.target.result;
+
+            if (!db.objectStoreNames.contains('pendingRequests')) {
+                db.createObjectStore('pendingRequests', { keyPath: 'timestamp' });
+            }
+        };
+
+        request.onsuccess = function (event) {
+            resolve(event.target.result);
+        };
+
+        request.onerror = function (event) {
+            reject('Error al abrir IndexedDB: ' + event.target.errorCode);
+        };
+    });
+}
 
 async function refreshSessionWithToken(decodedToken) {
     const data = {
@@ -199,7 +366,7 @@ async function refreshSessionWithToken(decodedToken) {
     return responseData;
 }
 async function getPasswordFromIndexedDB() {
-    const db = await createIndexedDB(); // Supongamos que tienes la función 'createIndexedDB' para abrir la base de datos.
+    const db = await createIndexedDbTokens(); // Supongamos que tienes la función 'createIndexedDB' para abrir la base de datos.
 
     return new Promise((resolve, reject) => {
         const transaction = db.transaction("tokens", "readonly");
@@ -224,7 +391,7 @@ async function getPasswordFromIndexedDB() {
 }
 
 async function savePasswordToIndexedDB(base64Password) {
-    const db = await createIndexedDB();
+    const db = await createIndexedDbTokens();
     return new Promise((resolve, reject) => {
         const transaction = db.transaction("tokens", "readwrite");
         const store = transaction.objectStore("tokens");
@@ -266,7 +433,7 @@ async function tokenDecode() {
 
 }
 async function deleteTokenFromIndexedDB() {
-    const db = await createIndexedDB();
+    const db = await createIndexedDbTokens();
     return new Promise((resolve, reject) => {
         const transaction = db.transaction("tokens", "readwrite");
         const store = transaction.objectStore("tokens");
@@ -299,7 +466,7 @@ async function deleteTokenFromIndexedDB() {
 
 
 async function getTokenFromIndexedDB() {
-    const db = await createIndexedDB();
+    const db = await createIndexedDbTokens();
     return new Promise((resolve, reject) => {
         const transaction = db.transaction("tokens", "readonly");
         const store = transaction.objectStore("tokens");
@@ -319,7 +486,7 @@ async function getTokenFromIndexedDB() {
 }
 
 
-async function createIndexedDB() {
+async function createIndexedDbTokens() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open("AuthDatabase", 1);
 
@@ -342,7 +509,7 @@ async function createIndexedDB() {
 }
 
 async function saveTokenToIndexedDB(token) {
-    const db = await createIndexedDB();
+    const db = await createIndexedDbTokens();
     return new Promise((resolve, reject) => {
         const transaction = db.transaction("tokens", "readwrite");
         const store = transaction.objectStore("tokens");
@@ -359,22 +526,6 @@ async function saveTokenToIndexedDB(token) {
             reject(event);
         };
     });
-}
-
-
-async function networkIndexDbFallBack(req) {
-    let clon = req.clone();
-    try {
-        let resp = await fetch(req);
-        return resp;
-    } catch (e) {
-        let res = await clon.json();
-        addToDatabase(res);
-        //registrarme a un sync para que me avise cuando regrese la conexion
-
-        await self.registration.sync.register("enviar-respuestas");
-        return new Response({ status: 200 });
-    }
 }
 
 async function networkOnly(req) {
@@ -442,125 +593,5 @@ async function networkFirst(req) {
             console.log(x);
             return new Response("Recurso no disponible en caché ni en la red", { status: 503 });
         }
-    }
-}
-
-async function staleWhileRevalidate(url) {
-    try {
-        let cache = await caches.open(cacheName);
-        let response = await cache.match(url);
-
-        let fetchPromise = fetch(url).then(async networkResponse => {
-            if (networkResponse.ok) {
-                await cache.put(url, networkResponse.clone());
-            }
-            return networkResponse;
-        }).catch(err => {
-            console.log("Error fetching from network:", err);
-        });
-
-        return response || fetchPromise;
-    } catch (x) {
-        console.log("Error en staleWhileRevalidate:", x);
-        return new Response("Error interno", { status: 500 });
-    }
-}
-async function staleThenRevalidate(req) {
-    try {
-
-        let cache = await caches.open(cacheName);
-        let cachedResponse = await cache.match(req);
-
-        if (cachedResponse) {
-            fetch(req).then(async (networkResponse) => {
-                if (networkResponse.ok) {
-                    let cacheData = await cachedResponse.clone().text();
-                    let networkData = await networkResponse.clone().text();
-
-                    if (cacheData !== networkData) {
-                        await cache.put(req, networkResponse.clone());
-                        channel.postMessage({
-                            url: req.url,
-                            data: networkData
-                        });
-                    }
-                }
-            }).catch(err => {
-                console.log("Error al obtener la respuesta de la red:", err);
-            });
-
-            return cachedResponse.clone();
-        } else {
-            return networkFirst(req);
-        }
-    } catch (error) {
-        console.log("Error en staleThenRevalidate:", error);
-        return new Response("Error interno", { status: 500 });
-    }
-}
-
-let maxage = 24 * 60 * 60 * 1000;
-
-async function timeBasedCache(req) {
-    try {
-
-        let cache = await caches.open(cacheName);
-        let cachedResponse = await cache.match(req);
-
-        if (cachedResponse) {
-            let fechaDescarga = cachedResponse.headers.get("fecha");
-
-            if (fechaDescarga) {
-                let fecha = new Date(fechaDescarga);
-                let hoy = new Date();
-                let diferencia = hoy - fecha;
-
-                if (diferencia <= maxage) {
-                    return cachedResponse;
-                }
-            }
-        }
-
-        let networkResponse = await fetch(req);
-
-        if (networkResponse.ok) {
-            let nuevoResponse = new Response(networkResponse.body, {
-                status: networkResponse.status,
-                statusText: networkResponse.statusText,
-                headers: networkResponse.headers
-            });
-            nuevoResponse.headers.append("fecha", new Date().toISOString());  // Añadir la fecha de la descarga
-            await cache.put(req, nuevoResponse.clone());  // Guardar en el caché
-
-            return nuevoResponse;
-        } else {
-            return new Response("Error en la red", { status: 502 });
-        }
-
-    } catch (error) {
-        console.log("Error en timeBasedCache:", error);
-        return new Response("Error interno", { status: 500 });
-    }
-}
-
-async function networkCacheRace(req) {
-    try {
-        let cache = await caches.open(cacheName);
-
-        let networkPromise = fetch(req).then(response => {
-            if (response.ok) {
-                cache.put(req, response.clone());
-                return response;
-            }
-            throw new Error("Error en la respuesta de red");
-        });
-
-        let cachePromise = cache.match(req);
-
-        return await Promise.race([networkPromise, cachePromise]);
-
-    } catch (error) {
-        console.log("Error en networkCacheRace:", error);
-        return new Response("Error en la obtención de datos", { status: 500 });
     }
 }
