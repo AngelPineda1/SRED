@@ -18,7 +18,7 @@
         <section>
             <span>
                 <span for="">Desea eliminar el tipo indicado?</span>
-                <label for="" id="nombre" ></label>
+                <label for="" id="nombre"></label>
             </span>
             <span for="" id="excepcion1"></span>
 
@@ -46,14 +46,19 @@
             const respuesta = await fetch(`https://sredapi.websitos256.com/api/Tipo/${id}`);
 
 
-            if (!respuesta.ok) {
-                throw new Error('Error en la petición: ' + respuesta.statusText);
+            if (respuesta.ok) {
+
+                const datos = await respuesta.json();
+
+                nombre.textContent = datos.nombre;
+            } else if (respuesta.status === 401 || respuesta.status === 403) {
+                errorLabel.textContent = "No tienes acceso.";
+
+
             }
 
 
-            const datos = await respuesta.json();
 
-            nombre.textContent = datos.nombre;
 
         } catch (error) {
 
@@ -75,13 +80,20 @@
                 }
             });
 
+            if (respuesta.ok) {
 
 
-            if (!respuesta.ok) {
-                throw new Error('Error en la solicitud DELETE: ' + respuesta.statusText);
+                window.location.replace("/Admin/Tipos/Index");
+
+
+            } else if (respuesta.status === 401 || respuesta.status === 403) {
+                errorLabel.textContent = "No tienes acceso.";
+
+
             }
 
-            window.location.replace("/Admin/Tipos/Index");
+           
+
 
         } catch (error) {
             errorLabel.textContent = "Ocurrio un error al intentar eliminar el tipo del equipo";
