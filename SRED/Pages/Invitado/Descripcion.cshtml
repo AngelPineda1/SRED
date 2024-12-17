@@ -58,10 +58,7 @@
             else if (response.status === 401 || response.status === 403) {
                 window.alert("No tienes acceso");
             }
-            else{
-                window.alert("Ocurrio un error intenta denuevo");
-
-            }
+           
             const numContr = localStorage.getItem('numControl');
             localStorage.removeItem('reporte');
             window.location.href = `/Invitado`;
