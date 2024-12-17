@@ -88,7 +88,7 @@
             }
             else if (response.status === 401 || response.status === 403) {
 
-               div.innerHTML = "No tienes acceso";
+                div.innerHTML = "No tienes acceso";
 
             }
             else {
@@ -101,8 +101,10 @@
 
     }
 
+  
 
-    cargarAulas();
+        cargarAulas();
+
 
     const btn = document.querySelector(".sig-btn");
     btn.addEventListener('click', () => {

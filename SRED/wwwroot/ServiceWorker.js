@@ -131,9 +131,7 @@ self.addEventListener('fetch', event => {
         );
         return;
     }
-    if (
-        event.request.method === "POST" &&
-        (event.request.url.includes("/api/Login/UserLog") || event.request.url.includes("/api/Login"))
+    if (event.request.method === "POST" && (event.request.url.includes("/api/Login/UserLog") || event.request.url.includes("/api/Login"))
     ) {
         event.respondWith(
             (async () => {
