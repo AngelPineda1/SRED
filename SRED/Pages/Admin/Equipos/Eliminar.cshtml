@@ -44,14 +44,21 @@
             const respuesta = await fetch(`https://sredapi.websitos256.com/api/Equipo/${id}`);
 
 
-            if (!respuesta.ok) {
-                throw new Error('Error en la petición: ' + respuesta.statusText);
+            if (respuesta.ok) {
+
+                const datos = await respuesta.json();
+
+                nombre.textContent = datos.nombre;
+            }
+            else if (respuesta.status === 401 || respuesta.status === 403) {
+                errorLabel.textContent = "No tieneas acceso";
+
+            } else {
+                errorLabel.textContent = "Ocurrio un error.";
+
             }
 
 
-            const datos = await respuesta.json();
-
-            nombre.textContent = datos.nombre;
 
         } catch (error) {
 
@@ -76,11 +83,16 @@
 
 
 
-            if (!respuesta.ok) {
-                throw new Error('Error en la solicitud DELETE: ' + respuesta.statusText);
+            if (respuesta.ok) {
+                window.location.replace("/Admin/Equipos/Index");
+            }
+            else if (respuesta.status === 401 || respuesta.status === 403) {
+                errorLabel.textContent = "No tienes acceso.";
+
+
             }
 
-            window.location.replace("/Admin/Equipos/Index");
+
 
         } catch (error) {
             errorLabel.textContent = "Ocurrio un error al intentar eliminar el equipo";

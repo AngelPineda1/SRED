@@ -42,41 +42,54 @@
         try {
 
             const response = await fetch('https://sredapi.websitos256.com/api/Aula');
-            const data = await response.json();
-            div.innerHTML = '';
-            data.forEach(aula => {
+            if (response.ok) {
+                const data = await response.json();
+                if (data) {
 
-                const span = document.createElement('span');
-                span.classList.add('opcion');
-                span.id = aula.id;
+                    div.innerHTML = '';
+                    data.forEach(aula => {
 
-                const picture = document.createElement('picture');
-                const source = document.createElement('source');
-                const mimeType = "image/webp";
-                source.srcset = `/assets/obrero (1).webp`;
-                source.type = mimeType;
-                picture.appendChild(source);
+                        const span = document.createElement('span');
+                        span.classList.add('opcion');
+                        span.id = aula.id;
 
-
-                const imgFallback = document.createElement('img');
-                imgFallback.src = `/assets/obrero (1).png`;
-                imgFallback.alt = "icono";
+                        const picture = document.createElement('picture');
+                        const source = document.createElement('source');
+                        const mimeType = "image/webp";
+                        source.srcset = `/assets/obrero (1).webp`;
+                        source.type = mimeType;
+                        picture.appendChild(source);
 
 
-                picture.appendChild(imgFallback);
-                const labelNombre = document.createElement('label');
-                nombreTipo = aula.nombre;
-                labelNombre.textContent = aula.nombre;
+                        const imgFallback = document.createElement('img');
+                        imgFallback.src = `/assets/obrero (1).png`;
+                        imgFallback.alt = "icono";
 
 
-                span.appendChild(picture);
-                span.appendChild(labelNombre);
+                        picture.appendChild(imgFallback);
+                        const labelNombre = document.createElement('label');
+                        nombreTipo = aula.nombre;
+                        labelNombre.textContent = aula.nombre;
 
-                div.appendChild(span);
+
+                        span.appendChild(picture);
+                        span.appendChild(labelNombre);
+
+                        div.appendChild(span);
 
 
-            });
-            cambiarColorAlSeleccionar();
+                    });
+                    cambiarColorAlSeleccionar();
+                }
+                else {
+
+                    div.innerHTML = "<label>No se encontraron datos...</label>"
+                }
+            } else if (response.status === 401 || response.status === 403) {
+                div.innerHTML = '<label>No tienes acceso...</label>';
+
+
+            }
 
         } catch (error) {
             console.error('Error:', error);
@@ -84,7 +97,7 @@
     };
     const btn = document.getElementById("btn-accion");
     let equipo = localStorage.getItem('equipo');
-            const equipoObj = JSON.parse(equipo);
+    const equipoObj = JSON.parse(equipo);
     btn.addEventListener("click", function () {
 
         let opcion = document.querySelectorAll(".opcion-seleccionada");
@@ -93,7 +106,7 @@
         } else {
             let id = opcion[0].id;
             if (equipo) {
-            
+
                 equipoData = {
                     id: 0,
                     numero: equipoObj.numero,
@@ -108,7 +121,7 @@
 
     async function agregarEquipo() {
         try {
-           
+
             const response = await fetch('https://sredapi.websitos256.com/api/Equipo', {
                 method: 'POST',
                 headers: {
@@ -116,12 +129,16 @@
                 },
                 body: JSON.stringify(equipoData)
             });
-            if (!response.ok) {
-                throw new Error(`Error en la solicitud: ${response.statusText}`);
-            }
-            localStorage.removeItem('equipo');
+            if (response.ok) {
 
-            window.location.replace("/Admin/Equipos");
+                localStorage.removeItem('equipo');
+
+                window.location.replace("/Admin/Equipos");
+            } else if (response.status === 401 || response.status === 403) {
+                div.innerHTML = '<label>No tienes acceso...</label>';
+
+
+            }
 
 
 

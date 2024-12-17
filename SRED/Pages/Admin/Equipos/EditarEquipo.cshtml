@@ -12,14 +12,13 @@
         <a href="/Admin/Equipos/">
             <img src="~/assets/arrow-left-solid.svg" alt="" id="btn-regresar" />
         </a>
-        <a 
-           class="sig-btn">
+        <a class="sig-btn">
             <img src="~/assets/arrow-right-solid.svg" alt="" />
         </a>
     </header>
     <main id="main-agregaraula">
         <label for="">Número por asignar:</label>
-        <input type="number" placeholder="Ingrese el número" min="1" id="numero"/>
+        <input type="number" placeholder="Ingrese el número" min="1" id="numero" />
         <label for="" id="excepcion"></label>
     </main>
 </body>
@@ -27,7 +26,7 @@
 <script>
     let id = 0;
     let errores = [];
-    console.log(localStorage.getItem('equipo'));
+
     const errorLabel = document.getElementById("excepcion");
     const numero = document.getElementById("numero");
     //const btn = document.getElementById("btn-accion");
@@ -49,23 +48,27 @@
             const respuesta = await fetch(`https://sredapi.websitos256.com/api/Equipo/${id}`);
 
 
-            if (!respuesta.ok) {
-                throw new Error('Error en la petición: ' + respuesta.statusText);
+            if (respuesta.ok) {
+                const datos = await respuesta.json();
+                const nombre = datos.nombre;
+
+
+                const ultimoDigito = nombre.match(/\d+(?=\s*$)/);
+
+
+                if (ultimoDigito) {
+                    numero.value = parseInt(ultimoDigito[0], 10);
+                }
+            } else if (respuesta.status === 401 || respuesta.status === 403) {
+                errorLabel.textContent = "No tienes acceso.";
+
+
             }
 
 
-            const datos = await respuesta.json();
-            const nombre = datos.nombre;
-
-         
-            const ultimoDigito = nombre.match(/\d+(?=\s*$)/);
 
 
-            if (ultimoDigito) {
-                numero.value = parseInt(ultimoDigito[0], 10);
-            }
 
-           
 
         } catch (error) {
 

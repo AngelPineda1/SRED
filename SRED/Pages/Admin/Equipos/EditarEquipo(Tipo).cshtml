@@ -12,15 +12,13 @@
         <a href="/Admin/Equipos/EditarEquipo">
             <img src="~/assets/arrow-left-solid.svg" alt="" id="btn-regresar" />
         </a>
-        <a 
-           class="sig-btn">
+        <a class="sig-btn">
             <img src="~/assets/arrow-right-solid.svg" alt="" />
         </a>
     </header>
     <main id="main-agregarEquipo">
         <label for="" id="eq-tipo">Tipo de equipo</label>
         <div id="grid">
-            
         </div>
     </main>
 </body>
@@ -49,42 +47,56 @@
         try {
 
             const response = await fetch('https://sredapi.websitos256.com/api/Tipo');
-            const data = await response.json();
-            div.innerHTML = '';
-            data.forEach(aula => {
+            if (response.ok) {
 
-                const span = document.createElement('span');
-                span.classList.add('opcion');
-                span.id = aula.id;
-                span.setAttribute('data-nombre', aula.nombre);
+                const data = await response.json();
+                if (data) {
 
-                const picture = document.createElement('picture');
-                const source = document.createElement('source');
-                const mimeType = "image/jpg";
-                source.srcset = `data:${mimeType};base64,${aula.icono}`;
-                source.type = aula.mimeType;
-                picture.appendChild(source);
+                    div.innerHTML = '';
+                    data.forEach(aula => {
 
+                        const span = document.createElement('span');
+                        span.classList.add('opcion');
+                        span.id = aula.id;
+                        span.setAttribute('data-nombre', aula.nombre);
 
-                const imgFallback = document.createElement('img');
-                imgFallback.src = `data:${mimeType};base64,${aula.icono}`;
-                imgFallback.alt = "icono";
-
-
-                picture.appendChild(imgFallback);
-                const labelNombre = document.createElement('label');
-
-                labelNombre.textContent = aula.nombre;
+                        const picture = document.createElement('picture');
+                        const source = document.createElement('source');
+                        const mimeType = "image/jpg";
+                        source.srcset = `data:${mimeType};base64,${aula.icono}`;
+                        source.type = aula.mimeType;
+                        picture.appendChild(source);
 
 
-                span.appendChild(picture);
-                span.appendChild(labelNombre);
+                        const imgFallback = document.createElement('img');
+                        imgFallback.src = `data:${mimeType};base64,${aula.icono}`;
+                        imgFallback.alt = "icono";
 
-                div.appendChild(span);
+
+                        picture.appendChild(imgFallback);
+                        const labelNombre = document.createElement('label');
+
+                        labelNombre.textContent = aula.nombre;
 
 
-            });
-            cambiarColorAlSeleccionar();
+                        span.appendChild(picture);
+                        span.appendChild(labelNombre);
+
+                        div.appendChild(span);
+
+
+                    });
+                    cambiarColorAlSeleccionar();
+                }
+                else{
+                    div.innerHTML = '<label>No se encontraron datos..</label>';
+                }
+            }
+            else if (response.status === 401 || response.status === 403) {
+                div.innerHTML = '<label>No tienes acceso...</label>';
+
+
+            }
 
         } catch (error) {
             console.error('Error:', error);
@@ -106,7 +118,7 @@
                     id: equipoObj.idEquipo,
                     numero: equipoObj.numero,
                     tipo: nombreTipo,
-                    idTipo:id
+                    idTipo: id
 
                 };
                 localStorage.setItem('equipo', JSON.stringify(equipo));
