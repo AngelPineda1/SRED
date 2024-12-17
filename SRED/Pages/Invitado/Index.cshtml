@@ -144,9 +144,14 @@
                 } else {
                     listaReportes.innerHTML = '<label>No has Realizado Reportes Aun</label>';
                 }
-            }else{
-                listaReportes.innerHTML = '<label>No tienes acceso....</label>';
             }
+            else if (response.status === 401 || response.status === 403) {
+             
+                listaReportes.innerHTML = '<label>No tienes acceso....</label>';
+            }else{
+                listaReportes.innerHTML = '<label>Ocurrio un error intenta denuevo.</label>';
+            }
+            
 
         } catch (error) {
             console.error('Error:', error);

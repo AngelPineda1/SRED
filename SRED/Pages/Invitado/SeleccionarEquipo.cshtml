@@ -48,47 +48,57 @@
         try {
 
             const response = await fetch(`https://sredapi.websitos256.com/api/equipo/poraula?idaula=${parseInt(repObj.idaula)}`);
-            const data = await response.json();
-            div.innerHTML = '';
-            console.log(data);
-            if (data.equipos.length > 0) {
+            if (response.ok) {
 
-                data.equipos.forEach(aula => {
+                const data = await response.json();
+                div.innerHTML = '';
+                console.log(data);
+                if (data.equipos.length > 0) {
 
-                    const span = document.createElement('span');
-                    span.classList.add('opcion');
-                    span.id = aula.id;
-                    span.setAttribute('data-nombre', aula.nombre);
+                    data.equipos.forEach(aula => {
 
-                    const picture = document.createElement('picture');
-                    const source = document.createElement('source');
-                    const mimeType = "image/jpg";
-                    source.srcset = `data:${mimeType};base64,${aula.iconoTipo}`;
-                    source.type = aula.mimeType;
-                    picture.appendChild(source);
+                        const span = document.createElement('span');
+                        span.classList.add('opcion');
+                        span.id = aula.id;
+                        span.setAttribute('data-nombre', aula.nombre);
 
-
-                    const imgFallback = document.createElement('img');
-                    imgFallback.src = `data:${mimeType};base64,${aula.iconoTipo}`;
-                    imgFallback.alt = "icono";
+                        const picture = document.createElement('picture');
+                        const source = document.createElement('source');
+                        const mimeType = "image/jpg";
+                        source.srcset = `data:${mimeType};base64,${aula.iconoTipo}`;
+                        source.type = aula.mimeType;
+                        picture.appendChild(source);
 
 
-                    picture.appendChild(imgFallback);
-                    const labelNombre = document.createElement('label');
-
-                    labelNombre.textContent = `${aula.tipo} ${aula.numero}`;
-
-
-                    span.appendChild(picture);
-                    span.appendChild(labelNombre);
-
-                    div.appendChild(span);
+                        const imgFallback = document.createElement('img');
+                        imgFallback.src = `data:${mimeType};base64,${aula.iconoTipo}`;
+                        imgFallback.alt = "icono";
 
 
-                });
-                cambiarColorAlSeleccionar();
-            } else {
-                div.innerHTML = "<label>No hay equipos asociados a esta aula.</label>";
+                        picture.appendChild(imgFallback);
+                        const labelNombre = document.createElement('label');
+
+                        labelNombre.textContent = `${aula.tipo} ${aula.numero}`;
+
+
+                        span.appendChild(picture);
+                        span.appendChild(labelNombre);
+
+                        div.appendChild(span);
+
+
+                    });
+                    cambiarColorAlSeleccionar();
+                } else {
+                    div.innerHTML = "<label>No hay equipos asociados a esta aula.</label>";
+                }
+            }
+            else if (response.status === 401 || response.status === 403) {
+                div.innerHTML = '<label>No tienes acceso</label>';
+            }
+            else{
+                div.innerHTML = '<label>Ocurrio un error intenta denuevo.</label>';
+
             }
 
         } catch (error) {

@@ -51,39 +51,50 @@
         try {
 
             const response = await fetch('https://sredapi.websitos256.com/aulas/conequipos');
-            const data = await response.json();
-            div.innerHTML = '';
-            data.forEach(aula => {
-                const span = document.createElement('span');
-                span.classList.add('opcion');
-                span.id = aula.id;
+            if (response.ok) {
 
-                const picture = document.createElement('picture');
-                const source = document.createElement('source');
-                const mimeType = "image/webp";
-                source.srcset = `/assets/obrero (1).webp`;
-                source.type = mimeType;
-                picture.appendChild(source);
+                const data = await response.json();
+                div.innerHTML = '';
+                data.forEach(aula => {
+                    const span = document.createElement('span');
+                    span.classList.add('opcion');
+                    span.id = aula.id;
 
-
-                const imgFallback = document.createElement('img');
-                imgFallback.src = `/assets/obrero (1).png`;
-                imgFallback.alt = "icono";
+                    const picture = document.createElement('picture');
+                    const source = document.createElement('source');
+                    const mimeType = "image/webp";
+                    source.srcset = `/assets/obrero (1).webp`;
+                    source.type = mimeType;
+                    picture.appendChild(source);
 
 
-                picture.appendChild(imgFallback);
-                const labelNombre = document.createElement('label');
-                nombreTipo = aula.nombre;
-                labelNombre.textContent = aula.nombre;
+                    const imgFallback = document.createElement('img');
+                    imgFallback.src = `/assets/obrero (1).png`;
+                    imgFallback.alt = "icono";
 
 
-                span.appendChild(picture);
-                span.appendChild(labelNombre);
+                    picture.appendChild(imgFallback);
+                    const labelNombre = document.createElement('label');
+                    nombreTipo = aula.nombre;
+                    labelNombre.textContent = aula.nombre;
 
-                div.appendChild(span);
-            });
-            cambiarColorAlSeleccionar();
 
+                    span.appendChild(picture);
+                    span.appendChild(labelNombre);
+
+                    div.appendChild(span);
+                });
+                cambiarColorAlSeleccionar();
+            }
+            else if (response.status === 401 || response.status === 403) {
+
+               div.innerHTML = "No tienes acceso";
+
+            }
+            else {
+                div.innerHTML = "Ocurrio un error intenta denuevo.";
+
+            }
         } catch (error) {
             console.error('Error:', error);
         }
