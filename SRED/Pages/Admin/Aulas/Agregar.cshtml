@@ -26,7 +26,7 @@
     const errorLabel = document.getElementById("excepcion");
     const nombre = document.getElementById("nombre");
     const btn = document.getElementById("btn-accion");
-    console.log("hgvghvgh");
+   
     btn.addEventListener("click", function () {
         errorLabel.textContent = "";
         errores = [];
@@ -54,13 +54,16 @@
                 },
                 body: JSON.stringify(aulaData)
             });
-            if (!response.ok) {
-                throw new Error(`Error en la solicitud: ${response.statusText}`);
-            }
-            else {
-
+            if (response.ok) {
                 window.location.replace("/Admin/Aulas/Index");
+                
             }
+            else if (response.status === 401 || response.status === 403) {
+                errorLabel.textContent = "No tienes acceso.";
+
+
+            }
+
 
         } catch (error) {
 

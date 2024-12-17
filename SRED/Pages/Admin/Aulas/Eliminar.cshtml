@@ -47,14 +47,18 @@
             const respuesta = await fetch(`https://sredapi.websitos256.com/api/Aula/${id}`);
 
 
-            if (!respuesta.ok) {
-                throw new Error('Error en la petición: ' + respuesta.statusText);
-            }
+            if (respuesta.ok) {
+
+                const datos = await respuesta.json();
+
+                nombre.textContent = datos.nombre;
+            } else if (respuesta.status === 401 || respuesta.status === 403) {
+                errorLabel.textContent = "No tienes acceso.";
 
 
-            const datos = await respuesta.json();
+            } 
 
-            nombre.textContent = datos.nombre;
+
 
         } catch (error) {
 
@@ -62,27 +66,31 @@
         }
     };
     obtenerDatos();
-    btn.addEventListener("click", function(){
-       eliminarAula();
+    btn.addEventListener("click", function () {
+        eliminarAula();
     });
 
     async function eliminarAula() {
         try {
-            
+
             const respuesta = await fetch(`https://sredapi.websitos256.com/api/Aula/${id}`, {
                 method: 'PUT',
                 headers: {
-                    'Content-Type': 'application/json'  
+                    'Content-Type': 'application/json'
                 }
             });
 
 
-        
-            if (!respuesta.ok) {
-                throw new Error('Error en la solicitud DELETE: ' + respuesta.statusText);
-            }
 
-            window.location.replace("/Admin/Aulas/Index");
+            if (respuesta.ok) {
+
+                window.location.replace("/Admin/Aulas/Index");
+            } else if (respuesta.status === 401 || respuesta.status === 403) {
+                errorLabel.textContent = "No tienes acceso.";
+
+
+            } 
+
 
         } catch (error) {
             errorLabel.textContent = "Ocurrio un error al intentar eliminar el Aula";
