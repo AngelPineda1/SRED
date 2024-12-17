@@ -121,6 +121,8 @@
                 li.appendChild(span2);
                 li.appendChild(label3);
                 listaReportes.appendChild(li);
+
+                eventoVerDetalles();
             });
             }else{
                 listaReportes.innerHTML = '<label>No has Realizado Reportes Aun</label>';
@@ -130,6 +132,24 @@
             console.error('Error:', error);
         }
     }
+
+        function eventoVerDetalles() {
+            const items = document.querySelectorAll('li');
+
+            items.forEach(item => {
+                item.addEventListener('click', function () {
+
+                    let idSeleccionado = item.id;
+
+                    reporteSeleccionado = {
+                        idseleccionado: parseInt(idSeleccionado),
+                    };
+                    localStorage.setItem('reporteSeleccionado', JSON.stringify(reporteSeleccionado));
+                    console.log(reporteSeleccionado);
+                    window.location.replace("/Invitado/Detalles");
+                });
+            });
+        }
 
     cargarReportes();
 </script>
