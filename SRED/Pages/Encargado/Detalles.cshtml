@@ -84,7 +84,7 @@
     let id = Number(repId.idseleccionado);
 
 
-    let fechaReporte = document.getElementById('fecha'); 
+    let fechaReporte = document.getElementById('fecha');
     let folioReporte = document.getElementById('folio');
     let estadoReporte = document.getElementById('estado');
     let numControlReporte = document.getElementById('numControl');
@@ -94,26 +94,38 @@
     let descripcionReporte = document.getElementById('descripcion');
 
 
-    async function GetDetalles(){
+    async function GetDetalles() {
         const response = await fetch(`https://sredapi.websitos256.com/api/Reporte/${id}`);
-        const data = await response.json();
-        
-        fechaReporte.textContent = data.fechaCreacion;
-        folioReporte.textContent = data.folio;
+        if (response.ok) {
 
-        if (data.estado == 0) {
-            estadoReporte.textContent = 'Pendiente';
-        }
-        else{
-            estadoReporte.textContent = 'Completado';
-        }
+            const data = await response.json();
+            if (data) {
 
-        numControlReporte.textContent = data.noControlTrabajo;
-        aulaReporte.textContent = data.aula;
-        tipoEquipoReporte.textContent = data.equipo;
-        numAsignadoEq.textContent = data.numeroEquipo;
-        descripcionReporte.textContent = data.descripcion;
+                fechaReporte.textContent = data.fechaCreacion;
+                folioReporte.textContent = data.folio;
+
+                if (data.estado == 0) {
+                    estadoReporte.textContent = 'Pendiente';
+                }
+                else {
+                    estadoReporte.textContent = 'Completado';
+                }
+
+                numControlReporte.textContent = data.noControlTrabajo;
+                aulaReporte.textContent = data.aula;
+                tipoEquipoReporte.textContent = data.equipo;
+                numAsignadoEq.textContent = data.numeroEquipo;
+                descripcionReporte.textContent = data.descripcion;
+            }
         }
+        else if(response.status===401 || response.status===403){
+            folioReporte.textContent = "No tienes accesos...";
+
+        }else{
+            folioReporte.textContent = "Ocurrio un error intenta denuevo";
+
+        }
+    }
 
     GetDetalles();
 
