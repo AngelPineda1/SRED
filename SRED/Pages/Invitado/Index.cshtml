@@ -37,6 +37,21 @@
         navigator.serviceWorker.register('/ServiceWorker.js');
       
     }
+    if (navigator.onLine) {
+        // Ejecutar lógica inicial si ya está online
+        if (navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({
+                type: "SYNC_PENDING_REQUESTS",
+            });
+        }
+    }
+    window.addEventListener("online", () => {
+        if (navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({
+                type: "SYNC_PENDING_REQUESTS",
+            });
+        }
+    });
     let btnCerrarSesion = document.querySelector(".config-grande");
     let opcionCerrarSesion = document.getElementById("opcionCerrarSesion");
 
