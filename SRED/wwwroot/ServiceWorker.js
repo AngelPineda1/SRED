@@ -10,8 +10,6 @@ self.addEventListener("install", function (e) {
 
 async function precache() {
     let cache = await caches.open(cacheName);
-    /* await cache.add("api/");*/
-
 }
 
 self.addEventListener('fetch', event => {
@@ -33,35 +31,52 @@ self.addEventListener('fetch', event => {
             const token = await getTokenFromIndexedDB();
             if (token) {
                 const resp = decodeJWT(token);
-
-
                 const now = Math.floor(Date.now() / 1000);
                 if (resp.exp && resp.exp >= now) {
+                    // Se añade el token a los encabezados de la solicitud
+                    const headers = new Headers(event.request.headers);
+                    headers.set('Authorization', `Bearer ${token}`);
 
-                    return fetch(event.request);
+                    const modifiedRequest = new Request(event.request, {
+                        method: event.request.method,
+                        headers: headers,
+                        body: event.request.body,
+                        mode: event.request.mode,
+                        credentials: event.request.credentials,
+                    });
+
+                    return fetch(modifiedRequest);
                 }
-
-
                 try {
                     const newToken = await refreshSessionWithToken(resp);
                     await saveTokenToIndexedDB(newToken);
 
+                    // Añadir el nuevo token al encabezado
+                    const headers = new Headers(event.request.headers);
+                    headers.set('Authorization', `Bearer ${newToken}`);
 
-                    
-                    return fetch(event.request);
+                    const modifiedRequest = new Request(event.request, {
+                        method: event.request.method,
+                        headers: headers,
+                        body: event.request.body,
+                        mode: event.request.mode,
+                        credentials: event.request.credentials,
+                    });
+
+                    return fetch(modifiedRequest);
 
                 } catch (error) {
                     console.error("Error al renovar el token:", error);
                     return new Response("Failed to renew token", { status: 401 });
                 }
-
             }
-
 
             console.warn("Token no válido o no encontrado.");
             return new Response("Token inválido o expirado", { status: 401 });
         })());
     }
+
+
     if (event.request.url.includes("/logout")) {
         event.respondWith((async () => {
             const token = await getTokenFromIndexedDB();
@@ -85,7 +100,7 @@ self.addEventListener('fetch', event => {
         event.respondWith(
             (async () => {
                 try {
-                    const decodedToken = await tokenDecode();  // Obtiene y valida el token
+                    const decodedToken = await tokenDecode();
 
 
                     const response = new Response(JSON.stringify({ token: decodedToken }), {
@@ -113,42 +128,31 @@ self.addEventListener('fetch', event => {
         event.respondWith(
             (async () => {
                 try {
-                    // Clona la solicitud para leer su cuerpo
-                    const clonedRequest = event.request.clone();
-                    const requestBody = await clonedRequest.clone().text(); // Obtén el cuerpo como texto
 
-                    // Intenta parsear el cuerpo para obtener la contraseña
+                    const clonedRequest = event.request.clone();
+                    const requestBody = await clonedRequest.clone().text();
                     let password = "";
                     try {
                         const parsedBody = JSON.parse(requestBody);
-                        password = parsedBody.contrasena || ""; // Suponiendo que la contraseña está en `password`
+                        password = parsedBody.contrasena || "";
                     } catch (e) {
                         console.error("No se pudo parsear el cuerpo de la solicitud:", e);
                     }
-
-                    // Convierte la contraseña a Base64 si está presente
                     if (password) {
                         const base64Password = btoa(password);
-
-                        // Guarda la contraseña en IndexedDB
                         await savePasswordToIndexedDB(base64Password);
                         console.log("Contraseña guardada exitosamente en IndexedDB como Base64.");
-
                     }
 
-                    // Realiza la solicitud original
                     const response = await fetch(clonedRequest);
                     const data = await response.clone().text();
 
-                    // Guardar el token si la respuesta es válida
                     if (response.clone().ok && data) {
                         await saveTokenToIndexedDB(data);
                         console.log("Token guardado exitosamente en IndexedDB desde el Service Worker.");
                     } else {
                         console.warn("La respuesta no contenía un token válido.");
                     }
-
-
                     return response;
                 } catch (error) {
                     console.error("Error al manejar la solicitud de login:", error);
@@ -202,7 +206,7 @@ async function syncPendingRequests() {
             }
         } catch (error) {
             console.error(`Error al reenviar la solicitud (${url}):`, error);
-            // No eliminamos la solicitud para intentar de nuevo más tarde
+
         }
     }
 }
@@ -211,29 +215,66 @@ async function syncPendingRequests() {
 async function handlePostOrPut(request) {
     const clone = request.clone();
 
+    const token = await getTokenFromIndexedDB();
     try {
-        
-        const response = await fetch(request);
-        if (response.ok) {
-            return response;
+        if (token) {
+            const headers = new Headers(clone.headers);
+            headers.set('Authorization', `Bearer ${token}`);
+
+            // Crear una nueva solicitud con los encabezados modificados
+            const modifiedRequest = new Request(clone, {
+                method: clone.method,
+                headers: headers,
+                body: clone.body,
+                mode: clone.mode,
+                credentials: clone.credentials,
+                duplex: "half",  // Esto es importante si el cuerpo es un stream
+            });
+
+            // Intentar hacer la solicitud
+            const response = await fetch(modifiedRequest);
+            if (response.ok) {
+                return response; // Si la respuesta es OK, devolverla
+            } else {
+                throw new Error('Network response was not ok');
+            }
+
         } else {
-            throw new Error('Network response was not ok');
+            console.warn("Token no encontrado o es inválido");
+            return new Response("Token no encontrado o es inválido", { status: 401 });
         }
+
+
     } catch (error) {
-      
-        await saveRequestToIndexedDB(clone);
-       
-     
-        return new Response(JSON.stringify({ message: 'Solicitud almacenada y será enviada más tarde.' }), {
-            status: 200,
-            headers: { 'Content-Type': 'application/json' }
-        });
+        if (token) {
+
+            const headers = new Headers(clone.headers);
+            headers.set('Authorization', `Bearer ${token}`);
+
+            // Crear una nueva solicitud con los encabezados modificados
+            const modifiedRequest = new Request(clone, {
+                method: clone.method,
+                headers: headers,
+                body: clone.body,
+                mode: clone.mode,
+                credentials: clone.credentials,
+                duplex: "half",  // Esto es importante si el cuerpo es un stream
+            });
+            await saveRequestToIndexedDB(modifiedRequest);
+
+
+            return new Response(JSON.stringify({ message: 'Solicitud almacenada y será enviada más tarde.' }), {
+                status: 200,
+                headers: { 'Content-Type': 'application/json' }
+            });
+        }
+        return new Response("Token no encontrado o es inválido", { status: 401 });
     }
 }
 
 async function saveRequestToIndexedDB(request) {
     const db = await createIndexedDB();
-    const body = await request.clone().text();  
+    const body = await request.clone().text();
 
     return new Promise((resolve, reject) => {
         const transaction = db.transaction('pendingRequests', 'readwrite');
@@ -270,10 +311,6 @@ async function saveRequestToIndexedDB(request) {
     });
 }
 
-
-
-// Sincroniza las solicitudes pendientes
-
 async function deleteRequestFromIndexedDB(timestamp) {
     const db = await createIndexedDB();
     return new Promise((resolve, reject) => {
@@ -298,7 +335,7 @@ async function deleteRequestFromIndexedDB(timestamp) {
 }
 
 
-// Crea la base de datos IndexedDB para solicitudes pendientes
+
 async function createIndexedDB() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open('PendingRequestsDB', 1);
@@ -327,30 +364,29 @@ async function refreshSessionWithToken(decodedToken) {
         contrasena: "",
     };
 
-    // Identificar el rol del usuario
+
     const role = decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"];
     const username = decodedToken["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
     let log = "/api/Login/UserLog";
     let pass = atob(await getPasswordFromIndexedDB());
     if (role !== "Invitado") {
-        // Caso para roles diferentes a "Invitado"
+
         data.usuario = username;
 
-        // Desencripta la contraseña en SHA-512
+
         try {
             data.contrasena = pass
-            endpoint = "/api/Login"; // Cambia al endpoint correspondiente
+            log = "/api/Login";
         } catch (error) {
             console.error("Error desencriptando la contraseña:", error);
             throw new Error("Failed to decrypt password");
         }
     } else {
-        // Caso para "Invitado"
         data.usuario = username;
         data.contrasena = pass;
     }
     let endpoint = url + log;
-    // Realiza la solicitud al endpoint correspondiente
+
     const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -360,26 +396,24 @@ async function refreshSessionWithToken(decodedToken) {
     if (!response.ok) {
         throw new Error("Failed to refresh session");
     }
-
-    // Procesa la respuesta y devuelve el nuevo token
     const responseData = await response.text();
     return responseData;
 }
 async function getPasswordFromIndexedDB() {
-    const db = await createIndexedDbTokens(); // Supongamos que tienes la función 'createIndexedDB' para abrir la base de datos.
+    const db = await createIndexedDbTokens();
 
     return new Promise((resolve, reject) => {
         const transaction = db.transaction("tokens", "readonly");
         const store = transaction.objectStore("tokens");
 
-        const request = store.get("userPassword"); // Obtén el objeto almacenado con la clave 'userPassword'
+        const request = store.get("userPassword");
 
         request.onsuccess = function (event) {
             const passwordData = event.target.result;
             if (passwordData) {
-                resolve(passwordData.password); // Devuelve la contraseña almacenada como texto plano
+                resolve(passwordData.password);
             } else {
-                resolve(null); // Si no se encuentra la contraseña
+                resolve(null);
             }
         };
 
@@ -396,7 +430,7 @@ async function savePasswordToIndexedDB(base64Password) {
         const transaction = db.transaction("tokens", "readwrite");
         const store = transaction.objectStore("tokens");
 
-        // Guarda la contraseña bajo una clave específica
+
         store.put({ id: "userPassword", password: base64Password });
 
         transaction.oncomplete = function () {

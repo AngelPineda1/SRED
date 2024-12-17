@@ -35,7 +35,7 @@
 <script>
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/ServiceWorker.js');
-      
+
     }
     if (navigator.onLine) {
         // Ejecutar lógica inicial si ya está online
@@ -64,10 +64,10 @@
             opcionCerrarSesion.style.visibility = "hidden";
         }
     });
-    const logout=document.getElementById("logout");
-    logout.addEventListener("click",async ()=>{
-        const resp =await fetch("/logout");
-        if(resp.ok){
+    const logout = document.getElementById("logout");
+    logout.addEventListener("click", async () => {
+        const resp = await fetch("/logout");
+        if (resp.ok) {
             window.location.href = `/Index`;
 
         }
@@ -86,61 +86,66 @@
         try {
             const num = localStorage.getItem('numControl');
             const response = await fetch(`https://sredapi.websitos256.com/api/Reporte/pornumerocontrol/${num}`);
-            const data = await response.json();
-            listaReportes.innerHTML = '';
-            if(data){
-            
-            data.forEach(aula => {
+            if (response.ok) {
 
-                const li = document.createElement('li');
+                const data = await response.json();
+                listaReportes.innerHTML = '';
+                if (data) {
 
-                const span = document.createElement("span");
-                span.classList.add("estado");
+                    data.forEach(aula => {
 
-                const div = document.createElement("div");
+                        const li = document.createElement('li');
 
-                const label = document.createElement("label");
-                label.classList.add("lbl-estado");
-                if (aula.estado == 1) {
+                        const span = document.createElement("span");
+                        span.classList.add("estado");
 
-                div.classList.add("circuloVerde");
-                    label.textContent = "Completado";
+                        const div = document.createElement("div");
+
+                        const label = document.createElement("label");
+                        label.classList.add("lbl-estado");
+                        if (aula.estado == 1) {
+
+                            div.classList.add("circuloVerde");
+                            label.textContent = "Completado";
+                        } else {
+
+                            div.classList.add("circuloRojo");
+                            label.textContent = "Pendiente";
+                            label.style.color = "#FAB12F";
+                        }
+
+                        span.appendChild(div);
+                        span.appendChild(label);
+
+                        const span2 = document.createElement("span");
+                        span2.classList.add("problema", "rep-enviados");
+
+                        const img = document.createElement("img");
+                        img.src = "../assets/fix.svg";
+                        img.alt = "";
+
+                        const label2 = document.createElement("label");
+
+                        label2.textContent = aula.descripcion;
+                        span2.appendChild(img);
+                        span2.appendChild(label2);
+
+                        const label3 = document.createElement("label");
+                        label3.classList.add("inf");
+                        label3.textContent = `${aula.equipo} de ${aula.aula}`;
+
+                        li.appendChild(span);
+                        li.appendChild(span2);
+                        li.appendChild(label3);
+                        listaReportes.appendChild(li);
+
+                        eventoVerDetalles();
+                    });
                 } else {
-                    
-                    div.classList.add("circuloRojo");
-                    label.textContent = "Pendiente";
-                    label.style.color = "#FAB12F";
+                    listaReportes.innerHTML = '<label>No has Realizado Reportes Aun</label>';
                 }
-
-                span.appendChild(div);
-                span.appendChild(label);
-
-                const span2 = document.createElement("span");
-                span2.classList.add("problema", "rep-enviados");
-
-                const img = document.createElement("img");
-                img.src = "../assets/fix.svg";
-                img.alt = "";
-
-                const label2 = document.createElement("label");
-
-                label2.textContent = aula.descripcion;
-                span2.appendChild(img);
-                span2.appendChild(label2);
-
-                const label3 = document.createElement("label");
-                label3.classList.add("inf");
-                label3.textContent = `${aula.equipo} de ${aula.aula}`;
-
-                li.appendChild(span);
-                li.appendChild(span2);
-                li.appendChild(label3);
-                listaReportes.appendChild(li);
-
-                eventoVerDetalles();
-            });
             }else{
-                listaReportes.innerHTML = '<label>No has Realizado Reportes Aun</label>';
+                listaReportes.innerHTML = '<label>No tienes acceso....</label>';
             }
 
         } catch (error) {
@@ -148,23 +153,23 @@
         }
     }
 
-        function eventoVerDetalles() {
-            const items = document.querySelectorAll('li');
+    function eventoVerDetalles() {
+        const items = document.querySelectorAll('li');
 
-            items.forEach(item => {
-                item.addEventListener('click', function () {
+        items.forEach(item => {
+            item.addEventListener('click', function () {
 
-                    let idSeleccionado = item.id;
+                let idSeleccionado = item.id;
 
-                    reporteSeleccionado = {
-                        idseleccionado: parseInt(idSeleccionado),
-                    };
-                    localStorage.setItem('reporteSeleccionado', JSON.stringify(reporteSeleccionado));
-                    console.log(reporteSeleccionado);
-                    window.location.replace("/Invitado/Detalles");
-                });
+                reporteSeleccionado = {
+                    idseleccionado: parseInt(idSeleccionado),
+                };
+                localStorage.setItem('reporteSeleccionado', JSON.stringify(reporteSeleccionado));
+                console.log(reporteSeleccionado);
+                window.location.replace("/Invitado/Detalles");
             });
-        }
+        });
+    }
 
     cargarReportes();
 </script>
