@@ -37,6 +37,21 @@
     if (localStorage.getItem('numControl')) {
         localStorage.removeItem('numControl');
     };
+    if (navigator.onLine) {
+        // Ejecutar lógica inicial si ya está online
+        if (navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({
+                type: "SYNC_PENDING_REQUESTS",
+            });
+        }
+    }
+    window.addEventListener("online", () => {
+        if (navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({
+                type: "SYNC_PENDING_REQUESTS",
+            });
+        }
+    });
     const btn = document.getElementById("ingresar");
     const message = document.querySelector(".excepcion");
     btn.addEventListener("click", async () => {

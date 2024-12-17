@@ -18,7 +18,7 @@
         </span>
     </header>
     <div id="opcionCerrarSesion">
-        <label for="">Cerrar sesión</label>
+        <label for="" id="logout">Cerrar sesión</label>
     </div>
     <!-- MENU DE FILTROS PARA VISTA MOVIL -->
     <div id="filtros-flotante">
@@ -60,7 +60,31 @@
     </main>
 </body>
 </html>
+
 <script>
+    const logout = document.getElementById("logout");
+    logout.addEventListener("click", async () => {
+        const resp = await fetch("/logout");
+        if (resp.ok) {
+            window.location.href = `/Index`;
+
+        }
+    });
+    if (navigator.onLine) {
+        // Ejecutar lógica inicial si ya está online
+        if (navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({
+                type: "SYNC_PENDING_REQUESTS",
+            });
+        }
+    }
+    window.addEventListener("online", () => {
+        if (navigator.serviceWorker.controller) {
+            navigator.serviceWorker.controller.postMessage({
+                type: "SYNC_PENDING_REQUESTS",
+            });
+        }
+    });
     const listaReportes = document.getElementById('lista-reportesEncargado');
     let url = 'https://sredapi.websitos256.com/api/Reporte/reportesxatender';
     const select = document.getElementById("combo-tiempo");

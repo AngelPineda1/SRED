@@ -33,6 +33,14 @@
 </html>
 
 <script>
+    const logout = document.getElementById("logout");
+    logout.addEventListener("click", async () => {
+        const resp = await fetch("/logout");
+        if (resp.ok) {
+            window.location.href = `/Index`;
+
+        }
+    });
     if ('serviceWorker' in navigator) {
         navigator.serviceWorker.register('/ServiceWorker.js');
 
@@ -64,15 +72,7 @@
             opcionCerrarSesion.style.visibility = "hidden";
         }
     });
-    const logout = document.getElementById("logout");
-    logout.addEventListener("click", async () => {
-        const resp = await fetch("/logout");
-        if (resp.ok) {
-            window.location.href = `/Index`;
-
-        }
-
-    })
+   
     document.addEventListener("click", function (e) {
         if (opcionCerrarSesion.style.visibility == "visible") {
             opcionCerrarSesion.style.visibility = "hidden";
@@ -95,6 +95,7 @@
                     data.forEach(aula => {
 
                         const li = document.createElement('li');
+                        li.id = aula.id;
 
                         const span = document.createElement("span");
                         span.classList.add("estado");

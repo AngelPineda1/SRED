@@ -22,6 +22,16 @@ self.addEventListener('fetch', event => {
     //    || event.request.url.includes('/Pages/LogInAdmin')) {
     //    event.respondWith(cacheFirst(event.request))
     //}
+    const excludedUrls = [
+        'browserLinkSignalR', // Puedes agregar más palabras clave o rutas específicas
+        '/abort',
+        'connectionToken'
+    ];
+
+    // Verificar si la URL incluye alguna de las palabras clave excluidas
+    if (excludedUrls.some((urlPart) => event.request.url.includes(urlPart))) {
+        return; // No interceptar la solicitud
+    }
     if ((event.request.method === 'PUT' || event.request.method === 'POST') && !event.request.url.includes("/api/Login/UserLog") && !event.request.url.includes("/api/Login")) {
         event.respondWith(handlePostOrPut(event.request));
         return;
@@ -187,16 +197,24 @@ async function syncPendingRequests() {
 
 
     for (const savedRequest of allRequests) {
-        const { url, method, headers, body, timestamp } = savedRequest;
+        const { url, method, headers, body, timestamp, credentials,mode} = savedRequest;
 
         try {
-            const request = new Request(url, {
+            const token = await getTokenFromIndexedDB();
+            const newheaders = new Headers(headers);
+            newheaders.set('Authorization', `Bearer ${token}`);
+
+            // Crear una nueva solicitud con los encabezados modificados
+            const modifiedRequest = new Request(url, {
                 method: method,
-                headers: new Headers(headers),
+                headers: newheaders,
                 body: body,
+                mode: mode,
+                credentials: credentials,
+                duplex: "half",  // Esto es importante si el cuerpo es un stream
             });
 
-            const response = await fetch(request);
+            const response = await fetch(modifiedRequest);
 
             if (response.ok) {
                 console.log(`Solicitud reenviada con éxito: ${url}`);
@@ -246,31 +264,21 @@ async function handlePostOrPut(request) {
 
 
     } catch (error) {
-        if (token) {
-
-            const headers = new Headers(clone.headers);
-            headers.set('Authorization', `Bearer ${token}`);
-
-            // Crear una nueva solicitud con los encabezados modificados
-            const modifiedRequest = new Request(clone, {
-                method: clone.method,
-                headers: headers,
-                body: clone.body,
-                mode: clone.mode,
-                credentials: clone.credentials,
-                duplex: "half",  // Esto es importante si el cuerpo es un stream
-            });
-            await saveRequestToIndexedDB(modifiedRequest);
 
 
-            return new Response(JSON.stringify({ message: 'Solicitud almacenada y será enviada más tarde.' }), {
-                status: 200,
-                headers: { 'Content-Type': 'application/json' }
-            });
-        }
-        return new Response("Token no encontrado o es inválido", { status: 401 });
+        // Crear una nueva solicitud con los encabezados modificados
+
+        await saveRequestToIndexedDB(request);
+
+
+        return new Response(JSON.stringify({ message: 'Solicitud almacenada y será enviada más tarde.' }), {
+            status: 200,
+            headers: { 'Content-Type': 'application/json' }
+        });
     }
+    return new Response("Token no encontrado o es inválido", { status: 401 });
 }
+
 
 async function saveRequestToIndexedDB(request) {
     const db = await createIndexedDB();
