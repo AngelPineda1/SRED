@@ -120,10 +120,10 @@
 
             }
             else if (response.status === 401 || response.status === 403) {
-                folioReporte.textContent = "No tienes acceso";
+                alert("No tienes acceso");
             }
             else {
-                folioReporte.textContent = "Ocurrio un error intenta denuevo";
+                alert("Ocurrio un error intenta denuevo");
 
             }
         }

@@ -118,11 +118,11 @@
                 descripcionReporte.textContent = data.descripcion;
             }
         }
-        else if(response.status===401 || response.status===403){
-            folioReporte.textContent = "No tienes accesos...";
-
-        }else{
-            folioReporte.textContent = "Ocurrio un error intenta denuevo";
+        else if (response.status === 401 || response.status === 403) {
+            alert("No tienes acceso");
+        }
+        else {
+            alert("Ocurrio un error intenta denuevo");
 
         }
     }
