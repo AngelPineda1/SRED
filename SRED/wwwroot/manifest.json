@@ -1,8 +1,8 @@
 ﻿{
   "name": "SRED",
-  "short_name": "App de sistema de reportes",
+  "short_name": "SRED",
   "description": "Una aplicación web progresiva para realizar reportes de equipos dañados.",
-  "start_url": "index.html",
+  "start_url": "Index.cshtml",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ffcc00",
