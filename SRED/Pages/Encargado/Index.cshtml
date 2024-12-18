@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Principal Encargado</title>
     <link rel="stylesheet" href="~/css/estilos.css" />
+    <link rel="manifest" href="/manifest.json" />
+
 </head>
 <body id="fijo">
     <header>
@@ -319,7 +321,9 @@
 
         items.forEach(item => {
             item.addEventListener('click', function () {
-
+                if (event.target.tagName === 'LABEL' && event.target.classList.contains('marca-completado')) {
+                    return;
+                }
                 let idSeleccionado = item.id;
 
                 reporteSeleccionado = {
