@@ -226,6 +226,11 @@ header span {
         align-self: flex-start !important;
     }
 
+/* NUEVO */
+.listaEquipos li {
+    height: 63px !important;
+}
+
 /* VISTA VER TIPOS ********************************************/
 
 .span-tipo {
@@ -237,11 +242,18 @@ header span {
 
     .span-tipo img {
         width: 35px;
+        /* NUEVO */
+        object-fit: contain;
     }
 
     .span-tipo label {
         margin-left: 5%;
     }
+
+/* NUEVO */
+.listaTipos li {
+    height: 60px;
+}
 
 /* * */
 .opciones-elemento {
@@ -322,9 +334,12 @@ header span {
     margin-top: 4%;
 }
 
-#grid picture img {
+#grid img {
     width: 45%;
     padding: 5%;
+    /* NUEVO */
+    object-fit: contain;
+    height: 90%;
 }
 
 #grid1 picture img {
@@ -341,6 +356,8 @@ header span {
     text-align: center;
     font-weight: 500;
     display: flex;
+    /* NUEVO */
+    height: 103px;
     flex-direction: column;
 }
 
@@ -1011,6 +1028,15 @@ textarea {
     box-shadow: 3px 7px 6px 1px rgba(0, 0, 0, 0.66);
 }
 
+/* LBL DESCRIPCION ENCARGADO */
+.descrip {
+    display: inline-block;
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 /************************************** ESCRITORIO ************************************/
 
 @media (min-width: 1024px) {
@@ -1295,6 +1321,12 @@ textarea {
         row-gap: 2%;
         overflow-y: hidden;
     }
+
+        /* NUEVO */
+        #grid span {
+            height: 138px;
+        }
+
 
     /* VISTA AGREGAR EQUIPO LAB ***********************/
     #btn-accion {
@@ -1760,6 +1792,7 @@ textarea {
     .link-log a {
         margin-bottom: 2%;
     }
+
 }
 
 @media (width>1600px) {
@@ -1885,6 +1918,11 @@ textarea {
         width: 22px;
     }
 
+    /* NUEVO */
+    #grid span {
+        height: 125px;
+    }
+
     #lista-Aulas li {
         font-size: 1.1em;
     }
@@ -1916,6 +1954,11 @@ textarea {
 
     .opciones-elemento {
         align-self: center;
+    }
+
+    /* NUEVO */
+    .listaTipos li {
+        height: 75px;
     }
 
     /* MENU LATERAL MOVILES TABLET ***************/
@@ -2131,6 +2174,11 @@ textarea {
         .link-log a {
             margin-bottom: 0%;
         }
+
+    /* NUEVO */
+    .listaEquipos li {
+        height: 63px !important;
+    }
 }
 
 /*CAMBIOS PARA FILTROS DE ENCARGADO MOVIL*/
