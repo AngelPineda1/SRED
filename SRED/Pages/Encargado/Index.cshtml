@@ -78,6 +78,7 @@
             navigator.serviceWorker.controller.postMessage({
                 type: "SYNC_PENDING_REQUESTS",
             });
+            location.reload();
         }
     }
     window.addEventListener("online", () => {
@@ -85,6 +86,7 @@
             navigator.serviceWorker.controller.postMessage({
                 type: "SYNC_PENDING_REQUESTS",
             });
+            location.reload();
         }
     });
     const listaReportes = document.getElementById('lista-reportesEncargado');

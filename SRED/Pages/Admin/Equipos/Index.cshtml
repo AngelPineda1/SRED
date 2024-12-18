@@ -99,6 +99,7 @@
             navigator.serviceWorker.controller.postMessage({
                 type: "SYNC_PENDING_REQUESTS",
             });
+            location.reload();
         }
     }
     window.addEventListener("online", () => {
@@ -106,6 +107,7 @@
             navigator.serviceWorker.controller.postMessage({
                 type: "SYNC_PENDING_REQUESTS",
             });
+            location.reload();
         }
     });
     async function cargarEquipos() {
