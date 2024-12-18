@@ -153,8 +153,11 @@
             else if (response.status === 401 || response.status === 403) {
              
                 listaReportes.innerHTML = '<label>No tienes acceso....</label>';
+            }else if(response.status===404){
+                listaReportes.innerHTML = '<label>No se encontraron reportes...</label>';
             }else{
                 listaReportes.innerHTML = '<label>Ocurrio un error intenta de nuevo.</label>';
+
             }
             
 
