@@ -14,23 +14,16 @@ async function precache() {
 
 self.addEventListener('fetch', event => {
 
-    //if (event.request.url.includes('/assets/')
-    //    || event.request.url.includes('/css/')
-    //    || event.request.url.includes('/js/')
-    //    || event.request.url.includes('/fonts/')
-    //    || event.request.url.includes('/Pages/Index')
-    //    || event.request.url.includes('/Pages/LogInAdmin')) {
-    //    event.respondWith(cacheFirst(event.request))
-    //}
+   
     const excludedUrls = [
         'browserLinkSignalR', // Puedes agregar más palabras clave o rutas específicas
         '/abort',
         'connectionToken'
     ];
 
-    // Verificar si la URL incluye alguna de las palabras clave excluidas
+    
     if (excludedUrls.some((urlPart) => event.request.url.includes(urlPart))) {
-        return; // No interceptar la solicitud
+        return; 
     }
     if ((event.request.method === 'PUT' || event.request.method === 'POST') && !event.request.url.includes("/api/Login/UserLog") && !event.request.url.includes("/api/Login")) {
         event.respondWith(handlePostOrPut(event.request));
@@ -38,12 +31,14 @@ self.addEventListener('fetch', event => {
     }
     if (event.request.url.includes("/api/") && event.request.method === "GET" && navigator.onLine) {
         event.respondWith((async () => {
+            const cache = await caches.open('SREDCacheV1'); // Abre o crea un caché llamado "api-cache"
             const token = await getTokenFromIndexedDB();
+
             if (token) {
                 const resp = decodeJWT(token);
                 const now = Math.floor(Date.now() / 1000);
+
                 if (resp.exp && resp.exp >= now) {
-                    // Se añade el token a los encabezados de la solicitud
                     const headers = new Headers(event.request.headers);
                     headers.set('Authorization', `Bearer ${token}`);
 
@@ -55,13 +50,30 @@ self.addEventListener('fetch', event => {
                         credentials: event.request.credentials,
                     });
 
-                    return fetch(modifiedRequest);
+                    try {
+                        const networkResponse = await fetch(modifiedRequest);
+
+                        if (networkResponse.ok) {
+                            // Guarda la respuesta en el caché
+                            cache.put(modifiedRequest, networkResponse.clone());
+                        }
+                        return networkResponse;
+                    } catch (error) {
+                        console.error("Error al realizar la solicitud de red:", error);
+                        // Si falla, intenta obtener la respuesta del caché
+                        const cachedResponse = await cache.match(modifiedRequest);
+                        if (cachedResponse) {
+                            return cachedResponse;
+                        }
+                        return new Response("Error de red y el recurso no está en caché.", { status: 503 });
+                    }
                 }
+
                 try {
+                    // Si el token ha expirado, intenta renovarlo
                     const newToken = await refreshSessionWithToken(resp);
                     await saveTokenToIndexedDB(newToken);
 
-                    // Añadir el nuevo token al encabezado
                     const headers = new Headers(event.request.headers);
                     headers.set('Authorization', `Bearer ${newToken}`);
 
@@ -73,8 +85,13 @@ self.addEventListener('fetch', event => {
                         credentials: event.request.credentials,
                     });
 
-                    return fetch(modifiedRequest);
+                    const networkResponse = await fetch(modifiedRequest);
 
+                    if (networkResponse.ok) {
+                        // Guarda la nueva respuesta en el caché
+                        cache.put(modifiedRequest, networkResponse.clone());
+                    }
+                    return networkResponse;
                 } catch (error) {
                     console.error("Error al renovar el token:", error);
                     return new Response("Failed to renew token", { status: 401 });
@@ -84,7 +101,9 @@ self.addEventListener('fetch', event => {
             console.warn("Token no válido o no encontrado.");
             return new Response("Token inválido o expirado", { status: 401 });
         })());
+        return;
     }
+
 
 
     if (event.request.url.includes("/logout")) {
@@ -105,6 +124,7 @@ self.addEventListener('fetch', event => {
                 return new Response("No token found", { status: 400 });
             }
         })());
+        return;
     }
     if (event.request.method === "GET" && (event.request.url.includes("/token"))) {
         event.respondWith(
@@ -168,12 +188,51 @@ self.addEventListener('fetch', event => {
                 }
             })()
         );
+        return;
     }
+    //if (event.request.method === "GET" && event.request.url.includes("/api/")) {
+    //    event.respondWith((async () => {
+    //        const token = await getTokenFromIndexedDB();
 
+    //        // Modificar la solicitud para incluir el token
+    //        const headers = new Headers(event.request.headers);
+    //        if (token) {
+    //            headers.set('Authorization', `Bearer ${token}`);
+    //        }
+
+    //        const modifiedRequest = new Request(event.request, {
+    //            method: event.request.method,
+    //            headers: headers,
+    //            body: event.request.body,
+    //            mode: event.request.mode,
+    //            credentials: event.request.credentials,
+    //        });
+
+    //        const cache = await caches.open(cacheName);
+
+    //        try {
+    //            // Intentar obtener la respuesta de la red
+    //            const networkResponse = await fetch(modifiedRequest);
+    //            if (networkResponse.ok) {
+    //                // Almacenar la respuesta en el caché
+    //                cache.put(event.request, networkResponse.clone());
+    //            }
+    //            return networkResponse;
+    //        } catch (error) {
+    //            console.warn('Network fetch failed, falling back to cache:', error);
+    //            // Si la red falla, intenta obtener la respuesta del caché
+    //            const cachedResponse = await cache.match(event.request);
+    //            if (cachedResponse) {
+    //                return cachedResponse;
+    //            }
+    //            return new Response("Recurso no disponible en caché ni en la red", { status: 503 });
+    //        }
+    //    })());
+    //    return;
+    //}
     else {
+        // Para otras solicitudes, no se realiza ninguna modificación
         event.respondWith(networkFirst(event.request));
-
-
     }
 });
 self.addEventListener('message', async (event) => {
@@ -209,7 +268,7 @@ async function syncPendingRequests() {
                 body: body,
                 mode: mode,
                 credentials: credentials,
-                duplex: "half",  // Esto es importante si el cuerpo es un stream
+                duplex: "half", 
             });
 
             const response = await fetch(modifiedRequest);
